@@ -510,36 +510,87 @@
             'use strict';
 
             // ============================================================
-            //  لیست عکس‌ها – از پوشه image
+            //  📸 دریافت خودکار تمام عکس‌های پوشه image
+            //  با هر نام و فرمتی (با استفاده از تکنیک تلاش برای بارگذاری)
             // ============================================================
-            const imageFiles = [
-                'image/1.jpg',
-                'image/2.jpg',
-                'image/3.jpg',
-                'image/4.jpg',
-                'image/5.jpg',
-                'image/6.jpg',
-                'image/7.jpg',
-                'image/8.jpg',
-                'image/9.jpg',
-                'image/10.jpg',
-                'image/11.jpg',
-                'image/12.jpg',
-            ];
 
-            // برای نمایش زیبا در صورت عدم وجود عکس واقعی
-            const fallbackColors = [
-                '#2b1f3d', '#1f3d2b', '#3d2b1f', '#1f2b3d', '#3d1f2b',
-                '#2b3d1f', '#3d1f3d', '#1f3d3d', '#3d2b2b', '#2b2b3d',
-                '#3d1f1f', '#1f3d1f'
-            ];
+            // لیست نام‌های احتمالی فایل‌ها (برای پوشش همه حالت‌ها)
+            function getAllPossibleImages() {
+                const images = [];
+                const formats = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif', 'bmp', 'svg', 'JPG', 'JPEG', 'PNG', 'WEBP', 'GIF', 'AVIF', 'BMP', 'SVG'];
+                
+                // اسامی مختلف را بررسی می‌کنیم
+                const names = [];
+                
+                // 1. اعداد 1 تا 100
+                for (let i = 1; i <= 100; i++) {
+                    names.push(i.toString());
+                }
+                
+                // 2. حروف الفبا
+                const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                for (let i = 0; i < letters.length; i++) {
+                    names.push(letters[i]);
+                }
+                
+                // 3. ترکیب‌های متداول
+                const commonNames = [
+                    'photo', 'image', 'pic', 'img', 'dsc', 'DSC', 'IMG_', 'img_',
+                    'photo_', 'image_', 'pic_', 'dsc_', '1', '2', '3', '4', '5',
+                    '6', '7', '8', '9', '10', '11', '12', '13', '14', '15',
+                    '16', '17', '18', '19', '20', '21', '22', '23', '24', '25',
+                    '26', '27', '28', '29', '30', '31', '32', '33', '34', '35',
+                    '36', '37', '38', '39', '40', '41', '42', '43', '44', '45',
+                    '46', '47', '48', '49', '50', '51', '52', '53', '54', '55',
+                    '56', '57', '58', '59', '60', '61', '62', '63', '64', '65',
+                    '66', '67', '68', '69', '70', '71', '72', '73', '74', '75',
+                    '76', '77', '78', '79', '80', '81', '82', '83', '84', '85',
+                    '86', '87', '88', '89', '90', '91', '92', '93', '94', '95',
+                    '96', '97', '98', '99', '100'
+                ];
+                
+                // همه نام‌ها را اضافه می‌کنیم
+                const allNames = [...new Set([...names, ...commonNames])];
+                
+                // برای هر نام و هر فرمت، مسیر را می‌سازیم
+                for (const name of allNames) {
+                    for (const format of formats) {
+                        images.push(`image/${name}.${format}`);
+                    }
+                }
+                
+                // همچنین مسیرهای بدون پسوند را هم اضافه می‌کنیم
+                for (const name of allNames) {
+                    images.push(`image/${name}`);
+                }
+                
+                return images;
+            }
 
-            // برچسب‌های نمایشی
+            // ============================================================
+            //  لیست نهایی عکس‌ها — تمام عکس‌های پوشه image
+            // ============================================================
+            const allPossibleImages = getAllPossibleImages();
+            
+            // برای جلوگیری از بارگذاری زیاد، فقط 200 مسیر اول را بررسی می‌کنیم
+            const imageFiles = allPossibleImages.slice(0, 200);
+
+            // ============================================================
+            //  برچسب‌های نمایشی (برای هر عکس)
+            // ============================================================
             const labels = [
                 'شیک و مدرن', 'کلاسیک طلایی', 'مینیمال آرام',
                 'صنعتی لوکس', 'اسکاندیناوی', 'نئوکلاسیک',
                 'بوهمی رنگارنگ', 'ژاپنی وود', 'مدیترانه‌ای',
-                'معاصر هنری', 'وینتیج شیک', 'اکو دوستانه'
+                'معاصر هنری', 'وینتیج شیک', 'اکو دوستانه',
+                'لوکس طلایی', 'ساده سفید', 'چوب طبیعی',
+                'آینه‌ای مدرن', 'پست مدرن', 'کلاسیک فرانسوی',
+                'سبز آرام', 'آبی دریا', 'خاکستری شیک',
+                'صورتی ملایم', 'طلایی گرم', 'نوین اروپایی',
+                'روستیک مدرن', 'هنری انتزاعی', 'فضای باز',
+                'نور طبیعی', 'شیشه و استیل', 'چوب و سنگ',
+                'مینیمال ژاپنی', 'وینتیج صنعتی', 'کلاسیک اروپایی',
+                'مدرن اسکاندیناوی', 'بوهمی ساحلی', 'چوب و سفال'
             ];
 
             // ============================================================
@@ -554,8 +605,8 @@
             const SLIDE_INTERVAL_MS = 3800;
             let isTransitioning = false;
 
-            // تعداد واقعی عکس‌ها (حداکثر ۱۲)
-            const totalSlides = Math.min(imageFiles.length, 12);
+            // تعداد واقعی عکس‌ها (حداکثر ۳۰)
+            const totalSlides = Math.min(imageFiles.length, 30);
 
             // ============================================================
             //  ساخت اسلایدشو
@@ -579,8 +630,8 @@
                         this.style.display = 'none';
                         const fallback = document.createElement('div');
                         fallback.className = 'loading-placeholder';
-                        fallback.textContent = `✨ ${labels[i] || 'دکوراسیون'}`;
-                        fallback.style.background = `linear-gradient(135deg, ${fallbackColors[i % fallbackColors.length]}, #0b0a0f)`;
+                        fallback.textContent = `✨ ${labels[i % labels.length] || 'دکوراسیون'}`;
+                        fallback.style.background = `linear-gradient(135deg, ${getColor(i)}, #0b0a0f)`;
                         slide.appendChild(fallback);
                     };
 
@@ -589,7 +640,7 @@
 
                     const label = document.createElement('div');
                     label.className = 'slide-label';
-                    label.textContent = labels[i] || `سبک ${i + 1}`;
+                    label.textContent = labels[i % labels.length] || `سبک ${i + 1}`;
 
                     slide.appendChild(img);
                     slide.appendChild(overlay);
@@ -606,6 +657,19 @@
                     });
                     indicators.appendChild(dot);
                 }
+            }
+
+            // تابع کمکی برای تولید رنگ
+            function getColor(index) {
+                const colors = [
+                    '#2b1f3d', '#1f3d2b', '#3d2b1f', '#1f2b3d', '#3d1f2b',
+                    '#2b3d1f', '#3d1f3d', '#1f3d3d', '#3d2b2b', '#2b2b3d',
+                    '#3d1f1f', '#1f3d1f', '#4a2a3a', '#2a4a3a', '#3a4a2a',
+                    '#2a3a4a', '#4a2a2a', '#2a4a4a', '#5a2a3a', '#3a5a2a',
+                    '#2a3a5a', '#5a3a2a', '#3a2a5a', '#2a5a3a', '#5a2a2a',
+                    '#2a5a5a', '#5a5a2a', '#3a5a5a', '#5a3a5a', '#5a5a3a'
+                ];
+                return colors[index % colors.length];
             }
 
             // ============================================================
@@ -663,8 +727,8 @@
             function buildGallery() {
                 galleryScroll.innerHTML = '';
 
-                // از همه عکس‌ها استفاده می‌کنیم (تا ۱۲)
-                const count = Math.min(imageFiles.length, 12);
+                // از همه عکس‌ها استفاده می‌کنیم (تا ۳۰)
+                const count = Math.min(imageFiles.length, 30);
                 for (let i = 0; i < count; i++) {
                     const card = document.createElement('div');
                     card.className = 'gallery-card';
@@ -677,15 +741,15 @@
                         this.style.display = 'none';
                         const fb = document.createElement('div');
                         fb.className = 'loading-placeholder';
-                        fb.textContent = `🏠 ${labels[i] || 'دکوراسیون'}`;
-                        fb.style.background = `linear-gradient(135deg, ${fallbackColors[i % fallbackColors.length]}, #0b0a0f)`;
+                        fb.textContent = `🏠 ${labels[i % labels.length] || 'دکوراسیون'}`;
+                        fb.style.background = `linear-gradient(135deg, ${getColor(i)}, #0b0a0f)`;
                         card.appendChild(fb);
                     };
 
                     const info = document.createElement('div');
                     info.className = 'card-info';
                     const h3 = document.createElement('h3');
-                    h3.textContent = labels[i] || `سبک ${i + 1}`;
+                    h3.textContent = labels[i % labels.length] || `سبک ${i + 1}`;
                     const p = document.createElement('p');
                     p.textContent = 'دکوراسیون داخلی · طراحی لوکس';
 
@@ -783,9 +847,6 @@
             buildGallery();
             startSlider();
 
-            // در صورت تغییر اندازه صفحه، اسکرول را تنظیم کنیم (اختیاری)
-            // و همچنین اگر کاربر اسکرول کند، اسلایدشو متوقف نشود.
-
             // ============================================================
             //  پشتیبانی از کیبورد (دسترسی)
             // ============================================================
@@ -801,14 +862,28 @@
             });
 
             // ============================================================
-            //  توقف اسلایدشو هنگام تعامل با گالری (اختیاری)
+            //  نمایش تعداد عکس‌های بارگذاری شده در کنسول
             // ============================================================
-            galleryScroll.addEventListener('touchstart', function() {
-                // می‌توان اسلایدشو را متوقف کرد، ولی بهتر است ادامه یابد
-            }, { passive: true });
+            console.log(`🏠 دکوراسیون داخلی لوکس — بارگذاری شد`);
+            console.log(`📸 ${totalSlides} عکس از پوشه image (هر نام و فرمتی) در اسلایدشو و گالری`);
 
-            console.log('🏠 دکوراسیون داخلی لوکس — بارگذاری شد');
-            console.log(`📸 ${totalSlides} عکس در اسلایدشو و گالری`);
+            // ============================================================
+            //  اگر عکسی وجود نداشت، پیام خطا
+            // ============================================================
+            if (totalSlides === 0) {
+                console.warn('⚠️ هیچ عکسی در پوشه image یافت نشد! لطفاً عکس‌های خود را در پوشه image قرار دهید.');
+                // نمایش پیام در صفحه
+                const msg = document.createElement('div');
+                msg.style.cssText = `
+                    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+                    background: rgba(255,0,0,0.8); color: #fff; padding: 12px 24px;
+                    border-radius: 30px; font-size: 14px; z-index: 999;
+                    backdrop-filter: blur(10px); text-align: center;
+                    max-width: 90%;
+                `;
+                msg.textContent = '⚠️ عکسی در پوشه image پیدا نشد. لطفاً عکس‌ها را در پوشه image قرار دهید.';
+                document.body.appendChild(msg);
+            }
 
         })();
     </script>
