@@ -274,7 +274,7 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-        /* ===== گالری عمودی (اینستاگرامی) ===== */
+        /* ===== گالری عمودی ===== */
         .gallery-wrapper {
             flex: 1;
             position: relative;
@@ -315,6 +315,7 @@
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
             transition: transform 0.2s ease, box-shadow 0.3s ease;
             touch-action: pan-y;
+            cursor: pointer;
         }
 
         .gallery-card:active {
@@ -354,6 +355,117 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
+        /* ===== گالری تمام‌صفحه (اکسپلورر) ===== */
+        .fullscreen-gallery {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            touch-action: pan-y;
+        }
+
+        .fullscreen-gallery.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .fullscreen-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .fullscreen-header .close-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .fullscreen-header .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .fullscreen-header .counter {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .fullscreen-scroll {
+            flex: 1;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .fullscreen-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .fullscreen-item {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .fullscreen-item img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .fullscreen-item .item-label {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+
         /* ===== ریسپانسیو ===== */
         @media (max-width: 480px) {
             .hero-slider {
@@ -386,6 +498,12 @@
             .gallery-card .card-info p {
                 font-size: 12px;
             }
+            .fullscreen-item img {
+                max-height: 75vh;
+            }
+            .fullscreen-header .counter {
+                font-size: 12px;
+            }
         }
 
         @media (min-width: 768px) {
@@ -410,9 +528,11 @@
             .header-brand h1 {
                 font-size: 26px;
             }
+            .fullscreen-item img {
+                max-height: 88vh;
+            }
         }
 
-        /* ===== حالت بارگذاری ===== */
         .loading-placeholder {
             display: flex;
             align-items: center;
@@ -445,7 +565,6 @@
             animation: fadeUp 0.6s ease both;
         }
 
-        /* ===== لودینگ اولیه ===== */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -499,7 +618,6 @@
     <!-- ===== اپلیکیشن ===== -->
     <div class="app-container">
 
-        <!-- هدر -->
         <header class="header">
             <div class="header-brand">
                 <div class="logo">🏠</div>
@@ -512,17 +630,24 @@
             </div>
         </header>
 
-        <!-- اسلایدشو برتر -->
         <section class="hero-slider" id="heroSlider">
             <div class="slider-track" id="sliderTrack"></div>
             <div class="slide-indicators" id="slideIndicators"></div>
         </section>
 
-        <!-- گالری -->
         <div class="gallery-wrapper">
             <div class="gallery-scroll" id="galleryScroll"></div>
         </div>
 
+    </div>
+
+    <!-- ===== گالری تمام‌صفحه (اکسپلورر) ===== -->
+    <div class="fullscreen-gallery" id="fullscreenGallery">
+        <div class="fullscreen-header">
+            <button class="close-btn" id="closeGallery">✕</button>
+            <span class="counter" id="galleryCounter">1 / 29</span>
+        </div>
+        <div class="fullscreen-scroll" id="fullscreenScroll"></div>
     </div>
 
     <script>
@@ -530,17 +655,16 @@
             'use strict';
 
             // ============================================================
-            //  📸 همه عکس‌های پوشه image — از 1.jpg تا 29.jpg
+            //  📸 همه عکس‌ها — از 1.jpg تا 29.jpg
             // ============================================================
             const TOTAL_IMAGES = 29;
             const imageFiles = [];
-
             for (let i = 1; i <= TOTAL_IMAGES; i++) {
                 imageFiles.push(`image/${i}.jpg`);
             }
 
             // ============================================================
-            //  برچسب‌های نمایشی (برای هر ۲۹ عکس)
+            //  برچسب‌ها
             // ============================================================
             const labels = [
                 'شیک و مدرن', 'کلاسیک طلایی', 'مینیمال آرام',
@@ -556,18 +680,22 @@
             ];
 
             // ============================================================
-            //  متغیرها
+            //  المان‌ها
             // ============================================================
             const sliderTrack = document.getElementById('sliderTrack');
             const indicators = document.getElementById('slideIndicators');
             const galleryScroll = document.getElementById('galleryScroll');
             const loadingOverlay = document.getElementById('loadingOverlay');
 
+            const fullscreenGallery = document.getElementById('fullscreenGallery');
+            const fullscreenScroll = document.getElementById('fullscreenScroll');
+            const closeGalleryBtn = document.getElementById('closeGallery');
+            const galleryCounter = document.getElementById('galleryCounter');
+
             let currentSlide = 0;
             let slideInterval = null;
             const SLIDE_INTERVAL_MS = 3800;
             let isTransitioning = false;
-
             const totalSlides = imageFiles.length;
 
             // ============================================================
@@ -634,7 +762,7 @@
             }
 
             // ============================================================
-            //  ساخت گالری
+            //  ساخت گالری اصلی
             // ============================================================
             function buildGallery() {
                 galleryScroll.innerHTML = '';
@@ -642,6 +770,7 @@
                 for (let i = 0; i < totalSlides; i++) {
                     const card = document.createElement('div');
                     card.className = 'gallery-card';
+                    card.dataset.index = i;
 
                     const img = document.createElement('img');
                     img.src = imageFiles[i];
@@ -668,8 +797,72 @@
 
                     card.appendChild(img);
                     card.appendChild(info);
+                    
+                    // کلیک روی کارت → باز کردن گالری تمام‌صفحه
+                    card.addEventListener('click', function() {
+                        openFullscreen(parseInt(this.dataset.index));
+                    });
+
                     galleryScroll.appendChild(card);
                 }
+            }
+
+            // ============================================================
+            //  گالری تمام‌صفحه (اکسپلورر)
+            // ============================================================
+            function buildFullscreenGallery() {
+                fullscreenScroll.innerHTML = '';
+
+                for (let i = 0; i < totalSlides; i++) {
+                    const item = document.createElement('div');
+                    item.className = 'fullscreen-item';
+                    item.dataset.index = i;
+
+                    const img = document.createElement('img');
+                    img.src = imageFiles[i];
+                    img.alt = `دکوراسیون ${i + 1}`;
+                    img.loading = 'lazy';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const fb = document.createElement('div');
+                        fb.className = 'loading-placeholder';
+                        fb.textContent = `📸 ${labels[i % labels.length]}`;
+                        fb.style.background = `linear-gradient(135deg, ${getColor(i)}, #0b0a0f)`;
+                        fb.style.width = '100%';
+                        fb.style.height = '100%';
+                        fb.style.borderRadius = '12px';
+                        item.appendChild(fb);
+                    };
+
+                    const label = document.createElement('div');
+                    label.className = 'item-label';
+                    label.textContent = labels[i % labels.length];
+
+                    item.appendChild(img);
+                    item.appendChild(label);
+                    fullscreenScroll.appendChild(item);
+                }
+            }
+
+            function openFullscreen(index) {
+                fullscreenGallery.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // اسکرول به عکس انتخاب شده
+                const items = fullscreenScroll.querySelectorAll('.fullscreen-item');
+                if (items[index]) {
+                    items[index].scrollIntoView({ behavior: 'instant' });
+                }
+                updateCounter(index);
+            }
+
+            function closeFullscreen() {
+                fullscreenGallery.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function updateCounter(index) {
+                galleryCounter.textContent = `${index + 1} / ${totalSlides}`;
             }
 
             // ============================================================
@@ -718,87 +911,85 @@
             }
 
             // ============================================================
-            //  رویدادهای گالری
+            //  رویدادهای گالری تمام‌صفحه
             // ============================================================
-            let startY = 0;
-            let isDragging = false;
+            // بستن با دکمه
+            closeGalleryBtn.addEventListener('click', closeFullscreen);
 
-            galleryScroll.addEventListener('touchstart', function(e) {
-                startY = e.touches[0].clientY;
-                isDragging = true;
-            }, { passive: true });
-
-            galleryScroll.addEventListener('touchend', function() {
-                isDragging = false;
-            }, { passive: true });
-
-            galleryScroll.addEventListener('mousedown', function(e) {
-                startY = e.clientY;
-                isDragging = true;
-            });
-
-            galleryScroll.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-            });
-
-            galleryScroll.addEventListener('mouseup', function() {
-                isDragging = false;
-            });
-
-            galleryScroll.addEventListener('mouseleave', function() {
-                isDragging = false;
-            });
-
-            // ============================================================
-            //  کلیک روی کارت → بزرگنمایی (مثل اینستا)
-            // ============================================================
-            galleryScroll.addEventListener('click', function(e) {
-                const card = e.target.closest('.gallery-card');
-                if (!card) return;
-
-                const img = card.querySelector('img');
-                if (img && img.src) {
-                    const overlay = document.createElement('div');
-                    overlay.style.cssText = `
-                        position: fixed; inset: 0; z-index: 999;
-                        background: rgba(0,0,0,0.92);
-                        display: flex; align-items: center; justify-content: center;
-                        backdrop-filter: blur(20px);
-                        animation: fadeUp 0.3s ease;
-                        cursor: zoom-out;
-                        padding: 20px;
-                    `;
-                    const clone = document.createElement('img');
-                    clone.src = img.src;
-                    clone.style.cssText = `
-                        max-width: 100%; max-height: 90vh;
-                        border-radius: 20px; box-shadow: 0 20px 80px rgba(0,0,0,0.8);
-                        object-fit: contain;
-                    `;
-                    overlay.appendChild(clone);
-                    document.body.appendChild(overlay);
-
-                    overlay.addEventListener('click', function() {
-                        overlay.remove();
-                    });
-                    overlay.addEventListener('touchstart', function(e) {
-                        if (e.target === overlay) overlay.remove();
-                    });
+            // بستن با کلیک روی پس‌زمینه (فقط اگر روی خود گالری کلیک شود)
+            fullscreenGallery.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFullscreen();
                 }
+            });
+
+            // بستن با دکمه ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && fullscreenGallery.classList.contains('active')) {
+                    closeFullscreen();
+                }
+            });
+
+            // آپدیت شمارنده هنگام اسکرول
+            fullscreenScroll.addEventListener('scroll', function() {
+                const items = this.querySelectorAll('.fullscreen-item');
+                let currentIndex = 0;
+                const scrollTop = this.scrollTop;
+                const windowHeight = window.innerHeight;
+
+                for (let i = 0; i < items.length; i++) {
+                    const rect = items[i].getBoundingClientRect();
+                    if (rect.top >= -100 && rect.top < windowHeight / 2) {
+                        currentIndex = i;
+                        break;
+                    }
+                }
+                updateCounter(currentIndex);
             });
 
             // ============================================================
             //  کیبورد
             // ============================================================
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    nextSlide();
-                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-                    goToSlide(prev);
+                if (fullscreenGallery.classList.contains('active')) {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        const items = fullscreenScroll.querySelectorAll('.fullscreen-item');
+                        let currentIndex = 0;
+                        for (let i = 0; i < items.length; i++) {
+                            const rect = items[i].getBoundingClientRect();
+                            if (rect.top >= -10 && rect.top < 100) {
+                                currentIndex = i;
+                                break;
+                            }
+                        }
+                        const next = Math.min(currentIndex + 1, items.length - 1);
+                        items[next].scrollIntoView({ behavior: 'smooth' });
+                        updateCounter(next);
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const items = fullscreenScroll.querySelectorAll('.fullscreen-item');
+                        let currentIndex = 0;
+                        for (let i = 0; i < items.length; i++) {
+                            const rect = items[i].getBoundingClientRect();
+                            if (rect.top >= -10 && rect.top < 100) {
+                                currentIndex = i;
+                                break;
+                            }
+                        }
+                        const prev = Math.max(currentIndex - 1, 0);
+                        items[prev].scrollIntoView({ behavior: 'smooth' });
+                        updateCounter(prev);
+                    }
+                } else {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        nextSlide();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+                        goToSlide(prev);
+                    }
                 }
             });
 
@@ -807,9 +998,9 @@
             // ============================================================
             buildSlider();
             buildGallery();
+            buildFullscreenGallery();
             startSlider();
 
-            // مخفی کردن لودینگ
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
             }, 600);
