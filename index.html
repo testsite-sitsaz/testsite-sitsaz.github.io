@@ -108,9 +108,9 @@
             background: transparent;
         }
 
-        /* ===== هدر ===== */
+        /* ===== هدر با دکمه‌های تماس و پیامک ===== */
         .header {
-            padding: 18px 20px 12px;
+            padding: 12px 16px 10px;
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(18px) saturate(1.4);
             -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -121,28 +121,30 @@
             flex-shrink: 0;
             z-index: 10;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .header-brand .logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: linear-gradient(135deg, #ff4d6d, #ffb347);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             box-shadow: 0 4px 16px rgba(255, 77, 109, 0.3);
         }
 
         .header-brand h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.5px;
             background: linear-gradient(to right, #f8f9fa, #e0e0e0);
@@ -153,25 +155,73 @@
 
         .header-actions {
             display: flex;
-            gap: 16px;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 20px;
+            gap: 8px;
+            align-items: center;
         }
-        .header-actions span {
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 30px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
-            padding: 4px;
-        }
-        .header-actions span:hover {
+            transition: all 0.3s ease;
+            text-decoration: none;
             color: #fff;
-            transform: scale(1.1);
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 60px;
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:active {
+            transform: scale(0.95);
+        }
+
+        .contact-btn.call {
+            background: linear-gradient(135deg, #00c853, #00e676);
+            border-color: rgba(0, 200, 83, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 200, 83, 0.2);
+        }
+
+        .contact-btn.call:hover {
+            box-shadow: 0 4px 24px rgba(0, 200, 83, 0.4);
+        }
+
+        .contact-btn.sms {
+            background: linear-gradient(135deg, #2979ff, #448aff);
+            border-color: rgba(41, 121, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(41, 121, 255, 0.2);
+        }
+
+        .contact-btn.sms:hover {
+            box-shadow: 0 4px 24px rgba(41, 121, 255, 0.4);
+        }
+
+        .contact-btn .icon {
+            font-size: 16px;
+        }
+
+        .contact-btn .label {
+            display: none;
         }
 
         /* ===== اسلایدشو ===== */
         .hero-slider {
             flex-shrink: 0;
-            height: 38vh;
-            margin: 10px 14px 6px;
+            height: 36vh;
+            margin: 8px 14px 4px;
             border-radius: 28px;
             overflow: hidden;
             position: relative;
@@ -232,36 +282,36 @@
 
         .slide-item .slide-label {
             position: absolute;
-            bottom: 20px;
-            right: 24px;
-            font-size: 16px;
+            bottom: 16px;
+            right: 20px;
+            font-size: 14px;
             font-weight: 600;
             color: #fff;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
             background: rgba(0, 0, 0, 0.25);
             backdrop-filter: blur(8px);
-            padding: 6px 18px;
+            padding: 4px 14px;
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .slide-indicators {
             position: absolute;
-            bottom: 14px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
+            gap: 6px;
             z-index: 5;
             background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(6px);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 30px;
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.25);
             transition: 0.4s ease;
@@ -269,7 +319,7 @@
         }
         .dot.active {
             background: #fff;
-            width: 24px;
+            width: 20px;
             border-radius: 4px;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
@@ -278,7 +328,7 @@
         .gallery-wrapper {
             flex: 1;
             position: relative;
-            margin: 4px 0 0;
+            margin: 2px 0 0;
             overflow: hidden;
             touch-action: pan-y;
         }
@@ -292,7 +342,7 @@
             padding: 0 14px 14px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -304,8 +354,8 @@
         .gallery-card {
             scroll-snap-align: start;
             flex-shrink: 0;
-            height: calc(100vh - 38vh - 140px);
-            min-height: 320px;
+            height: calc(100vh - 36vh - 120px);
+            min-height: 280px;
             border-radius: 24px;
             overflow: hidden;
             position: relative;
@@ -335,27 +385,27 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 30px 22px 18px;
+            padding: 24px 18px 14px;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
             border-radius: 0 0 24px 24px;
             pointer-events: none;
         }
 
         .gallery-card .card-info h3 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             letter-spacing: -0.3px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
         }
 
         .gallery-card .card-info p {
-            font-size: 13px;
+            font-size: 12px;
             opacity: 0.7;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===== گالری تمام‌صفحه (اکسپلورر) ===== */
+        /* ===== گالری تمام‌صفحه ===== */
         .fullscreen-gallery {
             position: fixed;
             inset: 0;
@@ -376,7 +426,7 @@
         }
 
         .fullscreen-header {
-            padding: 16px 20px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -386,13 +436,13 @@
         }
 
         .fullscreen-header .close-btn {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: #fff;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -407,7 +457,7 @@
 
         .fullscreen-header .counter {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
         }
 
@@ -457,10 +507,10 @@
             left: 50%;
             transform: translateX(-50%);
             color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
+            font-size: 13px;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
-            padding: 8px 20px;
+            padding: 6px 18px;
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             white-space: nowrap;
@@ -468,65 +518,100 @@
 
         /* ===== ریسپانسیو ===== */
         @media (max-width: 480px) {
+            .header {
+                padding: 8px 12px 6px;
+                gap: 4px;
+            }
+            .header-brand .logo {
+                width: 32px;
+                height: 32px;
+                font-size: 15px;
+            }
+            .header-brand h1 {
+                font-size: 14px;
+            }
+            .contact-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+                min-width: 44px;
+                gap: 4px;
+            }
+            .contact-btn .label {
+                display: none;
+            }
+            .contact-btn .icon {
+                font-size: 14px;
+            }
             .hero-slider {
-                height: 32vh;
-                margin: 6px 10px 4px;
+                height: 30vh;
+                margin: 4px 10px 2px;
                 border-radius: 20px;
             }
             .slide-item .slide-label {
-                font-size: 13px;
-                bottom: 14px;
-                right: 16px;
-                padding: 4px 14px;
-            }
-            .header-brand h1 {
-                font-size: 16px;
-            }
-            .header-brand .logo {
-                width: 34px;
-                height: 34px;
-                font-size: 16px;
+                font-size: 12px;
+                bottom: 12px;
+                right: 14px;
+                padding: 3px 12px;
             }
             .gallery-card {
-                height: calc(100vh - 32vh - 130px);
-                min-height: 260px;
+                height: calc(100vh - 30vh - 110px);
+                min-height: 220px;
                 border-radius: 18px;
             }
             .gallery-card .card-info h3 {
-                font-size: 16px;
+                font-size: 14px;
             }
             .gallery-card .card-info p {
-                font-size: 12px;
+                font-size: 11px;
             }
             .fullscreen-item img {
                 max-height: 75vh;
             }
             .fullscreen-header .counter {
-                font-size: 12px;
+                font-size: 11px;
+            }
+            .slide-indicators {
+                padding: 2px 8px;
+                gap: 4px;
+            }
+            .dot {
+                width: 6px;
+                height: 6px;
+            }
+            .dot.active {
+                width: 16px;
             }
         }
 
         @media (min-width: 768px) {
+            .header {
+                padding: 16px 28px 12px;
+            }
+            .contact-btn .label {
+                display: inline;
+            }
+            .contact-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                gap: 8px;
+            }
             .hero-slider {
                 height: 42vh;
-                margin: 14px 24px 8px;
+                margin: 10px 24px 6px;
                 border-radius: 32px;
             }
             .gallery-card {
-                height: calc(100vh - 42vh - 160px);
-                min-height: 400px;
+                height: calc(100vh - 42vh - 140px);
+                min-height: 380px;
                 border-radius: 28px;
                 margin: 0 10px;
             }
             .gallery-scroll {
                 padding: 0 24px 20px;
-                gap: 24px;
-            }
-            .header {
-                padding: 22px 32px 14px;
+                gap: 20px;
             }
             .header-brand h1 {
-                font-size: 26px;
+                font-size: 24px;
             }
             .fullscreen-item img {
                 max-height: 88vh;
@@ -618,30 +703,40 @@
     <!-- ===== اپلیکیشن ===== -->
     <div class="app-container">
 
+        <!-- ===== هدر با دکمه‌های تماس و پیامک ===== -->
         <header class="header">
             <div class="header-brand">
                 <div class="logo">🏠</div>
                 <h1>دکوراسیون لوکس</h1>
             </div>
             <div class="header-actions">
-                <span>❤️</span>
-                <span>🔍</span>
-                <span>☰</span>
+                <!-- دکمه تماس -->
+                <a href="tel:+989122987793" class="contact-btn call">
+                    <span class="icon">📞</span>
+                    <span class="label">تماس</span>
+                </a>
+                <!-- دکمه پیامک -->
+                <a href="sms:+989122987793" class="contact-btn sms">
+                    <span class="icon">✉️</span>
+                    <span class="label">پیامک</span>
+                </a>
             </div>
         </header>
 
+        <!-- ===== اسلایدشو ===== -->
         <section class="hero-slider" id="heroSlider">
             <div class="slider-track" id="sliderTrack"></div>
             <div class="slide-indicators" id="slideIndicators"></div>
         </section>
 
+        <!-- ===== گالری ===== -->
         <div class="gallery-wrapper">
             <div class="gallery-scroll" id="galleryScroll"></div>
         </div>
 
     </div>
 
-    <!-- ===== گالری تمام‌صفحه (اکسپلورر) ===== -->
+    <!-- ===== گالری تمام‌صفحه ===== -->
     <div class="fullscreen-gallery" id="fullscreenGallery">
         <div class="fullscreen-header">
             <button class="close-btn" id="closeGallery">✕</button>
@@ -797,8 +892,7 @@
 
                     card.appendChild(img);
                     card.appendChild(info);
-                    
-                    // کلیک روی کارت → باز کردن گالری تمام‌صفحه
+
                     card.addEventListener('click', function() {
                         openFullscreen(parseInt(this.dataset.index));
                     });
@@ -808,7 +902,7 @@
             }
 
             // ============================================================
-            //  گالری تمام‌صفحه (اکسپلورر)
+            //  گالری تمام‌صفحه
             // ============================================================
             function buildFullscreenGallery() {
                 fullscreenScroll.innerHTML = '';
@@ -847,8 +941,7 @@
             function openFullscreen(index) {
                 fullscreenGallery.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                
-                // اسکرول به عکس انتخاب شده
+
                 const items = fullscreenScroll.querySelectorAll('.fullscreen-item');
                 if (items[index]) {
                     items[index].scrollIntoView({ behavior: 'instant' });
@@ -913,28 +1006,23 @@
             // ============================================================
             //  رویدادهای گالری تمام‌صفحه
             // ============================================================
-            // بستن با دکمه
             closeGalleryBtn.addEventListener('click', closeFullscreen);
 
-            // بستن با کلیک روی پس‌زمینه (فقط اگر روی خود گالری کلیک شود)
             fullscreenGallery.addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeFullscreen();
                 }
             });
 
-            // بستن با دکمه ESC
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && fullscreenGallery.classList.contains('active')) {
                     closeFullscreen();
                 }
             });
 
-            // آپدیت شمارنده هنگام اسکرول
             fullscreenScroll.addEventListener('scroll', function() {
                 const items = this.querySelectorAll('.fullscreen-item');
                 let currentIndex = 0;
-                const scrollTop = this.scrollTop;
                 const windowHeight = window.innerHeight;
 
                 for (let i = 0; i < items.length; i++) {
@@ -1006,7 +1094,8 @@
             }, 600);
 
             console.log(`🏠 دکوراسیون داخلی لوکس — بارگذاری شد`);
-            console.log(`📸 ${totalSlides} عکس (1.jpg تا ${totalSlides}.jpg) در اسلایدشو و گالری`);
+            console.log(`📸 ${totalSlides} عکس (1.jpg تا ${totalSlides}.jpg)`);
+            console.log(`📞 شماره تماس: +989122987793`);
 
         })();
     </script>
