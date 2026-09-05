@@ -24,7 +24,7 @@
             touch-action: none;
         }
 
-        /* ===== پس‌زمینه پویا با ذرات ===== */
+        /* ===== پس‌زمینه پویا ===== */
         .bg-particles {
             position: fixed;
             top: 0;
@@ -50,15 +50,9 @@
         }
 
         @keyframes sparkle {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            50% {
-                transform: translate(-20px, -20px) scale(1.2);
-            }
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-20px, -20px) scale(1.2); }
+            100% { transform: translate(0, 0) scale(1); }
         }
 
         .orb {
@@ -97,18 +91,10 @@
         }
 
         @keyframes orbFloat {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(40px, -30px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 40px) scale(0.9);
-            }
-            100% {
-                transform: translate(30px, 20px) scale(1.05);
-            }
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 40px) scale(0.9); }
+            100% { transform: translate(30px, 20px) scale(1.05); }
         }
 
         /* ===== کانتینر اصلی ===== */
@@ -122,7 +108,7 @@
             background: transparent;
         }
 
-        /* ===== هدر شیشه‌ای ===== */
+        /* ===== هدر ===== */
         .header {
             padding: 18px 20px 12px;
             background: rgba(255, 255, 255, 0.04);
@@ -171,7 +157,6 @@
             color: rgba(255, 255, 255, 0.6);
             font-size: 20px;
         }
-
         .header-actions span {
             cursor: pointer;
             transition: 0.3s;
@@ -182,7 +167,7 @@
             transform: scale(1.1);
         }
 
-        /* ===== اسلایدشو برتر ===== */
+        /* ===== اسلایدشو ===== */
         .hero-slider {
             flex-shrink: 0;
             height: 38vh;
@@ -253,7 +238,6 @@
             font-weight: 600;
             color: #fff;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-            letter-spacing: 0.3px;
             background: rgba(0, 0, 0, 0.25);
             backdrop-filter: blur(8px);
             padding: 6px 18px;
@@ -290,7 +274,7 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-        /* ===== گالری با اسکرول عمودی (اینستاگرامی) ===== */
+        /* ===== گالری عمودی (اینستاگرامی) ===== */
         .gallery-wrapper {
             flex: 1;
             position: relative;
@@ -370,7 +354,7 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===== responsive ===== */
+        /* ===== ریسپانسیو ===== */
         @media (max-width: 480px) {
             .hero-slider {
                 height: 32vh;
@@ -441,7 +425,6 @@
             border-radius: inherit;
         }
 
-        /* ===== انیمیشن ورود ===== */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -531,17 +514,13 @@
 
         <!-- اسلایدشو برتر -->
         <section class="hero-slider" id="heroSlider">
-            <div class="slider-track" id="sliderTrack">
-                <!-- آیتم‌ها توسط JS ساخته می‌شوند -->
-            </div>
+            <div class="slider-track" id="sliderTrack"></div>
             <div class="slide-indicators" id="slideIndicators"></div>
         </section>
 
-        <!-- گالری با اسکرول عمودی -->
+        <!-- گالری -->
         <div class="gallery-wrapper">
-            <div class="gallery-scroll" id="galleryScroll">
-                <!-- کارت‌ها توسط JS ساخته می‌شوند -->
-            </div>
+            <div class="gallery-scroll" id="galleryScroll"></div>
         </div>
 
     </div>
@@ -551,7 +530,7 @@
             'use strict';
 
             // ============================================================
-            //  📸 لیست عکس‌ها — از 1.jpg تا 29.jpg
+            //  📸 همه عکس‌های پوشه image — از 1.jpg تا 29.jpg
             // ============================================================
             const TOTAL_IMAGES = 29;
             const imageFiles = [];
@@ -561,7 +540,7 @@
             }
 
             // ============================================================
-            //  برچسب‌های نمایشی
+            //  برچسب‌های نمایشی (برای هر ۲۹ عکس)
             // ============================================================
             const labels = [
                 'شیک و مدرن', 'کلاسیک طلایی', 'مینیمال آرام',
@@ -614,7 +593,6 @@
                 indicators.innerHTML = '';
 
                 for (let i = 0; i < totalSlides; i++) {
-                    // slide item
                     const slide = document.createElement('div');
                     slide.className = `slide-item${i === 0 ? ' active' : ''}`;
                     slide.dataset.index = i;
@@ -624,11 +602,10 @@
                     img.alt = `دکوراسیون ${i + 1}`;
                     img.loading = 'lazy';
                     img.onerror = function() {
-                        // اگر عکس وجود نداشت، placeholder
                         this.style.display = 'none';
                         const fallback = document.createElement('div');
                         fallback.className = 'loading-placeholder';
-                        fallback.textContent = `✨ ${labels[i % labels.length] || 'دکوراسیون'}`;
+                        fallback.textContent = `✨ ${labels[i % labels.length]}`;
                         fallback.style.background = `linear-gradient(135deg, ${getColor(i)}, #0b0a0f)`;
                         slide.appendChild(fallback);
                     };
@@ -638,14 +615,13 @@
 
                     const label = document.createElement('div');
                     label.className = 'slide-label';
-                    label.textContent = labels[i % labels.length] || `سبک ${i + 1}`;
+                    label.textContent = labels[i % labels.length];
 
                     slide.appendChild(img);
                     slide.appendChild(overlay);
                     slide.appendChild(label);
                     sliderTrack.appendChild(slide);
 
-                    // indicator dot
                     const dot = document.createElement('span');
                     dot.className = `dot${i === 0 ? ' active' : ''}`;
                     dot.dataset.index = i;
@@ -675,7 +651,7 @@
                         this.style.display = 'none';
                         const fb = document.createElement('div');
                         fb.className = 'loading-placeholder';
-                        fb.textContent = `🏠 ${labels[i % labels.length] || 'دکوراسیون'}`;
+                        fb.textContent = `🏠 ${labels[i % labels.length]}`;
                         fb.style.background = `linear-gradient(135deg, ${getColor(i)}, #0b0a0f)`;
                         card.appendChild(fb);
                     };
@@ -683,7 +659,7 @@
                     const info = document.createElement('div');
                     info.className = 'card-info';
                     const h3 = document.createElement('h3');
-                    h3.textContent = labels[i % labels.length] || `سبک ${i + 1}`;
+                    h3.textContent = labels[i % labels.length];
                     const p = document.createElement('p');
                     p.textContent = 'دکوراسیون داخلی · طراحی لوکس';
 
@@ -742,7 +718,7 @@
             }
 
             // ============================================================
-            //  رویدادهای گالری (لمس + ماوس)
+            //  رویدادهای گالری
             // ============================================================
             let startY = 0;
             let isDragging = false;
@@ -752,11 +728,7 @@
                 isDragging = true;
             }, { passive: true });
 
-            galleryScroll.addEventListener('touchmove', function(e) {
-                // اجازه اسکرول پیش‌فرض
-            }, { passive: true });
-
-            galleryScroll.addEventListener('touchend', function(e) {
+            galleryScroll.addEventListener('touchend', function() {
                 isDragging = false;
             }, { passive: true });
 
@@ -840,7 +812,7 @@
             // مخفی کردن لودینگ
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
-            }, 500);
+            }, 600);
 
             console.log(`🏠 دکوراسیون داخلی لوکس — بارگذاری شد`);
             console.log(`📸 ${totalSlides} عکس (1.jpg تا ${totalSlides}.jpg) در اسلایدشو و گالری`);
