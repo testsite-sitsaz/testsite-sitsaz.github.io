@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-<title>سایت‌ساز حرفه‌ای | طراحی سایت</title>
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>سایت‌ساز | طراحی سایت حرفه‌ای</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
     box-sizing:border-box;
@@ -18,17 +22,8 @@
     padding:0;
 }
 
-:root{
-    --bg:#080b12;
-    --card:#111722;
-    --card2:#171e2c;
-    --text:#fff;
-    --muted:#8f9aad;
-    --primary:#6c63ff;
-    --primary2:#8b5cf6;
-    --green:#20c997;
-    --danger:#ff5c72;
-    --border:rgba(255,255,255,.08);
+html{
+    scroll-behavior:smooth;
 }
 
 body{
@@ -38,217 +33,162 @@ body{
     sans-serif;
 
     background:
-    radial-gradient(circle at top right,#20255a 0,transparent 30%),
-    radial-gradient(circle at bottom left,#32184e 0,transparent 25%),
-    var(--bg);
+    radial-gradient(
+        circle at 90% 0%,
+        rgba(99,102,241,.20),
+        transparent 32%
+    ),
+    radial-gradient(
+        circle at 10% 100%,
+        rgba(168,85,247,.14),
+        transparent 28%
+    ),
+    #070a11;
 
-    color:var(--text);
+    color:#fff;
+
     min-height:100vh;
+
     padding-bottom:90px;
 }
 
 button,
-input{
+input,
+textarea{
     font-family:inherit;
 }
 
 button{
-    border:0;
     cursor:pointer;
+}
+
+img{
+    max-width:100%;
 }
 
 .hidden{
     display:none!important;
 }
 
-/* HEADER */
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+
+    --primary:#756cff;
+    --primary2:#9b6cff;
+
+    --bg:#070a11;
+
+    --surface:#10151f;
+    --surface2:#151b27;
+
+    --border:rgba(255,255,255,.075);
+
+    --text:#fff;
+    --muted:#8d98ab;
+
+    --green:#23d3a1;
+    --red:#ff5b72;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
+
     position:sticky;
+
     top:0;
-    z-index:50;
 
-    backdrop-filter:blur(20px);
+    z-index:100;
 
-    background:rgba(8,11,18,.8);
+    background:
+    rgba(7,10,17,.78);
 
-    border-bottom:1px solid var(--border);
+    backdrop-filter:
+    blur(20px);
 
-    padding:15px;
+    border-bottom:
+    1px solid var(--border);
+
 }
 
 .header-inner{
-    max-width:1100px;
+
+    width:100%;
+
+    max-width:1200px;
+
     margin:auto;
 
+    height:68px;
+
+    padding:
+    0 16px;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
+
+    justify-content:space-between;
+
 }
 
 .logo{
+
     font-size:20px;
+
     font-weight:900;
+
+    letter-spacing:-.5px;
+
 }
 
-.logo span{
-    color:#8b7cff;
-}
+.logo-icon{
 
-.login-btn{
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
-    color:#fff;
-    padding:10px 17px;
-    border-radius:13px;
-    font-weight:bold;
-}
+    display:inline-flex;
 
-/* MAIN */
+    width:36px;
 
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:18px 14px;
-}
+    height:36px;
 
-/* HERO */
+    align-items:center;
 
-.hero{
-    min-height:240px;
-
-    border-radius:28px;
-
-    padding:28px 22px;
-
-    display:flex;
-    flex-direction:column;
     justify-content:center;
+
+    border-radius:12px;
+
+    margin-left:7px;
 
     background:
     linear-gradient(
         135deg,
-        rgba(108,99,255,.28),
-        rgba(139,92,246,.08)
+        var(--primary),
+        var(--primary2)
     );
 
-    border:1px solid var(--border);
+    box-shadow:
+    0 7px 25px
+    rgba(117,108,255,.35);
 
-    margin-bottom:28px;
 }
 
-.hero h1{
-    font-size:31px;
-    line-height:1.5;
-    margin-bottom:12px;
+.logo span{
+
+    color:#968eff;
+
 }
 
-.hero p{
-    color:#b7c0d0;
-    line-height:2;
-}
+.header-login{
 
-.hero-btn{
-    width:max-content;
-    margin-top:20px;
-
-    background:#fff;
-    color:#10131d;
-
-    padding:13px 20px;
-    border-radius:14px;
-
-    font-weight:bold;
-}
-
-/* CATEGORY */
-
-.category{
-    margin-bottom:30px;
-}
-
-.category-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:13px;
-}
-
-.category-head h2{
-    font-size:19px;
-}
-
-.category-head span{
-    color:var(--muted);
-    font-size:12px;
-}
-
-.products{
-    display:flex;
-    gap:14px;
-    overflow-x:auto;
-    padding-bottom:8px;
-
-    scrollbar-width:none;
-}
-
-.products::-webkit-scrollbar{
-    display:none;
-}
-
-/* PRODUCT */
-
-.product{
-    flex:0 0 230px;
-
-    background:linear-gradient(
-        145deg,
-        var(--card2),
-        var(--card)
-    );
-
-    border:1px solid var(--border);
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-}
-
-.product img{
-    width:100%;
-    height:145px;
-    object-fit:cover;
-    display:block;
-    background:#202636;
-}
-
-.product-body{
-    padding:14px;
-}
-
-.product-name{
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.price{
-    color:#8b7cff;
-    font-weight:900;
-    font-size:17px;
-}
-
-.product-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-top:14px;
-}
-
-.add{
-    background:linear-gradient(
+    background:
+    linear-gradient(
         135deg,
         var(--primary),
         var(--primary2)
@@ -256,33 +196,343 @@ button{
 
     color:#fff;
 
-    border-radius:11px;
+    border:0;
 
-    padding:9px 13px;
+    border-radius:13px;
+
+    padding:
+    10px 15px;
+
+    font-size:12px;
 
     font-weight:bold;
+
 }
 
-/* PAGE */
 
-.page{
-    display:none;
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+
+    width:100%;
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:
+    16px;
+
 }
 
-.page.active{
-    display:block;
+
+/* =========================================================
+   HOME HERO
+========================================================= */
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:315px;
+
+    padding:
+    34px 25px;
+
+    border-radius:30px;
+
+    margin-bottom:28px;
+
+    border:
+    1px solid var(--border);
+
+    background:
+
+    radial-gradient(
+        circle at 85% 20%,
+        rgba(151,124,255,.35),
+        transparent 28%
+    ),
+
+    linear-gradient(
+        135deg,
+        #171936,
+        #101421 55%,
+        #11101d
+    );
+
+    box-shadow:
+    0 25px 70px
+    rgba(0,0,0,.30);
+
 }
 
-/* CART */
+.hero::before{
 
-.cart-item{
-    background:var(--card);
+    content:"";
 
-    border:1px solid var(--border);
+    position:absolute;
 
-    border-radius:17px;
+    width:190px;
 
-    padding:14px;
+    height:190px;
+
+    border-radius:50%;
+
+    background:
+    rgba(121,110,255,.16);
+
+    filter:blur(5px);
+
+    left:-70px;
+
+    bottom:-90px;
+
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:650px;
+
+}
+
+.hero-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:
+    7px 11px;
+
+    border-radius:30px;
+
+    background:
+    rgba(255,255,255,.07);
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    color:#c8c4ff;
+
+    font-size:11px;
+
+    margin-bottom:16px;
+
+}
+
+.hero h1{
+
+    font-size:
+    clamp(27px,6vw,48px);
+
+    line-height:1.55;
+
+    font-weight:900;
+
+    letter-spacing:-1px;
+
+}
+
+.hero h1 span{
+
+    background:
+    linear-gradient(
+        90deg,
+        #9d96ff,
+        #c391ff
+    );
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+}
+
+.hero p{
+
+    margin-top:12px;
+
+    color:#a9b1c1;
+
+    line-height:2;
+
+    font-size:13px;
+
+}
+
+.hero-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:22px;
+
+}
+
+.hero-primary{
+
+    border:0;
+
+    padding:
+    13px 18px;
+
+    border-radius:14px;
+
+    color:white;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary2)
+    );
+
+    font-weight:bold;
+
+    box-shadow:
+    0 10px 25px
+    rgba(117,108,255,.22);
+
+}
+
+.hero-secondary{
+
+    border:
+    1px solid var(--border);
+
+    padding:
+    13px 18px;
+
+    border-radius:14px;
+
+    color:#dfe2ea;
+
+    background:
+    rgba(255,255,255,.045);
+
+}
+
+
+/* =========================================================
+   QUICK FEATURES
+========================================================= */
+
+.features{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:10px;
+
+    margin-bottom:32px;
+
+}
+
+.feature{
+
+    padding:15px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.035);
+
+    border:
+    1px solid var(--border);
+
+}
+
+.feature-icon{
+
+    font-size:22px;
+
+    margin-bottom:8px;
+
+}
+
+.feature-title{
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.feature-text{
+
+    margin-top:5px;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    line-height:1.7;
+
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:end;
+
+    margin-bottom:14px;
+
+}
+
+.section-title h2{
+
+    font-size:20px;
+
+    font-weight:900;
+
+}
+
+.section-title p{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:5px;
+
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+.category{
+
+    margin-bottom:32px;
+
+}
+
+.category-top{
 
     display:flex;
 
@@ -290,102 +540,657 @@ button{
 
     align-items:center;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
+
 }
 
-.cart-info{
+.category-name{
+
+    font-size:17px;
+
+    font-weight:900;
+
+}
+
+.category-count{
+
+    color:var(--muted);
+
+    font-size:10px;
+
+}
+
+
+/* =========================================================
+   PRODUCTS HORIZONTAL
+========================================================= */
+
+.products{
+
     display:flex;
-    flex-direction:column;
-    gap:7px;
+
+    gap:14px;
+
+    overflow-x:auto;
+
+    padding:
+    2px 2px 12px;
+
+    scrollbar-width:none;
+
 }
 
-.cart-price{
-    color:#8b7cff;
-    font-weight:bold;
+.products::-webkit-scrollbar{
+
+    display:none;
+
 }
 
-.qty{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
 
-.qty button{
-    width:30px;
-    height:30px;
-    border-radius:9px;
-    background:#242b3a;
-    color:#fff;
-}
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
 
-/* CARD */
+.product{
 
-.panel{
-    background:var(--card);
+    flex:
+    0 0 245px;
 
-    border:1px solid var(--border);
+    overflow:hidden;
 
     border-radius:22px;
 
-    padding:20px;
+    background:
+    linear-gradient(
+        145deg,
+        rgba(26,32,46,.98),
+        rgba(14,19,28,.98)
+    );
 
-    margin-bottom:15px;
+    border:
+    1px solid var(--border);
+
+    box-shadow:
+    0 14px 35px
+    rgba(0,0,0,.22);
+
+    transition:
+    transform .2s ease;
+
 }
 
-.panel h2{
-    margin-bottom:15px;
+.product:active{
+
+    transform:scale(.98);
+
 }
 
-/* ORDER */
+.product-image{
 
-.order{
-    background:var(--card);
+    position:relative;
 
-    border:1px solid var(--border);
+    height:155px;
 
-    border-radius:18px;
+    background:#1a2030;
+
+    overflow:hidden;
+
+}
+
+.product-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.product-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        180deg,
+        transparent 50%,
+        rgba(0,0,0,.45)
+    );
+
+}
+
+.product-body{
+
+    padding:14px;
+
+}
+
+.product-name{
+
+    font-size:14px;
+
+    font-weight:900;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+.product-meta{
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:6px;
+
+}
+
+.product-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:14px;
+
+}
+
+.product-price{
+
+    color:#a69fff;
+
+    font-size:15px;
+
+    font-weight:900;
+
+}
+
+.product-price small{
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    font-weight:normal;
+
+}
+
+.add-btn{
+
+    border:0;
+
+    border-radius:11px;
+
+    padding:
+    9px 12px;
+
+    color:#fff;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary2)
+    );
+
+    font-size:11px;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+
+    display:none;
+
+    animation:
+    pageIn .25s ease;
+
+}
+
+.page.active{
+
+    display:block;
+
+}
+
+@keyframes pageIn{
+
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel{
+
+    border:
+    1px solid var(--border);
+
+    border-radius:24px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(21,27,39,.94),
+        rgba(13,18,27,.94)
+    );
+
+    padding:19px;
+
+    margin-bottom:15px;
+
+}
+
+.panel-title{
+
+    font-size:20px;
+
+    font-weight:900;
+
+    margin-bottom:17px;
+
+}
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+.cart-item{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:13px;
+
+    border-radius:17px;
+
+    background:
+    rgba(255,255,255,.035);
+
+    border:
+    1px solid var(--border);
+
+    margin-bottom:9px;
+
+}
+
+.cart-info{
+
+    min-width:0;
+
+}
+
+.cart-name{
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+.cart-sub{
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:6px;
+
+}
+
+.cart-price{
+
+    color:#a69fff;
+
+    font-weight:bold;
+
+    margin-top:6px;
+
+    font-size:12px;
+
+}
+
+.qty{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+}
+
+.qty button{
+
+    width:31px;
+
+    height:31px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#252c3b;
+
+    color:#fff;
+
+    font-size:18px;
+
+}
+
+.total-box{
+
+    margin-top:16px;
+
+    padding-top:16px;
+
+    border-top:
+    1px solid var(--border);
+
+}
+
+.total-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.total-value{
+
+    color:#a69fff;
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+.main-button{
+
+    width:100%;
+
+    border:0;
+
+    border-radius:15px;
+
+    padding:14px;
+
+    margin-top:13px;
+
+    color:#fff;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary2)
+    );
+
+    font-weight:bold;
+
+}
+
+
+/* =========================================================
+   ORDERS
+========================================================= */
+
+.order-card{
+
+    border:
+    1px solid var(--border);
+
+    background:
+    rgba(255,255,255,.035);
 
     padding:16px;
 
-    margin-bottom:12px;
+    border-radius:18px;
+
+    margin-bottom:11px;
+
+}
+
+.order-head{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.order-number{
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.order-date{
+
+    color:var(--muted);
+
+    font-size:9px;
+
+}
+
+.order-items{
+
+    margin-top:13px;
+
+    color:#b4bdcc;
+
+    font-size:11px;
+
+    line-height:2;
+
+}
+
+.order-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:13px;
+
+}
+
+.order-total{
+
+    color:#a69fff;
+
+    font-weight:bold;
+
 }
 
 .status{
-    display:inline-block;
 
-    padding:5px 9px;
+    padding:
+    6px 9px;
 
-    border-radius:8px;
+    border-radius:9px;
 
-    background:rgba(108,99,255,.15);
+    background:
+    rgba(117,108,255,.12);
 
-    color:#aaa2ff;
+    color:#aaa4ff;
 
-    font-size:12px;
+    font-size:9px;
 
-    margin-top:8px;
 }
 
-/* PROFILE */
 
-.profile-row{
-    padding:13px 0;
+/* =========================================================
+   SUPPORT PAGE
+========================================================= */
 
-    border-bottom:1px solid var(--border);
+.support-wrapper{
+
+    overflow:hidden;
+
+    border:
+    1px solid var(--border);
+
+    border-radius:27px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #111824,
+        #0c1119
+    );
+
+    box-shadow:
+    0 20px 55px
+    rgba(0,0,0,.25);
+
 }
 
-.profile-label{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:5px;
+.support-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:18px;
+
+    border-bottom:
+    1px solid var(--border);
+
+    background:
+    rgba(255,255,255,.025);
+
 }
 
-/* SUPPORT */
+.support-avatar{
+
+    position:relative;
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary2)
+    );
+
+    font-size:22px;
+
+    box-shadow:
+    0 8px 25px
+    rgba(117,108,255,.25);
+
+}
+
+.online-dot{
+
+    position:absolute;
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#28d7a7;
+
+    border:2px solid #111824;
+
+    right:-2px;
+
+    bottom:-2px;
+
+}
+
+.support-info strong{
+
+    display:block;
+
+    font-size:14px;
+
+}
+
+.support-info span{
+
+    display:block;
+
+    color:#62dcb9;
+
+    font-size:10px;
+
+    margin-top:5px;
+
+}
 
 .chat{
-    height:55vh;
+
+    height:
+    calc(100vh - 320px);
+
+    min-height:350px;
+
+    max-height:600px;
 
     overflow-y:auto;
+
+    padding:18px;
 
     display:flex;
 
@@ -393,76 +1198,289 @@ button{
 
     gap:10px;
 
-    margin-bottom:12px;
+    background:
+
+    radial-gradient(
+        circle at 20% 10%,
+        rgba(117,108,255,.07),
+        transparent 30%
+    );
+
+}
+
+.chat-empty{
+
+    margin:auto;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:2;
+
+}
+
+.chat-empty-icon{
+
+    font-size:35px;
+
+    margin-bottom:8px;
+
+}
+
+.message-row{
+
+    display:flex;
+
+}
+
+.message-row.user{
+
+    justify-content:flex-start;
+
+}
+
+.message-row.support{
+
+    justify-content:flex-end;
+
 }
 
 .message{
-    max-width:80%;
 
-    padding:11px 14px;
+    max-width:78%;
 
-    border-radius:15px;
+    padding:
+    11px 14px;
 
-    line-height:1.8;
+    line-height:1.9;
+
+    font-size:12px;
+
+    border-radius:17px;
+
 }
 
 .message.user{
-    align-self:flex-start;
 
-    background:#5c55dc;
+    background:
+    linear-gradient(
+        135deg,
+        #5e57dc,
+        #756cff
+    );
+
+    border-bottom-left-radius:5px;
+
 }
 
 .message.support{
-    align-self:flex-end;
 
-    background:#202938;
+    background:
+    #202837;
+
+    color:#e6e9ef;
+
+    border-bottom-right-radius:5px;
+
+}
+
+.chat-compose{
+
+    display:flex;
+
+    gap:8px;
+
+    padding:13px;
+
+    border-top:
+    1px solid var(--border);
+
+    background:
+    rgba(255,255,255,.02);
+
 }
 
 .chat-input{
-    display:flex;
-    gap:8px;
-}
 
-.chat-input input{
     flex:1;
-}
 
-/* INPUT */
+    min-width:0;
 
-.input{
-    width:100%;
+    border:
+    1px solid var(--border);
 
-    padding:13px 14px;
+    border-radius:14px;
 
-    background:#0b0f17;
+    padding:
+    12px 13px;
 
-    border:1px solid var(--border);
+    background:#090e16;
 
     color:#fff;
 
-    border-radius:13px;
-
     outline:none;
 
-    margin-bottom:11px;
+    font-size:12px;
+
 }
 
-.input:focus{
-    border-color:#746cff;
+.chat-input:focus{
+
+    border-color:#7068ef;
+
 }
 
-/* MODAL */
+.chat-send{
+
+    width:45px;
+
+    height:45px;
+
+    flex-shrink:0;
+
+    border:0;
+
+    border-radius:13px;
+
+    color:#fff;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary2)
+    );
+
+    font-size:17px;
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-bottom:20px;
+
+}
+
+.profile-avatar{
+
+    width:62px;
+
+    height:62px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary2)
+    );
+
+    font-size:28px;
+
+}
+
+.profile-name{
+
+    font-size:17px;
+
+    font-weight:900;
+
+}
+
+.profile-email{
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:5px;
+
+}
+
+.profile-row{
+
+    padding:
+    14px 0;
+
+    border-bottom:
+    1px solid var(--border);
+
+}
+
+.profile-label{
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-bottom:5px;
+
+}
+
+.profile-value{
+
+    font-size:13px;
+
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+
+    text-align:center;
+
+    padding:45px 15px;
+
+    color:var(--muted);
+
+    line-height:2;
+
+}
+
+.empty-icon{
+
+    font-size:38px;
+
+    margin-bottom:10px;
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal{
+
     position:fixed;
 
     inset:0;
 
-    z-index:100;
-
-    background:rgba(0,0,0,.75);
-
-    backdrop-filter:blur(10px);
+    z-index:500;
 
     display:none;
 
@@ -471,105 +1489,242 @@ button{
     justify-content:center;
 
     padding:15px;
+
+    background:
+    rgba(0,0,0,.78);
+
+    backdrop-filter:
+    blur(12px);
+
 }
 
 .modal.show{
+
     display:flex;
+
 }
 
 .modal-box{
-    width:100%;
-    max-width:480px;
 
-    max-height:90vh;
+    width:100%;
+
+    max-width:470px;
+
+    max-height:92vh;
 
     overflow-y:auto;
 
-    background:#101620;
+    border:
+    1px solid var(--border);
 
-    border:1px solid var(--border);
+    border-radius:27px;
 
-    border-radius:25px;
+    background:
+    #101620;
 
-    padding:22px;
+    box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.55);
+
+    padding:21px;
+
 }
 
 .modal-head{
+
     display:flex;
 
     justify-content:space-between;
 
     align-items:center;
 
-    margin-bottom:20px;
+    margin-bottom:19px;
+
 }
 
-.close{
+.modal-title{
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+.close-btn{
+
+    width:35px;
+
+    height:35px;
+
+    border:0;
+
+    border-radius:11px;
+
     background:#252c39;
 
     color:#fff;
 
-    width:35px;
-    height:35px;
+    font-size:21px;
 
-    border-radius:10px;
 }
 
-/* STEPS */
 
-.steps{
+/* =========================================================
+   STEPS
+========================================================= */
+
+.step-lines{
+
     display:flex;
 
     gap:6px;
 
-    margin-bottom:20px;
+    margin-bottom:21px;
+
 }
 
-.step{
+.step-line{
+
     flex:1;
 
-    height:5px;
-
-    background:#292f3d;
+    height:4px;
 
     border-radius:20px;
+
+    background:#282f3d;
+
 }
 
-.step.active{
-    background:linear-gradient(
+.step-line.active{
+
+    background:
+    linear-gradient(
         90deg,
         var(--primary),
         var(--primary2)
     );
+
 }
 
 .form-step{
+
     display:none;
+
 }
 
 .form-step.active{
+
     display:block;
+
 }
 
 .form-title{
+
     font-size:20px;
-    font-weight:bold;
-    margin-bottom:8px;
+
+    font-weight:900;
+
+    margin-bottom:7px;
+
 }
 
-.form-desc{
+.form-description{
+
     color:var(--muted);
-    font-size:13px;
-    line-height:1.8;
-    margin-bottom:18px;
+
+    font-size:11px;
+
+    line-height:1.9;
+
+    margin-bottom:17px;
+
 }
 
-.primary{
+.input-group{
+
+    margin-bottom:11px;
+
+}
+
+.input-label{
+
+    display:block;
+
+    color:#aeb6c6;
+
+    font-size:10px;
+
+    margin-bottom:6px;
+
+}
+
+.input{
+
     width:100%;
 
-    padding:14px;
+    border:
+    1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:
+    13px;
+
+    background:#090e16;
+
+    color:#fff;
+
+    outline:none;
+
+    font-size:12px;
+
+}
+
+.input:focus{
+
+    border-color:#756cff;
+
+}
+
+.file-area{
+
+    border:
+    1px dashed #485267;
+
+    border-radius:16px;
+
+    padding:17px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin:
+    12px 0;
+
+}
+
+.file-area input{
+
+    width:100%;
+
+    margin-top:10px;
+
+    font-size:10px;
+
+}
+
+.primary-button{
+
+    width:100%;
+
+    border:0;
 
     border-radius:14px;
+
+    padding:14px;
 
     color:#fff;
 
@@ -582,170 +1737,253 @@ button{
 
     font-weight:bold;
 
-    margin-top:5px;
 }
 
-.secondary{
+.secondary-button{
+
     width:100%;
+
+    border:0;
+
+    border-radius:14px;
 
     padding:12px;
 
-    border-radius:13px;
-
-    background:#242b39;
-
     color:#fff;
 
-    margin-top:9px;
+    background:#252c39;
+
+    margin-top:8px;
+
 }
 
-.file-box{
-    border:1px dashed #515a70;
-
-    padding:20px;
+.success-screen{
 
     text-align:center;
 
-    border-radius:15px;
+    padding:20px 5px;
 
-    margin-bottom:12px;
-
-    color:var(--muted);
-}
-
-.file-box input{
-    width:100%;
-    margin-top:10px;
-}
-
-.success{
-    text-align:center;
-    padding:25px 5px;
 }
 
 .success-icon{
-    width:70px;
-    height:70px;
+
+    width:72px;
+
+    height:72px;
 
     border-radius:50%;
 
-    margin:0 auto 15px;
+    margin:
+    0 auto 15px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
-    background:rgba(32,201,151,.15);
+    color:#23d3a1;
 
-    color:var(--green);
+    background:
+    rgba(35,211,161,.12);
 
     font-size:35px;
+
 }
 
-/* BOTTOM NAV */
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
 
 .bottom-nav{
+
     position:fixed;
 
-    bottom:0;
+    z-index:300;
+
     right:0;
+
     left:0;
 
-    z-index:80;
+    bottom:0;
 
-    height:75px;
+    height:78px;
 
-    background:rgba(11,15,23,.94);
+    background:
+    rgba(9,13,20,.94);
 
-    backdrop-filter:blur(20px);
+    backdrop-filter:
+    blur(22px);
 
-    border-top:1px solid var(--border);
+    border-top:
+    1px solid var(--border);
 
-    display:flex;
-
-    justify-content:center;
 }
 
 .nav-inner{
+
     width:100%;
-    max-width:650px;
+
+    max-width:700px;
+
+    height:100%;
+
+    margin:auto;
 
     display:flex;
+
 }
 
 .nav-item{
+
+    position:relative;
+
     flex:1;
+
+    border:0;
 
     background:none;
 
-    color:#697386;
+    color:#687286;
 
     display:flex;
 
     flex-direction:column;
 
-    justify-content:center;
-
     align-items:center;
+
+    justify-content:center;
 
     gap:5px;
 
-    font-size:11px;
+    font-size:9px;
+
 }
 
 .nav-icon{
+
     font-size:20px;
+
+    line-height:1;
+
 }
 
 .nav-item.active{
-    color:#918aff;
+
+    color:#938cff;
+
+}
+
+.nav-item.active .nav-icon{
+
+    transform:
+    translateY(-1px);
+
 }
 
 .badge{
+
     position:absolute;
 
+    top:11px;
+
     margin-right:23px;
-    margin-top:-20px;
 
-    background:#ff5570;
+    min-width:17px;
 
-    color:white;
-
-    width:17px;
     height:17px;
+
+    padding:0 4px;
+
+    border-radius:20px;
 
     display:none;
 
     align-items:center;
+
     justify-content:center;
 
-    border-radius:50%;
+    background:#ff5870;
 
-    font-size:10px;
+    color:#fff;
+
+    font-size:8px;
+
 }
 
-.empty{
-    text-align:center;
-    color:var(--muted);
-    padding:40px 10px;
-}
+
+/* =========================================================
+   LOADING
+========================================================= */
 
 .loading{
+
     text-align:center;
+
+    padding:40px;
+
     color:var(--muted);
-    padding:30px;
+
+    font-size:12px;
+
 }
 
-/* MOBILE */
 
-@media(max-width:600px){
+/* =========================================================
+   DESKTOP
+========================================================= */
 
-    .hero h1{
-        font-size:25px;
+@media(min-width:800px){
+
+    .container{
+        padding-top:25px;
+    }
+
+    .hero{
+        padding:50px;
+    }
+
+    .features{
+        grid-template-columns:
+        repeat(3,1fr);
     }
 
     .product{
-        flex-basis:210px;
+        flex-basis:270px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:420px){
+
+    .features{
+        gap:7px;
+    }
+
+    .feature{
+        padding:11px 8px;
+    }
+
+    .feature-title{
+        font-size:10px;
+    }
+
+    .feature-text{
+        font-size:8px;
+    }
+
+    .product{
+        flex-basis:220px;
+    }
+
+    .hero{
+        min-height:290px;
     }
 
 }
@@ -753,24 +1991,34 @@ button{
 </style>
 </head>
 
+
 <body>
 
 
-<!-- HEADER -->
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
 <header class="header">
 
 <div class="header-inner">
 
 <div class="logo">
+
+<div>
+<span class="logo-icon">✦</span>
 سایت<span>‌ساز</span>
 </div>
 
+</div>
+
 <button
-class="login-btn"
 id="headerLogin"
+class="header-login"
 onclick="openAuth()">
+
 ورود / ثبت‌نام
+
 </button>
 
 </div>
@@ -778,35 +2026,140 @@ onclick="openAuth()">
 </header>
 
 
-<!-- MAIN -->
+
+<!-- =======================================================
+     CONTENT
+======================================================= -->
 
 <main class="container">
 
 
-<!-- HOME -->
+<!-- =======================================================
+     HOME
+======================================================= -->
 
 <section
 id="homePage"
 class="page active">
 
+
 <div class="hero">
 
+<div class="hero-content">
+
+<div class="hero-badge">
+● طراحی سایت حرفه‌ای
+</div>
+
 <h1>
-کسب‌وکارت رو حرفه‌ای آنلاین کن 🚀
+
+کسب‌وکارت رو
+<span>آنلاین کن</span> 🚀
+
 </h1>
 
 <p>
-طراحی سایت حرفه‌ای، سریع و مدرن برای فروشگاه،
-رستوران، کسب‌وکار و سایت شخصی.
+
+از فروشگاه اینترنتی تا سایت شخصی،
+رستوران، مکانیک سیار و انواع سایت‌های اختصاصی؛
+سایت حرفه‌ای خودت را سفارش بده.
+
 </p>
 
+<div class="hero-actions">
+
 <button
-class="hero-btn"
+class="hero-primary"
 onclick="scrollToProducts()">
+
 مشاهده سایت‌ها
+
+</button>
+
+<button
+class="hero-secondary"
+onclick="openAuth()">
+
+شروع رایگان
+
 </button>
 
 </div>
+
+</div>
+
+</div>
+
+
+
+<!-- FEATURES -->
+
+<div class="features">
+
+<div class="feature">
+
+<div class="feature-icon">⚡</div>
+
+<div class="feature-title">
+سریع و حرفه‌ای
+</div>
+
+<div class="feature-text">
+طراحی مدرن و سازگار با موبایل
+</div>
+
+</div>
+
+
+<div class="feature">
+
+<div class="feature-icon">🛡️</div>
+
+<div class="feature-title">
+پشتیبانی
+</div>
+
+<div class="feature-text">
+ارتباط مستقیم با تیم پشتیبانی
+</div>
+
+</div>
+
+
+<div class="feature">
+
+<div class="feature-icon">💎</div>
+
+<div class="feature-title">
+طراحی اختصاصی
+</div>
+
+<div class="feature-text">
+متناسب با نیاز کسب‌وکار شما
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="section-title">
+
+<div>
+
+<h2>
+سایت‌های آماده سفارش
+</h2>
+
+<p>
+دسته‌بندی موردنظرت را انتخاب کن
+</p>
+
+</div>
+
+</div>
+
 
 
 <div id="productsContainer">
@@ -817,10 +2170,14 @@ onclick="scrollToProducts()">
 
 </div>
 
+
 </section>
 
 
-<!-- CART -->
+
+<!-- =======================================================
+     CART
+======================================================= -->
 
 <section
 id="cartPage"
@@ -828,7 +2185,9 @@ class="page">
 
 <div class="panel">
 
-<h2>🛒 سبد خرید</h2>
+<div class="panel-title">
+🛒 سبد خرید
+</div>
 
 <div id="cartContainer"></div>
 
@@ -837,7 +2196,10 @@ class="page">
 </section>
 
 
-<!-- ORDERS -->
+
+<!-- =======================================================
+     ORDERS
+======================================================= -->
 
 <section
 id="ordersPage"
@@ -845,7 +2207,9 @@ class="page">
 
 <div class="panel">
 
-<h2>📦 سفارش‌های من</h2>
+<div class="panel-title">
+📦 سفارش‌های من
+</div>
 
 <div id="ordersContainer"></div>
 
@@ -854,43 +2218,92 @@ class="page">
 </section>
 
 
-<!-- SUPPORT -->
+
+<!-- =======================================================
+     SUPPORT
+======================================================= -->
 
 <section
 id="supportPage"
 class="page">
 
-<div class="panel">
+<div class="support-wrapper">
 
-<h2>💬 پشتیبانی</h2>
+
+<div class="support-header">
+
+<div class="support-avatar">
+
+💬
+
+<div class="online-dot"></div>
+
+</div>
+
+<div class="support-info">
+
+<strong>
+پشتیبانی سایت‌ساز
+</strong>
+
+<span>
+● آنلاین
+</span>
+
+</div>
+
+</div>
+
 
 <div
 id="chat"
 class="chat">
 
+<div class="chat-empty">
+
+<div class="chat-empty-icon">
+💬
 </div>
 
-<div class="chat-input">
+پیام خود را برای پشتیبانی ارسال کنید.
+
+<br>
+
+کارشناسان ما در ادامه سفارش شما را راهنمایی می‌کنند.
+
+</div>
+
+</div>
+
+
+<div class="chat-compose">
 
 <input
 id="supportInput"
-class="input"
-placeholder="پیام خود را بنویسید...">
+class="chat-input"
+placeholder="پیام خود را بنویسید..."
+autocomplete="off">
 
 <button
-class="add"
+class="chat-send"
 onclick="sendSupportMessage()">
-ارسال
+
+➤
+
 </button>
 
 </div>
+
 
 </div>
 
 </section>
 
 
-<!-- PROFILE -->
+
+<!-- =======================================================
+     PROFILE
+======================================================= -->
 
 <section
 id="profilePage"
@@ -898,7 +2311,9 @@ class="page">
 
 <div class="panel">
 
-<h2>👤 پروفایل</h2>
+<div class="panel-title">
+👤 پروفایل
+</div>
 
 <div id="profileContainer"></div>
 
@@ -910,19 +2325,28 @@ class="page">
 </main>
 
 
-<!-- BOTTOM NAV -->
+
+<!-- =======================================================
+     BOTTOM NAV
+======================================================= -->
 
 <nav class="bottom-nav">
 
 <div class="nav-inner">
+
 
 <button
 class="nav-item active"
 data-page="homePage"
 onclick="showPage('homePage',this)">
 
-<div class="nav-icon">⌂</div>
-<div>خانه</div>
+<div class="nav-icon">
+⌂
+</div>
+
+<div>
+خانه
+</div>
 
 </button>
 
@@ -933,15 +2357,20 @@ data-page="cartPage"
 onclick="showPage('cartPage',this)">
 
 <div class="nav-icon">
+
 🛒
+
 <span
 id="cartBadge"
 class="badge">
 0
 </span>
+
 </div>
 
-<div>سبد خرید</div>
+<div>
+سبد خرید
+</div>
 
 </button>
 
@@ -951,9 +2380,13 @@ class="nav-item"
 data-page="ordersPage"
 onclick="showPage('ordersPage',this)">
 
-<div class="nav-icon">📦</div>
+<div class="nav-icon">
+📦
+</div>
 
-<div>سفارش‌ها</div>
+<div>
+سفارش‌ها
+</div>
 
 </button>
 
@@ -963,9 +2396,13 @@ class="nav-item"
 data-page="supportPage"
 onclick="showPage('supportPage',this)">
 
-<div class="nav-icon">💬</div>
+<div class="nav-icon">
+💬
+</div>
 
-<div>پشتیبانی</div>
+<div>
+پشتیبانی
+</div>
 
 </button>
 
@@ -975,18 +2412,26 @@ class="nav-item"
 data-page="profilePage"
 onclick="showPage('profilePage',this)">
 
-<div class="nav-icon">👤</div>
+<div class="nav-icon">
+👤
+</div>
 
-<div>پروفایل</div>
+<div>
+پروفایل
+</div>
 
 </button>
+
 
 </div>
 
 </nav>
 
 
-<!-- AUTH MODAL -->
+
+<!-- =======================================================
+     AUTH MODAL
+======================================================= -->
 
 <div
 id="authModal"
@@ -994,39 +2439,44 @@ class="modal">
 
 <div class="modal-box">
 
+
 <div class="modal-head">
 
-<strong>
-ثبت‌نام / ورود
-</strong>
+<div class="modal-title">
+ورود / ثبت‌نام
+</div>
 
 <button
-class="close"
+class="close-btn"
 onclick="closeAuth()">
+
 ×
+
 </button>
 
 </div>
 
 
-<div class="steps">
+
+<div class="step-lines">
 
 <div
-class="step active"
-id="stepLine1">
-</div>
-
-<div
-class="step"
-id="stepLine2">
+id="line1"
+class="step-line active">
 </div>
 
 <div
-class="step"
-id="stepLine3">
+id="line2"
+class="step-line">
+</div>
+
+<div
+id="line3"
+class="step-line">
 </div>
 
 </div>
+
 
 
 <!-- STEP 1 -->
@@ -1039,24 +2489,38 @@ class="form-step active">
 تأیید ایمیل ✉️
 </div>
 
-<div class="form-desc">
-ایمیل خود را وارد کنید تا کد تأیید برایتان ارسال شود.
+<div class="form-description">
+
+ایمیل خود را وارد کنید.
+یک کد ۶ رقمی برای تأیید حساب شما ارسال می‌شود.
+
 </div>
+
+<div class="input-group">
+
+<label class="input-label">
+ایمیل
+</label>
 
 <input
 id="emailInput"
-type="email"
 class="input"
+type="email"
 placeholder="example@gmail.com"
 autocomplete="email">
 
+</div>
+
 <button
-class="primary"
+class="primary-button"
 onclick="sendOTP()">
+
 ارسال کد تأیید
+
 </button>
 
 </div>
+
 
 
 <!-- STEP 2 -->
@@ -1066,35 +2530,51 @@ id="step2"
 class="form-step">
 
 <div class="form-title">
-کد تأیید ایمیل 🔐
+کد تأیید 🔐
 </div>
 
 <div
-class="form-desc"
-id="otpDescription">
-کد ارسال شده به ایمیل را وارد کنید.
+id="otpDescription"
+class="form-description">
+
+کد ارسال‌شده به ایمیل را وارد کنید.
+
 </div>
+
+<div class="input-group">
+
+<label class="input-label">
+کد ۶ رقمی
+</label>
 
 <input
 id="otpInput"
 class="input"
 inputmode="numeric"
 maxlength="6"
-placeholder="123456">
+placeholder="123456"
+autocomplete="one-time-code">
+
+</div>
 
 <button
-class="primary"
+class="primary-button"
 onclick="verifyOTP()">
+
 تأیید ایمیل
+
 </button>
 
 <button
-class="secondary"
+class="secondary-button"
 onclick="sendOTP()">
+
 ارسال مجدد کد
+
 </button>
 
 </div>
+
 
 
 <!-- STEP 3 -->
@@ -1107,30 +2587,62 @@ class="form-step">
 اطلاعات مهم 👤
 </div>
 
-<div class="form-desc">
-برای تکمیل حساب، اطلاعات زیر را وارد کنید.
+<div class="form-description">
+
+پس از تأیید ایمیل، اطلاعات زیر را برای تکمیل حساب وارد کنید.
+
 </div>
+
+
+<div class="input-group">
+
+<label class="input-label">
+نام و نام خانوادگی
+</label>
 
 <input
 id="fullName"
 class="input"
-placeholder="نام و نام خانوادگی">
+placeholder="مثلاً اهورا احمدی">
+
+</div>
+
+
+<div class="input-group">
+
+<label class="input-label">
+کد ملی
+</label>
 
 <input
 id="nationalId"
 class="input"
 inputmode="numeric"
 maxlength="10"
-placeholder="کد ملی">
+placeholder="۱۰ رقم کد ملی">
+
+</div>
+
+
+<div class="input-group">
+
+<label class="input-label">
+تاریخ تولد
+</label>
 
 <input
 id="birthDate"
 class="input"
-placeholder="تاریخ تولد - مثال: 1383/05/20">
+placeholder="مثال: ۱۳۸۳/۰۵/۲۰">
 
-<div class="file-box">
+</div>
+
+
+<div class="file-area">
 
 🪪 تصویر کارت ملی
+
+<br>
 
 <input
 id="nationalCard"
@@ -1139,13 +2651,17 @@ accept="image/jpeg,image/png,image/webp">
 
 </div>
 
+
 <button
-class="primary"
+class="primary-button"
 onclick="completeRegistration()">
+
 تکمیل ثبت‌نام
+
 </button>
 
 </div>
+
 
 
 <!-- SUCCESS -->
@@ -1154,26 +2670,31 @@ onclick="completeRegistration()">
 id="successStep"
 class="form-step">
 
-<div class="success">
+<div class="success-screen">
 
 <div class="success-icon">
 ✓
 </div>
 
 <h2>
-ثبت‌نام موفق بود
+ثبت‌نام موفق شد
 </h2>
 
-<p
-class="form-desc">
-حساب شما با موفقیت ساخته شد.
-اکنون می‌توانید خرید خود را انجام دهید.
-</p>
+<div
+class="form-description"
+style="margin-top:10px">
+
+حساب شما با موفقیت تکمیل شد.
+اکنون می‌توانید سفارش خود را ثبت کنید.
+
+</div>
 
 <button
-class="primary"
+class="primary-button"
 onclick="closeAuth()">
-شروع کار
+
+ادامه
+
 </button>
 
 </div>
@@ -1186,11 +2707,12 @@ onclick="closeAuth()">
 </div>
 
 
+
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+/* =========================================================
+   SUPABASE CONFIG
+========================================================= */
 
 const SUPABASE_URL =
 "https://ztgvivrydvvflnfkcdyw.supabase.co";
@@ -1205,9 +2727,9 @@ supabase.createClient(
 );
 
 
-/* =====================================================
-   GLOBAL
-===================================================== */
+/* =========================================================
+   STATE
+========================================================= */
 
 let currentUser = null;
 
@@ -1216,13 +2738,13 @@ let products = [];
 let cart = [];
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================================================
+   INIT
+========================================================= */
 
 document.addEventListener(
 "DOMContentLoaded",
-async () => {
+async function(){
 
     await loadProducts();
 
@@ -1239,12 +2761,12 @@ async () => {
 });
 
 
-/* =====================================================
+/* =========================================================
    AUTH STATE
-===================================================== */
+========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
-async (event,session) => {
+async function(event,session){
 
     currentUser =
         session?.user || null;
@@ -1266,9 +2788,9 @@ async (event,session) => {
 });
 
 
-/* =====================================================
-   CHECK USER
-===================================================== */
+/* =========================================================
+   USER
+========================================================= */
 
 async function checkUser(){
 
@@ -1287,27 +2809,29 @@ async function checkUser(){
 }
 
 
-/* =====================================================
-   HEADER
-===================================================== */
-
 function updateHeader(){
 
     const btn =
-        document.getElementById("headerLogin");
+        document.getElementById(
+            "headerLogin"
+        );
 
     if(currentUser){
 
         btn.textContent =
-            "حساب کاربری";
+            "پروفایل";
 
         btn.onclick =
-            () => showPage(
-                "profilePage",
-                document.querySelector(
-                    '[data-page="profilePage"]'
-                )
-            );
+            function(){
+
+                showPage(
+                    "profilePage",
+                    document.querySelector(
+                        '[data-page="profilePage"]'
+                    )
+                );
+
+            };
 
     }else{
 
@@ -1322,31 +2846,37 @@ function updateHeader(){
 }
 
 
-/* =====================================================
-   SEND OTP
-===================================================== */
+/* =========================================================
+   OTP
+========================================================= */
 
 async function sendOTP(){
 
     const email =
         document
-        .getElementById("emailInput")
+        .getElementById(
+            "emailInput"
+        )
         .value
         .trim()
         .toLowerCase();
+
 
     if(!email){
 
         alert("ایمیل را وارد کنید.");
 
         return;
+
     }
+
 
     if(!email.includes("@")){
 
         alert("ایمیل معتبر نیست.");
 
         return;
+
     }
 
 
@@ -1357,12 +2887,10 @@ async function sendOTP(){
     .auth
     .signInWithOtp({
 
-        email:email,
+        email,
 
         options:{
-
             shouldCreateUser:true
-
         }
 
     });
@@ -1376,11 +2904,14 @@ async function sendOTP(){
         );
 
         return;
+
     }
 
 
     document
-    .getElementById("otpDescription")
+    .getElementById(
+        "otpDescription"
+    )
     .textContent =
         "کد ۶ رقمی به "
         + email
@@ -1389,39 +2920,42 @@ async function sendOTP(){
 
     setStep(2);
 
-
-    alert(
-        "کد تأیید به ایمیل شما ارسال شد."
-    );
-
 }
 
 
-/* =====================================================
-   VERIFY OTP
-===================================================== */
+/* =========================================================
+   VERIFY
+========================================================= */
 
 async function verifyOTP(){
 
     const email =
         document
-        .getElementById("emailInput")
+        .getElementById(
+            "emailInput"
+        )
         .value
         .trim()
         .toLowerCase();
 
+
     const token =
         document
-        .getElementById("otpInput")
+        .getElementById(
+            "otpInput"
+        )
         .value
         .trim();
 
 
-    if(token.length !== 6){
+    if(!/^\d{6}$/.test(token)){
 
-        alert("کد ۶ رقمی را وارد کنید.");
+        alert(
+            "کد باید ۶ رقم باشد."
+        );
 
         return;
+
     }
 
 
@@ -1433,9 +2967,9 @@ async function verifyOTP(){
     .auth
     .verifyOtp({
 
-        email:email,
+        email,
 
-        token:token,
+        token,
 
         type:"email"
 
@@ -1445,11 +2979,12 @@ async function verifyOTP(){
     if(error){
 
         alert(
-            "کد صحیح نیست یا منقضی شده است:\n"
+            "تأیید کد انجام نشد:\n"
             + error.message
         );
 
         return;
+
     }
 
 
@@ -1462,56 +2997,73 @@ async function verifyOTP(){
 }
 
 
-/* =====================================================
+/* =========================================================
    COMPLETE REGISTRATION
-===================================================== */
+========================================================= */
 
 async function completeRegistration(){
 
     if(!currentUser){
 
         alert(
-            "ابتدا ایمیل خود را تأیید کنید."
+            "ابتدا ایمیل را تأیید کنید."
         );
 
         setStep(1);
 
         return;
+
     }
 
 
     const fullName =
         document
-        .getElementById("fullName")
+        .getElementById(
+            "fullName"
+        )
         .value
         .trim();
 
 
     const nationalId =
         document
-        .getElementById("nationalId")
+        .getElementById(
+            "nationalId"
+        )
         .value
-        .trim();
+        .trim()
+        .replace(/[۰-۹]/g,
+            function(d){
+                return "۰۱۲۳۴۵۶۷۸۹"
+                    .indexOf(d);
+            });
 
 
     const birthDate =
         document
-        .getElementById("birthDate")
+        .getElementById(
+            "birthDate"
+        )
         .value
         .trim();
 
 
     const file =
         document
-        .getElementById("nationalCard")
+        .getElementById(
+            "nationalCard"
+        )
         .files[0];
 
 
     if(!fullName){
 
-        alert("نام و نام خانوادگی را وارد کنید.");
+        alert(
+            "نام و نام خانوادگی را وارد کنید."
+        );
 
         return;
+
     }
 
 
@@ -1522,14 +3074,18 @@ async function completeRegistration(){
         );
 
         return;
+
     }
 
 
     if(!birthDate){
 
-        alert("تاریخ تولد را وارد کنید.");
+        alert(
+            "تاریخ تولد را وارد کنید."
+        );
 
         return;
+
     }
 
 
@@ -1540,23 +3096,25 @@ async function completeRegistration(){
         );
 
         return;
+
     }
 
 
-    const allowedTypes = [
+    const allowed = [
         "image/jpeg",
         "image/png",
         "image/webp"
     ];
 
 
-    if(!allowedTypes.includes(file.type)){
+    if(!allowed.includes(file.type)){
 
         alert(
-            "فرمت کارت ملی باید JPG، PNG یا WEBP باشد."
+            "فرمت تصویر باید JPG، PNG یا WEBP باشد."
         );
 
         return;
+
     }
 
 
@@ -1567,15 +3125,12 @@ async function completeRegistration(){
         );
 
         return;
+
     }
 
 
     try{
 
-
-        /* -----------------------------------------
-           UPLOAD CARD
-        ----------------------------------------- */
 
         const extension =
             file.name
@@ -1586,8 +3141,10 @@ async function completeRegistration(){
 
         const filePath =
             currentUser.id
-            + "/national-card."
-            + extension;
+            +
+            "/national-card."
+            +
+            extension;
 
 
         const {
@@ -1612,10 +3169,6 @@ async function completeRegistration(){
 
         }
 
-
-        /* -----------------------------------------
-           SAVE PROFILE
-        ----------------------------------------- */
 
         const {
             error:profileError
@@ -1648,6 +3201,7 @@ async function completeRegistration(){
 
         setStep(4);
 
+
         await loadProfile();
 
 
@@ -1656,7 +3210,7 @@ async function completeRegistration(){
         console.error(error);
 
         alert(
-            "خطا در تکمیل ثبت‌نام:\n"
+            "خطا در ثبت اطلاعات:\n"
             + error.message
         );
 
@@ -1665,49 +3219,57 @@ async function completeRegistration(){
 }
 
 
-/* =====================================================
-   STEP
-===================================================== */
+/* =========================================================
+   STEPS
+========================================================= */
 
-function setStep(number){
+function setStep(step){
 
     document
     .querySelectorAll(".form-step")
     .forEach(
-        x => x.classList.remove("active")
+        x =>
+        x.classList.remove("active")
     );
 
 
-    if(number === 4){
+    if(step === 4){
 
         document
-        .getElementById("successStep")
+        .getElementById(
+            "successStep"
+        )
         .classList.add("active");
 
     }else{
 
         document
-        .getElementById("step"+number)
+        .getElementById(
+            "step"+step
+        )
         .classList.add("active");
 
     }
 
 
     document
-    .querySelectorAll(".step")
+    .querySelectorAll(".step-line")
     .forEach(
-        x => x.classList.remove("active")
+        x =>
+        x.classList.remove("active")
     );
 
 
     for(
         let i=1;
-        i<=Math.min(number,3);
+        i<=Math.min(step,3);
         i++
     ){
 
         document
-        .getElementById("stepLine"+i)
+        .getElementById(
+            "line"+i
+        )
         .classList.add("active");
 
     }
@@ -1715,9 +3277,9 @@ function setStep(number){
 }
 
 
-/* =====================================================
+/* =========================================================
    AUTH MODAL
-===================================================== */
+========================================================= */
 
 function openAuth(){
 
@@ -1731,11 +3293,14 @@ function openAuth(){
         );
 
         return;
+
     }
 
 
     document
-    .getElementById("authModal")
+    .getElementById(
+        "authModal"
+    )
     .classList.add("show");
 
 }
@@ -1744,15 +3309,17 @@ function openAuth(){
 function closeAuth(){
 
     document
-    .getElementById("authModal")
+    .getElementById(
+        "authModal"
+    )
     .classList.remove("show");
 
 }
 
 
-/* =====================================================
+/* =========================================================
    PRODUCTS
-===================================================== */
+========================================================= */
 
 async function loadProducts(){
 
@@ -1763,14 +3330,30 @@ async function loadProducts(){
     await supabaseClient
     .from("products")
     .select("*")
-    .order("created_at");
+    .order(
+        "created_at",
+        {
+            ascending:true
+        }
+    );
 
 
     if(error){
 
         console.error(error);
 
+        document
+        .getElementById(
+            "productsContainer"
+        )
+        .innerHTML = `
+            <div class="empty">
+                خطا در دریافت محصولات.
+            </div>
+        `;
+
         return;
+
     }
 
 
@@ -1786,20 +3369,22 @@ async function loadProducts(){
 function renderProducts(){
 
     const container =
-        document
-        .getElementById(
+        document.getElementById(
             "productsContainer"
         );
 
 
     if(!products.length){
 
-        container.innerHTML =
-            `<div class="empty">
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📦</div>
                 محصولی موجود نیست.
-             </div>`;
+            </div>
+        `;
 
         return;
+
     }
 
 
@@ -1809,14 +3394,22 @@ function renderProducts(){
     products.forEach(
         product => {
 
-            if(!groups[product.category]){
+            if(
+                !groups[
+                    product.category
+                ]
+            ){
 
-                groups[product.category] = [];
+                groups[
+                    product.category
+                ] = [];
 
             }
 
-            groups[product.category]
-            .push(product);
+
+            groups[
+                product.category
+            ].push(product);
 
         }
     );
@@ -1831,7 +3424,10 @@ function renderProducts(){
 
 
             const section =
-                document.createElement("div");
+                document.createElement(
+                    "section"
+                );
+
 
             section.className =
                 "category";
@@ -1839,13 +3435,15 @@ function renderProducts(){
 
             section.innerHTML = `
 
-                <div class="category-head">
+                <div class="category-top">
 
-                    <h2>${escapeHtml(category)}</h2>
+                    <div class="category-name">
+                        ${escapeHtml(category)}
+                    </div>
 
-                    <span>
-                        ${list.length} سایت
-                    </span>
+                    <div class="category-count">
+                        ${list.length} مدل
+                    </div>
 
                 </div>
 
@@ -1854,7 +3452,7 @@ function renderProducts(){
             `;
 
 
-            const productsBox =
+            const productBox =
                 section.querySelector(
                     ".products"
                 );
@@ -1865,8 +3463,9 @@ function renderProducts(){
 
                     const card =
                         document.createElement(
-                            "div"
+                            "article"
                         );
+
 
                     card.className =
                         "product";
@@ -1874,36 +3473,70 @@ function renderProducts(){
 
                     card.innerHTML = `
 
-                        <img
-                            src="${escapeAttr(product.image || '')}"
-                            onerror="this.style.display='none'"
-                        >
+                        <div class="product-image">
+
+                            <img
+                                src="${escapeAttr(product.image || "")}"
+                                alt="${escapeAttr(product.name)}"
+                                loading="lazy"
+                                onerror="
+                                    this.style.display='none';
+                                "
+                            >
+
+                            <div
+                                class="product-overlay">
+                            </div>
+
+                        </div>
+
 
                         <div class="product-body">
 
                             <div class="product-name">
-                                ${escapeHtml(product.name)}
+
+                                ${escapeHtml(
+                                    product.name
+                                )}
+
                             </div>
 
-                            <div class="product-bottom">
+                            <div class="product-meta">
 
-                                <div class="price">
-                                    ${formatPrice(product.price)}
+                                طراحی حرفه‌ای و ریسپانسیو
+
+                            </div>
+
+
+                            <div class="product-footer">
+
+                                <div class="product-price">
+
+                                    ${formatPrice(
+                                        product.price
+                                    )}
+
                                 </div>
 
+
                                 <button
-                                    class="add"
-                                    onclick="addToCart('${product.id}')">
-                                    افزودن
+                                    class="add-btn"
+                                    onclick="
+                                    addToCart('${product.id}')
+                                    ">
+
+                                    + افزودن
+
                                 </button>
 
                             </div>
 
                         </div>
+
                     `;
 
 
-                    productsBox.appendChild(card);
+                    productBox.appendChild(card);
 
                 }
             );
@@ -1917,9 +3550,9 @@ function renderProducts(){
 }
 
 
-/* =====================================================
+/* =========================================================
    CART
-===================================================== */
+========================================================= */
 
 async function loadCart(){
 
@@ -1930,6 +3563,7 @@ async function loadCart(){
         renderCart();
 
         return;
+
     }
 
 
@@ -1943,7 +3577,7 @@ async function loadCart(){
         id,
         quantity,
         product_id,
-        products (
+        products(
             id,
             name,
             price,
@@ -1961,6 +3595,7 @@ async function loadCart(){
         console.error(error);
 
         return;
+
     }
 
 
@@ -1980,12 +3615,14 @@ async function addToCart(productId){
         openAuth();
 
         return;
+
     }
 
 
     const existing =
         cart.find(
-            x => x.product_id === productId
+            item =>
+            item.product_id === productId
         );
 
 
@@ -1997,8 +3634,10 @@ async function addToCart(productId){
         await supabaseClient
         .from("cart_items")
         .update({
+
             quantity:
                 existing.quantity + 1
+
         })
         .eq(
             "id",
@@ -2011,6 +3650,7 @@ async function addToCart(productId){
             alert(error.message);
 
             return;
+
         }
 
     }else{
@@ -2022,9 +3662,11 @@ async function addToCart(productId){
         .from("cart_items")
         .insert({
 
-            user_id:currentUser.id,
+            user_id:
+                currentUser.id,
 
-            product_id:productId,
+            product_id:
+                productId,
 
             quantity:1
 
@@ -2036,12 +3678,14 @@ async function addToCart(productId){
             alert(error.message);
 
             return;
+
         }
 
     }
 
 
     await loadCart();
+
 
     showPage(
         "cartPage",
@@ -2053,14 +3697,20 @@ async function addToCart(productId){
 }
 
 
-async function changeQty(id,quantity){
+async function changeQty(
+    id,
+    quantity
+){
 
     if(quantity <= 0){
 
         await supabaseClient
         .from("cart_items")
         .delete()
-        .eq("id",id);
+        .eq(
+            "id",
+            id
+        );
 
     }else{
 
@@ -2069,7 +3719,10 @@ async function changeQty(id,quantity){
         .update({
             quantity
         })
-        .eq("id",id);
+        .eq(
+            "id",
+            id
+        );
 
     }
 
@@ -2082,32 +3735,31 @@ async function changeQty(id,quantity){
 function renderCart(){
 
     const box =
-        document
-        .getElementById(
+        document.getElementById(
             "cartContainer"
         );
 
 
     const badge =
-        document
-        .getElementById(
+        document.getElementById(
             "cartBadge"
         );
 
 
-    const totalItems =
+    const itemCount =
         cart.reduce(
             (sum,item) =>
-                sum + item.quantity,
+            sum + item.quantity,
             0
         );
 
 
     badge.textContent =
-        totalItems;
+        itemCount;
+
 
     badge.style.display =
-        totalItems
+        itemCount
         ? "flex"
         : "none";
 
@@ -2115,48 +3767,71 @@ function renderCart(){
     if(!currentUser){
 
         box.innerHTML = `
+
             <div class="empty">
-                برای مشاهده سبد خرید ابتدا
-                وارد حساب شوید.
+
+                <div class="empty-icon">
+                    🔐
+                </div>
+
+                برای مشاهده سبد خرید
+                ابتدا وارد حساب شوید.
+
                 <br><br>
+
                 <button
-                    class="add"
+                    class="add-btn"
                     onclick="openAuth()">
+
                     ورود / ثبت‌نام
+
                 </button>
+
             </div>
+
         `;
 
         return;
+
     }
 
 
     if(!cart.length){
 
-        box.innerHTML =
-            `<div class="empty">
-                🛒 سبد خرید خالی است.
-             </div>`;
+        box.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                سبد خرید شما خالی است.
+
+            </div>
+
+        `;
 
         return;
+
     }
 
 
-    let total = 0;
+    let total=0;
 
 
-    box.innerHTML = "";
+    box.innerHTML="";
 
 
     cart.forEach(
         item => {
 
-            const product =
+            const p =
                 item.products;
 
 
             const subtotal =
-                product.price *
+                p.price *
                 item.quantity;
 
 
@@ -2164,7 +3839,10 @@ function renderCart(){
 
 
             const div =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             div.className =
                 "cart-item";
@@ -2174,24 +3852,39 @@ function renderCart(){
 
                 <div class="cart-info">
 
-                    <strong>
-                        ${escapeHtml(product.name)}
-                    </strong>
+                    <div class="cart-name">
 
-                    <span class="cart-price">
+                        ${escapeHtml(p.name)}
+
+                    </div>
+
+                    <div class="cart-sub">
+
+                        ${formatPrice(p.price)}
+                        × ${item.quantity}
+
+                    </div>
+
+                    <div class="cart-price">
+
                         ${formatPrice(subtotal)}
-                    </span>
+
+                    </div>
 
                 </div>
+
 
                 <div class="qty">
 
                     <button
-                        onclick="changeQty(
+                        onclick="
+                        changeQty(
                             '${item.id}',
                             ${item.quantity-1}
                         )">
+
                         −
+
                     </button>
 
                     <span>
@@ -2199,11 +3892,14 @@ function renderCart(){
                     </span>
 
                     <button
-                        onclick="changeQty(
+                        onclick="
+                        changeQty(
                             '${item.id}',
                             ${item.quantity+1}
                         )">
+
                         +
+
                     </button>
 
                 </div>
@@ -2218,34 +3914,34 @@ function renderCart(){
 
 
     const totalBox =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
+
+    totalBox.className =
+        "total-box";
 
 
     totalBox.innerHTML = `
 
-        <div
-            style="
-            margin-top:18px;
-            padding-top:18px;
-            border-top:1px solid var(--border);
-            ">
+        <div class="total-row">
 
-            <strong>
-                مبلغ کل:
-            </strong>
+            <span>
+                مبلغ کل
+            </span>
 
-            <strong
-                style="
-                float:left;
-                color:#8b7cff;
-                ">
+            <span class="total-value">
+
                 ${formatPrice(total)}
-            </strong>
+
+            </span>
 
         </div>
 
+
         <button
-            class="primary"
+            class="main-button"
             onclick="createOrder()">
 
             ثبت سفارش و ارتباط با پشتیبانی
@@ -2260,9 +3956,9 @@ function renderCart(){
 }
 
 
-/* =====================================================
+/* =========================================================
    ORDER
-===================================================== */
+========================================================= */
 
 async function createOrder(){
 
@@ -2271,23 +3967,27 @@ async function createOrder(){
         openAuth();
 
         return;
+
     }
 
 
     if(!cart.length){
 
-        alert("سبد خرید خالی است.");
+        alert(
+            "سبد خرید خالی است."
+        );
 
         return;
+
     }
 
 
     const total =
         cart.reduce(
             (sum,item) =>
-                sum +
-                item.products.price *
-                item.quantity,
+            sum +
+            item.products.price *
+            item.quantity,
             0
         );
 
@@ -2300,11 +4000,14 @@ async function createOrder(){
     .from("orders")
     .insert({
 
-        user_id:currentUser.id,
+        user_id:
+            currentUser.id,
 
-        total_price:total,
+        total_price:
+            total,
 
-        status:"pending"
+        status:
+            "pending"
 
     })
     .select()
@@ -2319,6 +4022,7 @@ async function createOrder(){
         );
 
         return;
+
     }
 
 
@@ -2326,15 +4030,20 @@ async function createOrder(){
         cart.map(
             item => ({
 
-                order_id:order.id,
+                order_id:
+                    order.id,
 
-                product_id:item.products.id,
+                product_id:
+                    item.products.id,
 
-                product_name:item.products.name,
+                product_name:
+                    item.products.name,
 
-                price:item.products.price,
+                price:
+                    item.products.price,
 
-                quantity:item.quantity
+                quantity:
+                    item.quantity
 
             })
         );
@@ -2345,17 +4054,20 @@ async function createOrder(){
     } =
     await supabaseClient
     .from("order_items")
-    .insert(orderItems);
+    .insert(
+        orderItems
+    );
 
 
     if(itemError){
 
         alert(
-            "خطا در ثبت محصولات سفارش:\n"
+            "خطا در ذخیره محصولات سفارش:\n"
             + itemError.message
         );
 
         return;
+
     }
 
 
@@ -2372,14 +4084,15 @@ async function createOrder(){
     .from("support_messages")
     .insert({
 
-        user_id:currentUser.id,
+        user_id:
+            currentUser.id,
 
         message:
-            "سلام، سفارش جدید من با شماره "
-            + order.id
-            + " ثبت شد. لطفاً برای ادامه خرید با من تماس بگیرید.",
+            "سلام، سفارش جدید من ثبت شد. شماره سفارش: "
+            + order.id,
 
-        sender:"user"
+        sender:
+            "user"
 
     });
 
@@ -2392,7 +4105,7 @@ async function createOrder(){
 
 
     alert(
-        "سفارش با موفقیت ثبت شد. ✅"
+        "سفارش شما با موفقیت ثبت شد. ✅"
     );
 
 
@@ -2406,27 +4119,37 @@ async function createOrder(){
 }
 
 
-/* =====================================================
+/* =========================================================
    ORDERS
-===================================================== */
+========================================================= */
 
 async function loadOrders(){
 
     const box =
-        document
-        .getElementById(
+        document.getElementById(
             "ordersContainer"
         );
 
 
     if(!currentUser){
 
-        box.innerHTML =
-            `<div class="empty">
-                برای مشاهده سفارش‌ها وارد شوید.
-             </div>`;
+        box.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🔐
+                </div>
+
+                برای مشاهده سفارش‌ها
+                وارد حساب شوید.
+
+            </div>
+
+        `;
 
         return;
+
     }
 
 
@@ -2438,7 +4161,7 @@ async function loadOrders(){
     .from("orders")
     .select(`
         *,
-        order_items (
+        order_items(
             product_name,
             price,
             quantity
@@ -2461,75 +4184,123 @@ async function loadOrders(){
         console.error(error);
 
         return;
+
     }
 
 
     if(!data?.length){
 
-        box.innerHTML =
-            `<div class="empty">
+        box.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
                 هنوز سفارشی ثبت نکرده‌اید.
-             </div>`;
+
+            </div>
+
+        `;
 
         return;
+
     }
 
 
-    box.innerHTML = "";
+    box.innerHTML="";
 
 
     data.forEach(
         order => {
 
             const div =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             div.className =
-                "order";
+                "order-card";
 
 
             const items =
                 order.order_items
                 ?.map(
-                    x =>
-                    `${escapeHtml(x.product_name)}
-                    × ${x.quantity}`
+                    item =>
+                    escapeHtml(
+                        item.product_name
+                    )
+                    +
+                    " × "
+                    +
+                    item.quantity
                 )
                 .join("<br>")
-                || "";
+                || "-";
 
 
             div.innerHTML = `
 
-                <strong>
-                    سفارش
-                </strong>
+                <div class="order-head">
+
+                    <div class="order-number">
+
+                        سفارش
+
+                    </div>
+
+                    <div class="order-date">
+
+                        ${formatDate(
+                            order.created_at
+                        )}
+
+                    </div>
+
+                </div>
+
 
                 <div
                     style="
-                    color:#8f9aad;
-                    font-size:11px;
-                    margin-top:5px;
+                    margin-top:6px;
+                    color:#737e92;
+                    font-size:8px;
+                    word-break:break-all;
                     ">
+
                     ${order.id}
+
                 </div>
 
-                <div style="margin-top:12px;">
+
+                <div class="order-items">
+
                     ${items}
+
                 </div>
 
-                <div
-                    style="
-                    margin-top:12px;
-                    color:#8b7cff;
-                    font-weight:bold;
-                    ">
-                    ${formatPrice(order.total_price)}
-                </div>
 
-                <span class="status">
-                    ${orderStatus(order.status)}
-                </span>
+                <div class="order-bottom">
+
+                    <div class="order-total">
+
+                        ${formatPrice(
+                            order.total_price
+                        )}
+
+                    </div>
+
+                    <span class="status">
+
+                        ${orderStatus(
+                            order.status
+                        )}
+
+                    </span>
+
+                </div>
 
             `;
 
@@ -2542,15 +4313,14 @@ async function loadOrders(){
 }
 
 
-/* =====================================================
+/* =========================================================
    PROFILE
-===================================================== */
+========================================================= */
 
 async function loadProfile(){
 
     const box =
-        document
-        .getElementById(
+        document.getElementById(
             "profileContainer"
         );
 
@@ -2561,13 +4331,17 @@ async function loadProfile(){
 
             <div class="empty">
 
+                <div class="empty-icon">
+                    👤
+                </div>
+
                 برای مشاهده پروفایل
                 وارد حساب شوید.
 
                 <br><br>
 
                 <button
-                    class="add"
+                    class="add-btn"
                     onclick="openAuth()">
 
                     ورود / ثبت‌نام
@@ -2579,6 +4353,7 @@ async function loadProfile(){
         `;
 
         return;
+
     }
 
 
@@ -2601,10 +4376,43 @@ async function loadProfile(){
         console.error(error);
 
         return;
+
     }
 
 
     box.innerHTML = `
+
+        <div class="profile-top">
+
+            <div class="profile-avatar">
+                👤
+            </div>
+
+            <div>
+
+                <div class="profile-name">
+
+                    ${escapeHtml(
+                        data?.full_name
+                        ||
+                        "کاربر سایت‌ساز"
+                    )}
+
+                </div>
+
+                <div class="profile-email">
+
+                    ${escapeHtml(
+                        currentUser.email
+                        || "-"
+                    )}
+
+                </div>
+
+            </div>
+
+        </div>
+
 
         <div class="profile-row">
 
@@ -2612,9 +4420,14 @@ async function loadProfile(){
                 ایمیل
             </div>
 
-            ${escapeHtml(
-                currentUser.email || "-"
-            )}
+            <div class="profile-value">
+
+                ${escapeHtml(
+                    currentUser.email
+                    || "-"
+                )}
+
+            </div>
 
         </div>
 
@@ -2625,9 +4438,15 @@ async function loadProfile(){
                 نام و نام خانوادگی
             </div>
 
-            ${escapeHtml(
-                data?.full_name || "تکمیل نشده"
-            )}
+            <div class="profile-value">
+
+                ${escapeHtml(
+                    data?.full_name
+                    ||
+                    "تکمیل نشده"
+                )}
+
+            </div>
 
         </div>
 
@@ -2638,9 +4457,15 @@ async function loadProfile(){
                 کد ملی
             </div>
 
-            ${escapeHtml(
-                data?.national_id || "تکمیل نشده"
-            )}
+            <div class="profile-value">
+
+                ${escapeHtml(
+                    data?.national_id
+                    ||
+                    "تکمیل نشده"
+                )}
+
+            </div>
 
         </div>
 
@@ -2651,15 +4476,21 @@ async function loadProfile(){
                 تاریخ تولد
             </div>
 
-            ${escapeHtml(
-                data?.birth_date || "تکمیل نشده"
-            )}
+            <div class="profile-value">
+
+                ${escapeHtml(
+                    data?.birth_date
+                    ||
+                    "تکمیل نشده"
+                )}
+
+            </div>
 
         </div>
 
 
         <button
-            class="secondary"
+            class="main-button"
             onclick="logout()">
 
             خروج از حساب
@@ -2671,26 +4502,37 @@ async function loadProfile(){
 }
 
 
-/* =====================================================
+/* =========================================================
    SUPPORT
-===================================================== */
+========================================================= */
 
 async function loadSupport(){
 
     const chat =
-        document
-        .getElementById("chat");
+        document.getElementById(
+            "chat"
+        );
 
 
     if(!currentUser){
 
-        chat.innerHTML =
-            `<div class="empty">
+        chat.innerHTML = `
+
+            <div class="chat-empty">
+
+                <div class="chat-empty-icon">
+                    🔐
+                </div>
+
                 برای استفاده از پشتیبانی
-                ابتدا وارد شوید.
-             </div>`;
+                ابتدا وارد حساب شوید.
+
+            </div>
+
+        `;
 
         return;
+
     }
 
 
@@ -2718,33 +4560,64 @@ async function loadSupport(){
         console.error(error);
 
         return;
+
     }
 
 
-    chat.innerHTML = "";
+    chat.innerHTML="";
 
 
     if(!data?.length){
 
         chat.innerHTML = `
-            <div class="empty">
-                هنوز پیامی ندارید.
+
+            <div class="chat-empty">
+
+                <div class="chat-empty-icon">
+                    💬
+                </div>
+
+                سلام 👋
+
                 <br>
+
                 پیام خود را برای پشتیبانی ارسال کنید.
+
             </div>
+
         `;
 
         return;
+
     }
 
 
     data.forEach(
         message => {
 
-            const div =
-                document.createElement("div");
+            const row =
+                document.createElement(
+                    "div"
+                );
 
-            div.className =
+
+            row.className =
+                "message-row "
+                +
+                (
+                    message.sender === "user"
+                    ? "user"
+                    : "support"
+                );
+
+
+            const bubble =
+                document.createElement(
+                    "div"
+                );
+
+
+            bubble.className =
                 "message "
                 +
                 (
@@ -2754,11 +4627,18 @@ async function loadSupport(){
                 );
 
 
-            div.textContent =
+            bubble.textContent =
                 message.message;
 
 
-            chat.appendChild(div);
+            row.appendChild(
+                bubble
+            );
+
+
+            chat.appendChild(
+                row
+            );
 
         }
     );
@@ -2777,12 +4657,12 @@ async function sendSupportMessage(){
         openAuth();
 
         return;
+
     }
 
 
     const input =
-        document
-        .getElementById(
+        document.getElementById(
             "supportInput"
         );
 
@@ -2794,6 +4674,7 @@ async function sendSupportMessage(){
     if(!message){
 
         return;
+
     }
 
 
@@ -2804,13 +4685,72 @@ async function sendSupportMessage(){
     .from("support_messages")
     .insert({
 
-        user_id:currentUser.id,
+        user_id:
+            currentUser.id,
 
         message,
 
-        sender:"user"
+        sender:
+            "user"
 
     });
+
+
+    if(error){
+
+        alert(
+            "خطا در ارسال پیام:\n"
+            + error.message
+        );
+
+        return;
+
+    }
+
+
+    input.value="";
+
+    await loadSupport();
+
+}
+
+
+/* =========================================================
+   ENTER SUPPORT
+========================================================= */
+
+document.addEventListener(
+"keydown",
+function(e){
+
+    if(
+        e.key === "Enter"
+        &&
+        document.activeElement?.id
+        === "supportInput"
+    ){
+
+        e.preventDefault();
+
+        sendSupportMessage();
+
+    }
+
+});
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+    const {
+        error
+    } =
+    await supabaseClient
+    .auth
+    .signOut();
 
 
     if(error){
@@ -2818,29 +4758,13 @@ async function sendSupportMessage(){
         alert(error.message);
 
         return;
+
     }
 
 
-    input.value = "";
+    currentUser=null;
 
-    await loadSupport();
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logout(){
-
-    await supabaseClient
-    .auth
-    .signOut();
-
-    currentUser = null;
-
-    cart = [];
+    cart=[];
 
     updateHeader();
 
@@ -2848,22 +4772,29 @@ async function logout(){
 
     await loadProfile();
 
-    alert("از حساب خارج شدید.");
+    await loadOrders();
+
+    await loadSupport();
 
 }
 
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
+/* =========================================================
+   NAV
+========================================================= */
 
-function showPage(pageId,button){
+function showPage(
+    pageId,
+    button
+){
 
     document
     .querySelectorAll(".page")
     .forEach(
         page =>
-        page.classList.remove("active")
+        page.classList.remove(
+            "active"
+        )
     );
 
 
@@ -2875,14 +4806,18 @@ function showPage(pageId,button){
     document
     .querySelectorAll(".nav-item")
     .forEach(
-        nav =>
-        nav.classList.remove("active")
+        item =>
+        item.classList.remove(
+            "active"
+        )
     );
 
 
     if(button){
 
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
 
     }
 
@@ -2893,12 +4828,17 @@ function showPage(pageId,button){
     });
 
 
+    if(pageId === "cartPage"){
+
+        loadCart();
+
+    }
+
     if(pageId === "ordersPage"){
 
         loadOrders();
 
     }
-
 
     if(pageId === "supportPage"){
 
@@ -2906,17 +4846,9 @@ function showPage(pageId,button){
 
     }
 
-
     if(pageId === "profilePage"){
 
         loadProfile();
-
-    }
-
-
-    if(pageId === "cartPage"){
-
-        loadCart();
 
     }
 
@@ -2925,23 +4857,20 @@ function showPage(pageId,button){
 
 function scrollToProducts(){
 
-    const element =
-        document
-        .getElementById(
-            "productsContainer"
-        );
-
-
-    element.scrollIntoView({
+    document
+    .getElementById(
+        "productsContainer"
+    )
+    .scrollIntoView({
         behavior:"smooth"
     });
 
 }
 
 
-/* =====================================================
+/* =========================================================
    HELPERS
-===================================================== */
+========================================================= */
 
 function formatPrice(price){
 
@@ -2952,36 +4881,83 @@ function formatPrice(price){
 }
 
 
+function formatDate(date){
+
+    if(!date){
+
+        return "";
+
+    }
+
+    try{
+
+        return new Date(date)
+            .toLocaleDateString(
+                "fa-IR"
+            );
+
+    }catch(e){
+
+        return "";
+
+    }
+
+}
+
+
 function orderStatus(status){
 
     const map = {
 
-        pending:"در انتظار بررسی",
+        pending:
+            "در انتظار بررسی",
 
-        contacted:"تماس گرفته شد",
+        contacted:
+            "تماس گرفته شد",
 
-        processing:"در حال انجام",
+        processing:
+            "در حال انجام",
 
-        completed:"تکمیل شده",
+        completed:
+            "تکمیل شده",
 
-        cancelled:"لغو شده"
+        cancelled:
+            "لغو شده"
 
     };
 
-
-    return map[status] || status;
+    return map[status]
+        || status
+        || "-";
 
 }
 
 
 function escapeHtml(value){
 
-    return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
