@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>ساخت سایت حرفه‌ای | خدمات آنلاین</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#080a12;
+    --card:#111522;
+    --card2:#171b2a;
+    --text:#fff;
+    --muted:#9298aa;
+    --primary:#7c5cff;
+    --primary2:#9a7cff;
+    --green:#24d17e;
+    --red:#ff4d6d;
+    --border:rgba(255,255,255,.08);
+}
+
+body{
+    font-family:"Vazirmatn",sans-serif;
+    background:
+        radial-gradient(circle at 20% 0%,rgba(124,92,255,.16),transparent 28%),
+        radial-gradient(circle at 90% 20%,rgba(36,209,126,.08),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+    border:0;
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    max-width:600px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:100px;
+}
+
+/* HEADER */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    padding:16px 16px 12px;
+    background:rgba(8,10,18,.82);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    background:linear-gradient(135deg,#7c5cff,#b16cff);
+    box-shadow:0 8px 25px rgba(124,92,255,.35);
+}
+
+.logo-text strong{
+    display:block;
+    font-size:16px;
+    font-weight:900;
+}
+
+.logo-text span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.header-cart{
+    position:relative;
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    background:var(--card);
+    color:white;
+    border:1px solid var(--border);
+    font-size:19px;
+}
+
+.cart-count{
+    position:absolute;
+    top:-5px;
+    left:-5px;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    border-radius:20px;
+    background:var(--red);
+    font-size:10px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+/* HOME */
+
+.page{
+    display:none;
+    padding:18px 14px;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    min-height:190px;
+    padding:24px;
+    border-radius:28px;
+    background:
+        radial-gradient(circle at 90% 20%,rgba(177,108,255,.4),transparent 35%),
+        linear-gradient(135deg,#17132b,#101523);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    margin-bottom:28px;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    left:-80px;
+    bottom:-100px;
+    background:rgba(124,92,255,.18);
+    filter:blur(10px);
+}
+
+.hero h1{
+    position:relative;
+    z-index:2;
+    font-size:27px;
+    line-height:1.55;
+    font-weight:900;
+    max-width:380px;
+}
+
+.hero h1 span{
+    color:#a98cff;
+}
+
+.hero p{
+    position:relative;
+    z-index:2;
+    color:#aaaec0;
+    font-size:12px;
+    line-height:2;
+    margin-top:8px;
+}
+
+.hero-badge{
+    position:absolute;
+    left:20px;
+    top:20px;
+    padding:7px 12px;
+    border-radius:30px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
+    font-size:10px;
+}
+
+/* CATEGORY */
+
+.category{
+    margin-bottom:27px;
+}
+
+.category-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.category-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.category-dot{
+    width:8px;
+    height:8px;
+    background:var(--primary);
+    border-radius:50%;
+    box-shadow:0 0 12px var(--primary);
+}
+
+.category-title h2{
+    font-size:16px;
+    font-weight:900;
+}
+
+.category-price{
+    font-size:10px;
+    color:#a89cff;
+    background:rgba(124,92,255,.1);
+    padding:6px 9px;
+    border-radius:10px;
+}
+
+/* PRODUCTS */
+
+.products{
+    display:flex;
+    overflow-x:auto;
+    gap:12px;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    padding:3px 1px 8px;
+}
+
+.products::-webkit-scrollbar{
+    display:none;
+}
+
+.product{
+    flex:0 0 225px;
+    scroll-snap-align:start;
+    background:linear-gradient(145deg,#151927,#0f121c);
+    border:1px solid var(--border);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    transition:.25s;
+}
+
+.product:active{
+    transform:scale(.97);
+}
+
+.product-image{
+    width:100%;
+    height:145px;
+    position:relative;
+    overflow:hidden;
+    background:#1a1d2a;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.image-fallback{
+    position:absolute;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    background:linear-gradient(135deg,#292044,#161b2a);
+}
+
+.product-body{
+    padding:13px;
+}
+
+.product-name{
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.product-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:7px;
+}
+
+.price{
+    font-size:13px;
+    font-weight:900;
+}
+
+.price small{
+    color:var(--muted);
+    font-size:8px;
+    font-weight:500;
+}
+
+.add-btn{
+    padding:9px 11px;
+    border-radius:11px;
+    color:white;
+    font-size:10px;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--primary),#9a67ff);
+    box-shadow:0 7px 18px rgba(124,92,255,.25);
+}
+
+.single-product{
+    flex-basis:100%;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:70px 20px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.empty h3{
+    color:white;
+    margin-bottom:8px;
+}
+
+/* CART */
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.cart-img{
+    width:65px;
+    height:65px;
+    border-radius:14px;
+    object-fit:cover;
+}
+
+.cart-info{
+    flex:1;
+}
+
+.cart-info h3{
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.cart-info p{
+    color:#a998ff;
+    font-size:11px;
+    font-weight:800;
+}
+
+.remove{
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    background:rgba(255,77,109,.1);
+    color:#ff6881;
+}
+
+.cart-total{
+    margin-top:20px;
+    padding:18px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#17152b,#111725);
+    border:1px solid var(--border);
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.total-row span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.total-row strong{
+    font-size:18px;
+}
+
+.buy-btn{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    border-radius:14px;
+    color:white;
+    font-weight:900;
+    background:linear-gradient(135deg,#7c5cff,#a05cff);
+}
+
+/* SUPPORT */
+
+.chat-box{
+    display:flex;
+    flex-direction:column;
+    min-height:500px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.chat-header{
+    padding:17px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--border);
+}
+
+.support-avatar{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#24d17e,#149e5b);
+}
+
+.chat-status{
+    color:#5ee39b;
+    font-size:10px;
+}
+
+.messages{
+    flex:1;
+    padding:20px;
+}
+
+.message{
+    max-width:85%;
+    padding:11px 13px;
+    border-radius:15px;
+    font-size:12px;
+    line-height:1.9;
+    margin-bottom:10px;
+}
+
+.message.support{
+    background:#1b2030;
+    border-bottom-right-radius:4px;
+}
+
+.message.user{
+    background:linear-gradient(135deg,#7657e8,#8c61ff);
+    margin-right:auto;
+    border-bottom-left-radius:4px;
+}
+
+.chat-input{
+    display:flex;
+    gap:8px;
+    padding:12px;
+    border-top:1px solid var(--border);
+}
+
+.chat-input input{
+    flex:1;
+    border:0;
+    outline:0;
+    background:#0c0f18;
+    color:white;
+    border-radius:13px;
+    padding:12px;
+    font-family:inherit;
+    font-size:11px;
+}
+
+.send{
+    width:45px;
+    border-radius:13px;
+    background:var(--primary);
+    color:white;
+}
+
+/* PROFILE */
+
+.profile-card{
+    text-align:center;
+    padding:25px 18px;
+    background:linear-gradient(145deg,#16192a,#0f121c);
+    border:1px solid var(--border);
+    border-radius:25px;
+}
+
+.avatar{
+    width:78px;
+    height:78px;
+    margin:auto;
+    border-radius:25px;
+    background:linear-gradient(135deg,#7c5cff,#bd70ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    box-shadow:0 15px 35px rgba(124,92,255,.3);
+}
+
+.profile-card h2{
+    margin-top:13px;
+    font-size:18px;
+}
+
+.profile-card p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.profile-info{
+    margin-top:18px;
+    text-align:right;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid var(--border);
+    font-size:11px;
+}
+
+.info-row span{
+    color:var(--muted);
+}
+
+.profile-btn{
+    width:100%;
+    margin-top:15px;
+    padding:13px;
+    border-radius:14px;
+    background:var(--primary);
+    color:white;
+    font-weight:800;
+}
+
+/* LOGIN MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(12px);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-content{
+    width:100%;
+    max-width:600px;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:23px;
+    border-radius:28px 28px 0 0;
+    background:#10131e;
+    border:1px solid var(--border);
+    animation:up .3s ease;
+}
+
+@keyframes up{
+    from{transform:translateY(100%);}
+    to{transform:translateY(0);}
+}
+
+.modal-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-title h2{
+    font-size:18px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border-radius:11px;
+    background:#1c2030;
+    color:white;
+}
+
+.field{
+    margin-bottom:13px;
+}
+
+.field label{
+    display:block;
+    font-size:10px;
+    color:#aeb3c5;
+    margin-bottom:7px;
+}
+
+.field input{
+    width:100%;
+    background:#090c14;
+    border:1px solid var(--border);
+    color:white;
+    outline:0;
+    padding:13px;
+    border-radius:13px;
+    font-family:inherit;
+    font-size:11px;
+}
+
+.file-box{
+    border:1px dashed #51477d;
+    border-radius:15px;
+    padding:18px;
+    text-align:center;
+    color:#969aae;
+    font-size:10px;
+}
+
+.file-box input{
+    margin-top:8px;
+    width:100%;
+}
+
+.submit{
+    width:100%;
+    padding:14px;
+    margin-top:8px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#7c5cff,#a160ff);
+    color:white;
+    font-weight:900;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+    position:fixed;
+    z-index:80;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 20px);
+    max-width:580px;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    padding:7px;
+    border-radius:23px;
+    background:rgba(18,21,32,.91);
+    backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,.09);
+    box-shadow:0 15px 50px rgba(0,0,0,.5);
+}
+
+.nav-item{
+    position:relative;
+    flex:1;
+    height:58px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    border-radius:17px;
+    background:none;
+    color:#73798c;
+    font-size:9px;
+    font-weight:700;
+}
+
+.nav-icon{
+    font-size:20px;
+    line-height:22px;
+}
+
+.nav-item.active{
+    color:white;
+    background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(124,92,255,.08));
+}
+
+.nav-item.active .nav-icon{
+    filter:drop-shadow(0 0 7px rgba(160,120,255,.8));
+}
+
+.nav-badge{
+    position:absolute;
+    top:2px;
+    right:24%;
+    background:var(--red);
+    color:white;
+    font-size:8px;
+    min-width:17px;
+    height:17px;
+    padding:0 4px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    border-radius:20px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    z-index:200;
+    left:50%;
+    bottom:95px;
+    transform:translate(-50%,20px);
+    opacity:0;
+    pointer-events:none;
+    background:#202536;
+    border:1px solid rgba(255,255,255,.1);
+    padding:11px 16px;
+    border-radius:14px;
+    font-size:11px;
+    transition:.3s;
+    white-space:nowrap;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+    .app{
+        max-width:1000px;
+    }
+
+    .page{
+        padding:25px 20px;
+    }
+
+    .products{
+        gap:16px;
+    }
+
+    .product{
+        flex-basis:270px;
+    }
+
+    .product-image{
+        height:165px;
+    }
+
+    .bottom-nav{
+        max-width:700px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+    <div class="header-top">
+
+        <div class="logo">
+            <div class="logo-icon">✦</div>
+            <div class="logo-text">
+                <strong>سایت‌ساز اهورا</strong>
+                <span>طراحی سایت حرفه‌ای</span>
+            </div>
+        </div>
+
+        <button class="header-cart" onclick="openPage('cart')">
+            🛒
+            <span class="cart-count" id="headerCount">0</span>
+        </button>
+
+    </div>
+</header>
+
+
+<!-- HOME -->
+
+<section class="page active" id="home">
+
+    <div class="hero">
+        <span class="hero-badge">طراحی حرفه‌ای 🚀</span>
+
+        <h1>
+            کسب‌وکارت رو<br>
+            <span>آنلاین کن!</span>
+        </h1>
+
+        <p>
+            سایت حرفه‌ای، سریع و مدرن برای کسب‌وکار شما
+        </p>
+    </div>
+
+
+    <!-- آنلاین شاپ -->
+
+    <div class="category">
+
+        <div class="category-head">
+
+            <div class="category-title">
+                <span class="category-dot"></span>
+                <h2>آنلاین شاپ‌ها</h2>
+            </div>
+
+            <span class="category-price">
+                ۴ تا ۱۰ میلیون
+            </span>
+
+        </div>
+
+        <div class="products">
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="shop1.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🛍️</div>
+                </div>
+
+                <div class="product-body">
+                    <div class="product-name">آنلاین شاپ حرفه‌ای</div>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            ۴,۰۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('آنلاین شاپ حرفه‌ای','shop1.webp',4000000)">
+                            افزودن
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="shop2.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🛒</div>
+                </div>
+
+                <div class="product-body">
+                    <div class="product-name">آنلاین شاپ پیشرفته</div>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            ۷,۰۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('آنلاین شاپ پیشرفته','shop2.webp',7000000)">
+                            افزودن
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="shop3.webp" onerror="imageError(this)">
+                    <div class="image-fallback">💎</div>
+                </div>
+
+                <div class="product-body">
+                    <div class="product-name">آنلاین شاپ اختصاصی</div>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            ۱۰,۰۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('آنلاین شاپ اختصاصی','shop3.webp',10000000)">
+                            افزودن
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- مکانیک -->
+
+    <div class="category">
+
+        <div class="category-head">
+
+            <div class="category-title">
+                <span class="category-dot"></span>
+                <h2>مکانیک سیار</h2>
+            </div>
+
+            <span class="category-price">
+                ۵,۰۰۰,۰۰۰ تومان
+            </span>
+
+        </div>
+
+        <div class="products">
+
+            <div class="product single-product">
+
+                <div class="product-image">
+                    <img src="saiar.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🚗</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        سایت مکانیک سیار
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۵,۰۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('سایت مکانیک سیار','saiar.webp',5000000)">
+                            افزودن به سبد
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- رستوران -->
+
+    <div class="category">
+
+        <div class="category-head">
+
+            <div class="category-title">
+                <span class="category-dot"></span>
+                <h2>کافه و رستوران آنلاین</h2>
+            </div>
+
+            <span class="category-price">
+                ۵,۰۰۰,۰۰۰ تومان
+            </span>
+
+        </div>
+
+        <div class="products">
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="food1.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🍔</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        سایت کافه آنلاین
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۵,۰۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('سایت کافه آنلاین','food1.webp',5000000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="food2.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🍕</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        سایت رستوران آنلاین
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۵,۰۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('سایت رستوران آنلاین','food2.webp',5000000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- سایت شخصی -->
+
+    <div class="category">
+
+        <div class="category-head">
+
+            <div class="category-title">
+                <span class="category-dot"></span>
+                <h2>سایت شخصی</h2>
+            </div>
+
+            <span class="category-price">
+                ۲,۵۰۰,۰۰۰ تومان
+            </span>
+
+        </div>
+
+        <div class="products">
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="me1.webp" onerror="imageError(this)">
+                    <div class="image-fallback">👤</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        سایت شخصی مدرن
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۲,۵۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('سایت شخصی مدرن','me1.webp',2500000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="me2.webp" onerror="imageError(this)">
+                    <div class="image-fallback">💼</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        سایت شخصی حرفه‌ای
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۲,۵۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('سایت شخصی حرفه‌ای','me2.webp',2500000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- پک برنزی -->
+
+    <div class="category">
+
+        <div class="category-head">
+
+            <div class="category-title">
+                <span class="category-dot"></span>
+                <h2>کسب‌وکارت رو آنلاین کن</h2>
+            </div>
+
+            <span class="category-price">
+                پک برنزی
+            </span>
+
+        </div>
+
+        <div class="products">
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="online1.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🥉</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        پک برنزی
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۲,۸۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('پک برنزی کسب‌وکار','online1.webp',2800000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="online2.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🚀</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        پک برنزی حرفه‌ای
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۲,۸۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('پک برنزی حرفه‌ای','online2.webp',2800000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="online3.webp" onerror="imageError(this)">
+                    <div class="image-fallback">🌐</div>
+                </div>
+
+                <div class="product-body">
+
+                    <div class="product-name">
+                        پک برنزی اختصاصی
+                    </div>
+
+                    <div class="product-bottom">
+
+                        <div class="price">
+                            ۲,۸۰۰,۰۰۰ <small>تومان</small>
+                        </div>
+
+                        <button class="add-btn"
+                        onclick="addToCart('پک برنزی اختصاصی','online3.webp',2800000)">
+                            افزودن
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<!-- CART -->
+
+<section class="page" id="cart">
+
+    <div class="category-head">
+        <div class="category-title">
+            <span class="category-dot"></span>
+            <h2>سبد خرید</h2>
+        </div>
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div id="cartEmpty" class="empty">
+        <div class="empty-icon">🛒</div>
+        <h3>سبد خرید خالی است</h3>
+        <p>محصول موردنظرت را از خانه انتخاب کن.</p>
+    </div>
+
+    <div class="cart-total" id="cartTotal" style="display:none">
+
+        <div class="total-row">
+            <span>مبلغ قابل پرداخت</span>
+            <strong id="totalPrice">۰ تومان</strong>
+        </div>
+
+        <button class="buy-btn" onclick="startPurchase()">
+            ادامه خرید و ارتباط با پشتیبانی
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section class="page" id="orders">
+
+    <div class="category-head">
+        <div class="category-title">
+            <span class="category-dot"></span>
+            <h2>سفارش‌های من</h2>
+        </div>
+    </div>
+
+    <div class="empty">
+        <div class="empty-icon">📦</div>
+        <h3>هنوز سفارشی ثبت نشده</h3>
+        <p>بعد از خرید، سفارش‌های شما در این بخش نمایش داده می‌شوند.</p>
+    </div>
+
+</section>
+
+
+<!-- SUPPORT -->
+
+<section class="page" id="support">
+
+    <div class="chat-box">
+
+        <div class="chat-header">
+
+            <div class="support-avatar">💬</div>
+
+            <div>
+                <strong style="font-size:13px">
+                    پشتیبانی سایت‌ساز
+                </strong>
+
+                <div class="chat-status">
+                    ● آنلاین
+                </div>
+            </div>
+
+        </div>
+
+        <div class="messages" id="messages">
+
+            <div class="message support">
+                سلام 👋<br>
+                به پشتیبانی سایت‌ساز اهورا خوش آمدید.
+                چطور می‌توانیم کمکتان کنیم؟
+            </div>
+
+        </div>
+
+        <div class="chat-input">
+
+            <input
+                id="chatInput"
+                placeholder="پیام خود را بنویسید..."
+                onkeydown="if(event.key==='Enter')sendMessage()"
+            >
+
+            <button class="send" onclick="sendMessage()">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section class="page" id="profile">
+
+    <div class="profile-card">
+
+        <div class="avatar">👤</div>
+
+        <h2 id="profileName">
+            کاربر مهمان
+        </h2>
+
+        <p id="profileEmail">
+            برای تکمیل پروفایل ثبت‌نام کنید
+        </p>
+
+        <div class="profile-info">
+
+            <div class="info-row">
+                <span>ایمیل</span>
+                <strong id="infoEmail">---</strong>
+            </div>
+
+            <div class="info-row">
+                <span>شماره ملی</span>
+                <strong id="infoNational">---</strong>
+            </div>
+
+            <div class="info-row">
+                <span>تاریخ تولد</span>
+                <strong id="infoBirth">---</strong>
+            </div>
+
+            <div class="info-row">
+                <span>وضعیت حساب</span>
+                <strong id="accountStatus">مهمان</strong>
+            </div>
+
+        </div>
+
+        <button class="profile-btn" onclick="openRegister()">
+            ثبت‌نام / تکمیل اطلاعات
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- NAV -->
+
+<nav class="bottom-nav">
+
+    <button class="nav-item active" data-page="home"
+    onclick="openPage('home')">
+        <span class="nav-icon">⌂</span>
+        خانه
+    </button>
+
+    <button class="nav-item" data-page="cart"
+    onclick="openPage('cart')">
+
+        <span class="nav-icon">🛒</span>
+        سبد خرید
+
+        <span class="nav-badge" id="navCount">0</span>
+
+    </button>
+
+    <button class="nav-item" data-page="orders"
+    onclick="openPage('orders')">
+        <span class="nav-icon">📦</span>
+        سفارش‌ها
+    </button>
+
+    <button class="nav-item" data-page="support"
+    onclick="openPage('support')">
+        <span class="nav-icon">💬</span>
+        پشتیبانی
+    </button>
+
+    <button class="nav-item" data-page="profile"
+    onclick="openPage('profile')">
+        <span class="nav-icon">👤</span>
+        پروفایل
+    </button>
+
+</nav>
+
+</div>
+
+
+<!-- REGISTER MODAL -->
+
+<div class="modal" id="registerModal">
+
+    <div class="modal-content">
+
+        <div class="modal-title">
+
+            <h2>ساخت حساب کاربری</h2>
+
+            <button class="close" onclick="closeRegister()">
+                ✕
+            </button>
+
+        </div>
+
+        <div class="field">
+            <label>ایمیل</label>
+            <input
+                id="regEmail"
+                type="email"
+                placeholder="example@gmail.com"
+            >
+        </div>
+
+        <div class="field">
+            <label>نام و نام خانوادگی</label>
+            <input
+                id="regName"
+                type="text"
+                placeholder="نام و نام خانوادگی"
+            >
+        </div>
+
+        <div class="field">
+            <label>شماره ملی</label>
+            <input
+                id="regNational"
+                inputmode="numeric"
+                maxlength="10"
+                placeholder="۱۰ رقم شماره ملی"
+            >
+        </div>
+
+        <div class="field">
+            <label>تاریخ تولد</label>
+            <input
+                id="regBirth"
+                type="text"
+                placeholder="مثلاً ۱۳۸۳/۰۵/۲۰"
+            >
+        </div>
+
+        <div class="field">
+
+            <label>
+                تصویر کارت ملی
+            </label>
+
+            <div class="file-box">
+
+                📷 تصویر کارت ملی را انتخاب کنید
+
+                <input
+                    id="nationalCard"
+                    type="file"
+                    accept="image/*"
+                >
+
+            </div>
+
+        </div>
+
+        <button class="submit" onclick="registerUser()">
+            ثبت‌نام و ادامه
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+let user = JSON.parse(localStorage.getItem("user") || "null");
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function openPage(page){
+
+    document.querySelectorAll(".page").forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    const target=document.getElementById(page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav-item").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    const nav=document.querySelector(`[data-page="${page}"]`);
+
+    if(nav){
+        nav.classList.add("active");
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    if(page==="cart"){
+        renderCart();
+    }
+
+    if(page==="profile"){
+        renderProfile();
+    }
+}
+
+
+/* =========================
+   CART
+========================= */
+
+function addToCart(name,image,price){
+
+    cart.push({
+        id:Date.now()+Math.random(),
+        name,
+        image,
+        price
+    });
+
+    saveCart();
+
+    showToast("محصول به سبد خرید اضافه شد ✓");
+}
+
+
+function saveCart(){
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    updateCartCount();
+    renderCart();
+}
+
+
+function updateCartCount(){
+
+    const count=cart.length;
+
+    const header=document.getElementById("headerCount");
+    const nav=document.getElementById("navCount");
+
+    header.textContent=count;
+    nav.textContent=count;
+
+    header.style.display=count>0 ? "flex":"none";
+    nav.style.display=count>0 ? "flex":"none";
+}
+
+
+function formatPrice(number){
+
+    return new Intl.NumberFormat("fa-IR")
+        .format(number);
+}
+
+
+function renderCart(){
+
+    const container=document.getElementById("cartItems");
+    const empty=document.getElementById("cartEmpty");
+    const totalBox=document.getElementById("cartTotal");
+
+    container.innerHTML="";
+
+    if(cart.length===0){
+
+        empty.style.display="block";
+        totalBox.style.display="none";
+
+        return;
+    }
+
+    empty.style.display="none";
+    totalBox.style.display="block";
+
+    let total=0;
+
+    cart.forEach(item=>{
+
+        total+=item.price;
+
+        const div=document.createElement("div");
+
+        div.className="cart-item";
+
+        div.innerHTML=`
+
+            <img
+                class="cart-img"
+                src="${item.image}"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="cart-info">
+
+                <h3>${item.name}</h3>
+
+                <p>
+                    ${formatPrice(item.price)} تومان
+                </p>
+
+            </div>
+
+            <button
+                class="remove"
+                onclick="removeCart('${item.id}')"
+            >
+                ✕
+            </button>
+        `;
+
+        container.appendChild(div);
+    });
+
+    document.getElementById("totalPrice").textContent=
+        formatPrice(total)+" تومان";
+}
+
+
+function removeCart(id){
+
+    cart=cart.filter(item=>String(item.id)!==String(id));
+
+    saveCart();
+
+    showToast("محصول حذف شد");
+}
+
+
+/* =========================
+   PURCHASE
+========================= */
+
+function startPurchase(){
+
+    if(cart.length===0){
+        showToast("سبد خرید خالی است");
+        return;
+    }
+
+    if(!user){
+
+        showToast("برای خرید ابتدا ثبت‌نام کنید");
+
+        setTimeout(()=>{
+            openRegister();
+        },500);
+
+        return;
+    }
+
+    openPage("support");
+
+    setTimeout(()=>{
+
+        const messages=
+            document.getElementById("messages");
+
+        const msg=document.createElement("div");
+
+        msg.className="message user";
+
+        msg.textContent=
+            "سلام، می‌خواهم سفارش خود را ثبت کنم.";
+
+        messages.appendChild(msg);
+
+        setTimeout(()=>{
+
+            const support=document.createElement("div");
+
+            support.className="message support";
+
+            support.textContent=
+                "سلام 👋 سفارش شما دریافت شد. پشتیبانی به‌زودی برای تکمیل سفارش با شما هماهنگ می‌کند.";
+
+            messages.appendChild(support);
+
+            messages.scrollTop=messages.scrollHeight;
+
+        },700);
+
+    },300);
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+function openRegister(){
+
+    document.getElementById("registerModal")
+        .classList.add("show");
+
+    if(user){
+
+        document.getElementById("regEmail").value=user.email || "";
+        document.getElementById("regName").value=user.name || "";
+        document.getElementById("regNational").value=user.national || "";
+        document.getElementById("regBirth").value=user.birth || "";
+    }
+}
+
+
+function closeRegister(){
+
+    document.getElementById("registerModal")
+        .classList.remove("show");
+}
+
+
+function registerUser(){
+
+    const email=
+        document.getElementById("regEmail").value.trim();
+
+    const name=
+        document.getElementById("regName").value.trim();
+
+    const national=
+        document.getElementById("regNational").value.trim();
+
+    const birth=
+        document.getElementById("regBirth").value.trim();
+
+    const card=
+        document.getElementById("nationalCard").files[0];
+
+
+    if(!email || !email.includes("@")){
+
+        showToast("ایمیل معتبر وارد کنید");
+        return;
+    }
+
+    if(!name){
+
+        showToast("نام و نام خانوادگی را وارد کنید");
+        return;
+    }
+
+    if(!/^\d{10}$/.test(national)){
+
+        showToast("شماره ملی باید ۱۰ رقم باشد");
+        return;
+    }
+
+    if(!birth){
+
+        showToast("تاریخ تولد را وارد کنید");
+        return;
+    }
+
+    if(!card){
+
+        showToast("تصویر کارت ملی را انتخاب کنید");
+        return;
+    }
+
+
+    user={
+        email,
+        name,
+        national,
+        birth,
+        registered:true
+    };
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+    );
+
+    closeRegister();
+
+    renderProfile();
+
+    showToast("ثبت‌نام با موفقیت انجام شد ✓");
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function renderProfile(){
+
+    if(!user){
+
+        document.getElementById("profileName")
+            .textContent="کاربر مهمان";
+
+        document.getElementById("profileEmail")
+            .textContent="برای تکمیل پروفایل ثبت‌نام کنید";
+
+        document.getElementById("infoEmail")
+            .textContent="---";
+
+        document.getElementById("infoNational")
+            .textContent="---";
+
+        document.getElementById("infoBirth")
+            .textContent="---";
+
+        document.getElementById("accountStatus")
+            .textContent="مهمان";
+
+        return;
+    }
+
+    document.getElementById("profileName")
+        .textContent=user.name;
+
+    document.getElementById("profileEmail")
+        .textContent=user.email;
+
+    document.getElementById("infoEmail")
+        .textContent=user.email;
+
+    document.getElementById("infoNational")
+        .textContent=user.national;
+
+    document.getElementById("infoBirth")
+        .textContent=user.birth;
+
+    document.getElementById("accountStatus")
+        .textContent="فعال ✓";
+}
+
+
+/* =========================
+   SUPPORT CHAT
+========================= */
+
+function sendMessage(){
+
+    const input=
+        document.getElementById("chatInput");
+
+    const text=input.value.trim();
+
+    if(!text)return;
+
+    const messages=
+        document.getElementById("messages");
+
+    const userMsg=
+        document.createElement("div");
+
+    userMsg.className="message user";
+
+    userMsg.textContent=text;
+
+    messages.appendChild(userMsg);
+
+    input.value="";
+
+    messages.scrollTop=messages.scrollHeight;
+
+    setTimeout(()=>{
+
+        const reply=
+            document.createElement("div");
+
+        reply.className="message support";
+
+        reply.textContent=
+            "پیام شما دریافت شد ✓ پشتیبانی به‌زودی پاسخ خواهد داد.";
+
+        messages.appendChild(reply);
+
+        messages.scrollTop=messages.scrollHeight;
+
+    },700);
+}
+
+
+/* =========================
+   IMAGE FALLBACK
+========================= */
+
+function imageError(img){
+
+    img.style.display="none";
+
+    const fallback=
+        img.parentElement.querySelector(".image-fallback");
+
+    if(fallback){
+        fallback.style.display="flex";
+    }
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(text){
+
+    const toast=
+        document.getElementById("toast");
+
+    toast.textContent=text;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer=setTimeout(()=>{
+        toast.classList.remove("show");
+    },2200);
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+updateCartCount();
+renderCart();
+renderProfile();
+
+</script>
+
+</body>
+</html>
