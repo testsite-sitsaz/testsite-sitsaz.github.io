@@ -2379,12 +2379,12 @@ async function verifyRegisterOTP(){
     }
 
 
-    if(!/^\d{6}$/.test(
+    if(!/^\d{8}$/.test(
         toEnglishDigits(token)
     )){
 
         showToast(
-            "کد تأیید باید ۶ رقم باشد"
+            "کد تأیید باید ۸ رقم باشد"
         );
 
         return;
