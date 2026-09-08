@@ -436,7 +436,7 @@ button{
     background:linear-gradient(135deg,#7c5cff,#a05cff);
 }
 
-/* SUPPORT */
+/* SUPPORT CHAT */
 
 .chat-box{
     display:flex;
@@ -496,6 +496,19 @@ button{
     background:linear-gradient(135deg,#7657e8,#8c61ff);
     margin-right:auto;
     border-bottom-left-radius:4px;
+}
+
+.message.admin{
+    background:#1a2a2a;
+    border-bottom-right-radius:4px;
+    border-right:3px solid #24d17e;
+}
+
+.message .msg-meta{
+    font-size:9px;
+    color:var(--muted);
+    margin-top:4px;
+    display:block;
 }
 
 .chat-input{
@@ -988,6 +1001,16 @@ button{
     color:#24d17e;
 }
 
+.contract-status.waiting_admin{
+    background:rgba(255,193,7,.2);
+    color:#ffc107;
+}
+
+.contract-status.admin_approved{
+    background:rgba(36,209,126,.2);
+    color:#24d17e;
+}
+
 .delivery-notice{
     background:linear-gradient(135deg,#1a2a1a,#0f1a0f);
     border:1px solid rgba(36,209,126,.2);
@@ -1007,6 +1030,118 @@ button{
     color:#24d17e;
     font-weight:900;
     font-size:14px;
+}
+
+/* ADMIN SECTION */
+.admin-panel{
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.admin-panel h3{
+    font-size:14px;
+    margin-bottom:12px;
+    color:#a98cff;
+}
+
+.admin-order-item{
+    background:#0c0f18;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:10px;
+}
+
+.admin-order-item .order-header{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.admin-order-item .order-status{
+    font-size:10px;
+    padding:3px 10px;
+    border-radius:20px;
+}
+
+.admin-order-item .order-status.pending{
+    background:rgba(255,193,7,.2);
+    color:#ffc107;
+}
+
+.admin-order-item .order-status.signed{
+    background:rgba(36,209,126,.2);
+    color:#24d17e;
+}
+
+.admin-order-item .order-status.waiting{
+    background:rgba(255,193,7,.2);
+    color:#ffc107;
+}
+
+.admin-order-item .order-status.approved{
+    background:rgba(36,209,126,.2);
+    color:#24d17e;
+}
+
+.admin-order-item .order-status.delivered{
+    background:rgba(36,209,126,.3);
+    color:#24d17e;
+}
+
+.admin-order-item .admin-actions{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+    flex-wrap:wrap;
+}
+
+.admin-order-item .admin-actions button{
+    padding:6px 14px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:700;
+    color:white;
+}
+
+.btn-approve{
+    background:linear-gradient(135deg,#24d17e,#1a9e5b);
+}
+
+.btn-reject{
+    background:linear-gradient(135deg,#ff4d6d,#cc3a55);
+}
+
+.btn-deliver{
+    background:linear-gradient(135deg,#ffa500,#cc8400);
+}
+
+.admin-order-item .site-info-inputs{
+    margin-top:8px;
+    padding:10px;
+    background:#090c14;
+    border-radius:10px;
+    border:1px solid var(--border);
+}
+
+.admin-order-item .site-info-inputs input{
+    width:100%;
+    padding:8px 10px;
+    background:#0c0f18;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:white;
+    font-size:11px;
+    margin-bottom:6px;
+    font-family:inherit;
+}
+
+.admin-order-item .site-info-inputs input:last-child{
+    margin-bottom:0;
 }
 
 /* DESKTOP */
@@ -1699,7 +1834,7 @@ button{
                     پشتیبانی سایت‌ساز
                 </strong>
 
-                <div class="chat-status">
+                <div class="chat-status" id="chatStatus">
                     ● آنلاین
                 </div>
 
@@ -2080,7 +2215,7 @@ button{
 
             <div class="delivery-notice" id="deliveryNotice" style="display:none;">
                 <span class="big-icon">✅</span>
-                <span>پس از تأیید واریز، تا <span class="date">۳ روز</span> با دامنه <span class="date">.ir</span> تحویل شما داده می‌شود.</span>
+                <span>پس از تأیید واریز توسط ادمین، تا <span class="date">۳ روز</span> با دامنه <span class="date">.ir</span> تحویل شما داده می‌شود.</span>
             </div>
 
             <div class="contract-actions">
@@ -2094,13 +2229,33 @@ button{
                 </button>
 
                 <button class="btn-confirm paid" id="contractPaidBtn" onclick="markPaid()" style="display:none;">
-                    ✅ واریز شد
+                    💰 واریز شد
                 </button>
 
                 <button class="btn-confirm done" id="contractDoneBtn" onclick="markDelivered()" style="display:none;">
                     📦 تحویل شد
                 </button>
 
+            </div>
+
+            <!-- بخش اطلاعات سایت و ادمین -->
+            <div id="adminSiteInfo" style="display:none; margin-top:15px; padding:15px; background:#0c0f18; border-radius:14px; border:1px solid var(--border);">
+                <h4 style="color:#a98cff;font-size:13px;margin-bottom:10px;">🌐 اطلاعات سایت شما</h4>
+                <div class="signature-row">
+                    <label>دامنه سایت:</label>
+                    <input id="siteDomain" placeholder="مثلاً mysite.ir" style="flex:1;background:#090c14;border:1px solid var(--border);color:white;outline:0;padding:10px 12px;border-radius:10px;font-family:inherit;font-size:11px;">
+                </div>
+                <div class="signature-row" style="margin-top:8px;">
+                    <label>ایمیل مدیریت:</label>
+                    <input id="siteAdminEmail" placeholder="admin@mysite.ir" style="flex:1;background:#090c14;border:1px solid var(--border);color:white;outline:0;padding:10px 12px;border-radius:10px;font-family:inherit;font-size:11px;">
+                </div>
+                <div class="signature-row" style="margin-top:8px;">
+                    <label>رمز عبور:</label>
+                    <input id="siteAdminPass" type="password" placeholder="رمز عبور اختصاصی" style="flex:1;background:#090c14;border:1px solid var(--border);color:white;outline:0;padding:10px 12px;border-radius:10px;font-family:inherit;font-size:11px;">
+                </div>
+                <button class="submit" onclick="saveSiteInfo()" style="margin-top:10px;padding:10px;font-size:11px;">
+                    💾 ذخیره اطلاعات
+                </button>
             </div>
 
         </div>
@@ -2131,6 +2286,10 @@ const supabaseClient =
         SUPABASE_ANON_KEY
     );
 
+// جدول اصلی برای سفارش‌ها در Supabase
+const TABLE_ORDERS = "orders";
+const TABLE_MESSAGES = "support_messages";
+
 
 /* =========================
    DATA
@@ -2143,11 +2302,17 @@ let realUser = null;
 
 let currentRegisterEmail = "";
 
-// قراردادها
+// قراردادها - محلی
 let contracts =
     JSON.parse(localStorage.getItem("contracts") || "[]");
 
 let currentContractIndex = -1;
+
+// آیا کاربر ادمین است؟
+let isAdmin = false;
+
+// سفارش‌ها از سرور
+let serverOrders = [];
 
 
 /* =========================
@@ -2193,6 +2358,10 @@ function openPage(page){
 
     if(page==="orders"){
         renderOrders();
+    }
+
+    if(page==="support"){
+        loadSupportMessages();
     }
 }
 
@@ -2367,7 +2536,7 @@ function getContractText(productName, price){
         مبلغ فوق به حساب زیر واریز می‌گردد.<br><br>
 
         <strong>مدت تحویل:</strong><br>
-        پس از تأیید واریز، حداکثر <span class="highlight">۳ روز کاری</span> با دامنه <span class="highlight">.ir</span> تحویل داده می‌شود.<br><br>
+        پس از تأیید واریز توسط ادمین، حداکثر <span class="highlight">۳ روز کاری</span> با دامنه <span class="highlight">.ir</span> تحویل داده می‌شود.<br><br>
 
         <strong>تاریخ تنظیم:</strong><br>
         ${today}<br><br>
@@ -2397,7 +2566,11 @@ function openContract(productName, price){
         signedDate: "",
         paid: false,
         delivered: false,
-        status: "pending" // pending | signed | paid | delivered
+        adminApproved: false,
+        status: "pending", // pending | signed | waiting_admin | admin_approved | delivered
+        siteDomain: "",
+        siteAdminEmail: "",
+        siteAdminPass: ""
     };
 
     contracts.push(contract);
@@ -2434,6 +2607,9 @@ function renderContract(contract){
     const deliveryNotice =
         document.getElementById("deliveryNotice");
 
+    const adminSiteInfo =
+        document.getElementById("adminSiteInfo");
+
     const nameInput =
         document.getElementById("signatureName");
 
@@ -2450,6 +2626,13 @@ function renderContract(contract){
         dateInput.value = contract.signedDate || "";
     }
 
+    // پر کردن اطلاعات سایت
+    if(contract.siteDomain){
+        document.getElementById("siteDomain").value = contract.siteDomain || "";
+        document.getElementById("siteAdminEmail").value = contract.siteAdminEmail || "";
+        document.getElementById("siteAdminPass").value = contract.siteAdminPass || "";
+    }
+
     // به‌روزرسانی وضعیت
     let statusText = "";
     let statusClass = "";
@@ -2464,6 +2647,7 @@ function renderContract(contract){
             paidBtn.style.display = "none";
             doneBtn.style.display = "none";
             deliveryNotice.style.display = "none";
+            adminSiteInfo.style.display = "none";
             nameInput.disabled = false;
             nationalInput.disabled = false;
             dateInput.disabled = false;
@@ -2478,20 +2662,35 @@ function renderContract(contract){
             paidBtn.textContent = "💰 واریز شد";
             doneBtn.style.display = "none";
             deliveryNotice.style.display = "none";
+            adminSiteInfo.style.display = "none";
             nameInput.disabled = true;
             nationalInput.disabled = true;
             dateInput.disabled = true;
             break;
 
-        case "paid":
-            statusText = "💰 واریز تأیید شد - در حال آماده‌سازی";
-            statusClass = "paid";
+        case "waiting_admin":
+            statusText = "⏳ در انتظار تأیید ادمین";
+            statusClass = "waiting_admin";
+            signBtn.style.display = "none";
+            paidBtn.style.display = "none";
+            doneBtn.style.display = "none";
+            deliveryNotice.style.display = "none";
+            adminSiteInfo.style.display = "none";
+            nameInput.disabled = true;
+            nationalInput.disabled = true;
+            dateInput.disabled = true;
+            break;
+
+        case "admin_approved":
+            statusText = "✅ تأیید شده توسط ادمین - در حال آماده‌سازی";
+            statusClass = "admin_approved";
             signBtn.style.display = "none";
             paidBtn.style.display = "none";
             doneBtn.style.display = "block";
             doneBtn.disabled = false;
             doneBtn.textContent = "📦 تحویل شد";
             deliveryNotice.style.display = "block";
+            adminSiteInfo.style.display = "block";
             nameInput.disabled = true;
             nationalInput.disabled = true;
             dateInput.disabled = true;
@@ -2504,6 +2703,7 @@ function renderContract(contract){
             paidBtn.style.display = "none";
             doneBtn.style.display = "none";
             deliveryNotice.style.display = "block";
+            adminSiteInfo.style.display = "block";
             nameInput.disabled = true;
             nationalInput.disabled = true;
             dateInput.disabled = true;
@@ -2518,6 +2718,87 @@ function renderContract(contract){
 
     // ذخیره در localStorage
     localStorage.setItem("contracts", JSON.stringify(contracts));
+
+    // ذخیره در سرور
+    saveContractToServer(contract);
+}
+
+
+async function saveContractToServer(contract){
+
+    if(!realUser){
+        console.log("کاربر وارد نشده، ذخیره محلی");
+        return;
+    }
+
+    try{
+
+        // بررسی آیا قبلاً ذخیره شده
+        const {data:existing} =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .select("id")
+            .eq("contract_id", contract.id)
+            .maybeSingle();
+
+        if(existing){
+            // بروزرسانی
+            const {error} =
+                await supabaseClient
+                .from(TABLE_ORDERS)
+                .update({
+                    product_name: contract.productName,
+                    price: contract.price,
+                    status: contract.status,
+                    signed_name: contract.signedName,
+                    signed_national: contract.signedNational,
+                    signed_date: contract.signedDate,
+                    paid: contract.paid,
+                    delivered: contract.delivered,
+                    admin_approved: contract.adminApproved,
+                    site_domain: contract.siteDomain || "",
+                    site_admin_email: contract.siteAdminEmail || "",
+                    site_admin_pass: contract.siteAdminPass || "",
+                    updated_at: new Date().toISOString()
+                })
+                .eq("contract_id", contract.id);
+
+            if(error){
+                console.error("خطا در بروزرسانی سفارش:", error);
+            }
+
+        }else{
+            // ایجاد جدید
+            const {error} =
+                await supabaseClient
+                .from(TABLE_ORDERS)
+                .insert({
+                    contract_id: contract.id,
+                    user_id: realUser.id,
+                    user_email: realUser.email,
+                    product_name: contract.productName,
+                    price: contract.price,
+                    status: contract.status,
+                    signed_name: contract.signedName,
+                    signed_national: contract.signedNational,
+                    signed_date: contract.signedDate,
+                    paid: contract.paid,
+                    delivered: contract.delivered,
+                    admin_approved: contract.adminApproved,
+                    site_domain: contract.siteDomain || "",
+                    site_admin_email: contract.siteAdminEmail || "",
+                    site_admin_pass: contract.siteAdminPass || "",
+                    created_at: new Date().toISOString()
+                });
+
+            if(error){
+                console.error("خطا در ذخیره سفارش:", error);
+            }
+        }
+
+    }catch(error){
+        console.error("خطا در saveContractToServer:", error);
+    }
 }
 
 
@@ -2573,6 +2854,9 @@ function signContract(){
         messages.scrollTop = messages.scrollHeight;
     }, 500);
 
+    // ذخیره پیام در سرور
+    saveSupportMessage(realUser?.email || "کاربر", `قرارداد محصول "${contract.productName}" را امضا کردم.`, "user");
+
     showToast("✅ قرارداد امضا شد");
 }
 
@@ -2588,7 +2872,7 @@ function markPaid(){
     }
 
     contract.paid = true;
-    contract.status = "paid";
+    contract.status = "waiting_admin";
 
     renderContract(contract);
 
@@ -2596,21 +2880,21 @@ function markPaid(){
     const messages = document.getElementById("messages");
     const msg = document.createElement("div");
     msg.className = "message user";
-    msg.textContent = `💰 واریز مبلغ ${formatPrice(contract.price)} تومان انجام شد.`;
+    msg.textContent = `💰 مبلغ ${formatPrice(contract.price)} تومان واریز شد. لطفاً تأیید کنید.`;
     messages.appendChild(msg);
 
     setTimeout(() => {
         const support = document.createElement("div");
         support.className = "message support";
-        support.textContent = "✅ واریز شما تأیید شد. پروژه شما در دست ساخت است و حداکثر ۳ روز کاری با دامنه .ir تحویل داده می‌شود.";
+        support.textContent = "✅ واریز شما ثبت شد. در انتظار تأیید ادمین...";
         messages.appendChild(support);
         messages.scrollTop = messages.scrollHeight;
     }, 500);
 
-    // ذخیره در سفارش‌ها
-    saveOrder(contract);
+    // ذخیره پیام در سرور
+    saveSupportMessage(realUser?.email || "کاربر", `💰 مبلغ ${formatPrice(contract.price)} تومان واریز شد.`, "user");
 
-    showToast("✅ واریز تأیید شد");
+    showToast("✅ واریز ثبت شد، در انتظار تأیید ادمین");
 }
 
 
@@ -2619,8 +2903,8 @@ function markDelivered(){
     const contract = contracts[currentContractIndex];
     if(!contract) return;
 
-    if(contract.status !== "paid"){
-        showToast("لطفاً ابتدا واریز را تأیید کنید");
+    if(contract.status !== "admin_approved" && contract.status !== "waiting_admin"){
+        showToast("لطفاً ابتدا توسط ادمین تأیید شود");
         return;
     }
 
@@ -2629,7 +2913,67 @@ function markDelivered(){
 
     renderContract(contract);
 
+    // پیام به پشتیبانی
+    const messages = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "message user";
+    msg.textContent = "✅ سایت تحویل داده شد.";
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+
+    // ذخیره پیام
+    saveSupportMessage(realUser?.email || "کاربر", "✅ سایت تحویل داده شد.", "user");
+
     showToast("🎉 سایت شما تحویل داده شد!");
+}
+
+
+function saveSiteInfo(){
+
+    const contract = contracts[currentContractIndex];
+    if(!contract) return;
+
+    const domain =
+        document.getElementById("siteDomain").value.trim();
+
+    const email =
+        document.getElementById("siteAdminEmail").value.trim();
+
+    const pass =
+        document.getElementById("siteAdminPass").value.trim();
+
+    if(!domain){
+        showToast("لطفاً دامنه سایت را وارد کنید");
+        return;
+    }
+
+    if(!email || !email.includes("@")){
+        showToast("لطفاً ایمیل مدیریت معتبر وارد کنید");
+        return;
+    }
+
+    if(!pass || pass.length < 6){
+        showToast("رمز عبور باید حداقل ۶ کاراکتر باشد");
+        return;
+    }
+
+    contract.siteDomain = domain;
+    contract.siteAdminEmail = email;
+    contract.siteAdminPass = pass;
+
+    renderContract(contract);
+
+    // پیام به پشتیبانی
+    const messages = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "message user";
+    msg.textContent = `🌐 اطلاعات سایت: دامنه ${domain} - ایمیل ${email}`;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+
+    saveSupportMessage(realUser?.email || "کاربر", `اطلاعات سایت: دامنه ${domain} - ایمیل ${email}`, "user");
+
+    showToast("✅ اطلاعات سایت ذخیره شد");
 }
 
 
@@ -2651,7 +2995,6 @@ function copyCardNumber(){
             showToast("📋 شماره کارت کپی شد");
         })
         .catch(() => {
-            // Fallback
             const input = document.createElement('input');
             input.value = text;
             document.body.appendChild(input);
@@ -2664,26 +3007,55 @@ function copyCardNumber(){
 
 
 /* =========================
-   ORDERS
+   ORDERS - از سرور
 ========================= */
 
-let orders =
-    JSON.parse(localStorage.getItem("orders") || "[]");
+async function loadOrdersFromServer(){
 
+    if(!realUser){
+        serverOrders = [];
+        renderOrders();
+        return;
+    }
 
-function saveOrder(contract){
+    try{
 
-    const order = {
-        id: contract.id,
-        productName: contract.productName,
-        price: contract.price,
-        date: contract.signedDate || new Date().toLocaleDateString('fa-IR'),
-        status: contract.status,
-        delivered: contract.delivered
-    };
+        const {data, error} =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .select("*")
+            .eq("user_id", realUser.id)
+            .order("created_at", {ascending:false});
 
-    orders.push(order);
-    localStorage.setItem("orders", JSON.stringify(orders));
+        if(error){
+            console.error("خطا در دریافت سفارش‌ها:", error);
+            return;
+        }
+
+        serverOrders = data || [];
+
+        // همگام‌سازی با قراردادهای محلی
+        data?.forEach(order => {
+            const localContract =
+                contracts.find(c => String(c.id) === String(order.contract_id));
+
+            if(localContract){
+                // بروزرسانی وضعیت از سرور
+                localContract.status = order.status;
+                localContract.adminApproved = order.admin_approved || false;
+                localContract.delivered = order.delivered || false;
+                localContract.siteDomain = order.site_domain || "";
+                localContract.siteAdminEmail = order.site_admin_email || "";
+                localContract.siteAdminPass = order.site_admin_pass || "";
+            }
+        });
+
+        localStorage.setItem("contracts", JSON.stringify(contracts));
+        renderOrders();
+
+    }catch(error){
+        console.error("خطا در loadOrdersFromServer:", error);
+    }
 }
 
 
@@ -2692,14 +3064,30 @@ function renderOrders(){
     const container =
         document.getElementById("ordersList");
 
-    const empty =
-        document.getElementById("ordersEmpty");
-
     if(!container) return;
 
     container.innerHTML = "";
 
-    if(orders.length === 0){
+    // ترکیب سفارش‌های محلی و سروری
+    const allOrders = [...serverOrders];
+
+    // اضافه کردن سفارش‌های محلی که در سرور نیستند
+    contracts.forEach(contract => {
+        const exists = allOrders.some(o => String(o.contract_id) === String(contract.id));
+        if(!exists && contract.signed){
+            allOrders.push({
+                contract_id: contract.id,
+                product_name: contract.productName,
+                price: contract.price,
+                status: contract.status,
+                signed_date: contract.signedDate,
+                delivered: contract.delivered,
+                created_at: contract.createdAt
+            });
+        }
+    });
+
+    if(allOrders.length === 0){
         container.innerHTML = `
             <div class="empty" id="ordersEmpty">
                 <div class="empty-icon">📦</div>
@@ -2710,7 +3098,8 @@ function renderOrders(){
         return;
     }
 
-    orders.forEach((order, index) => {
+    // نمایش سفارش‌ها
+    allOrders.forEach((order, index) => {
 
         const div = document.createElement("div");
         div.className = "cart-item";
@@ -2720,29 +3109,517 @@ function renderOrders(){
 
         const statusMap = {
             "pending": "⏳ در انتظار امضا",
-            "signed": "✅ امضا شده",
-            "paid": "💰 واریز شده",
+            "signed": "✅ امضا شده - در انتظار واریز",
+            "waiting_admin": "⏳ در انتظار تأیید ادمین",
+            "admin_approved": "✅ تأیید شده توسط ادمین",
             "delivered": "🎉 تحویل داده شده"
+        };
+
+        const statusColor = {
+            "pending": "#ffc107",
+            "signed": "#24d17e",
+            "waiting_admin": "#ffc107",
+            "admin_approved": "#a98cff",
+            "delivered": "#24d17e"
         };
 
         div.innerHTML = `
             <div style="display:flex;justify-content:space-between;align-items:center;">
-                <h3 style="font-size:13px;">${order.productName}</h3>
-                <span style="color:#a98cff;font-weight:700;">${formatPrice(order.price)} تومان</span>
+                <h3 style="font-size:13px;">${order.product_name || "محصول"}</h3>
+                <span style="color:#a98cff;font-weight:700;">${formatPrice(order.price || 0)} تومان</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:5px;">
-                <span>📅 ${order.date}</span>
-                <span style="color:${order.status === 'delivered' ? '#24d17e' : '#ffc107'};">${statusMap[order.status] || order.status}</span>
+                <span>📅 ${order.signed_date || order.created_at ? new Date(order.created_at).toLocaleDateString('fa-IR') : "---"}</span>
+                <span style="color:${statusColor[order.status] || '#ffc107'};">${statusMap[order.status] || order.status}</span>
             </div>
+            ${order.site_domain ? `
+                <div style="margin-top:8px;padding:8px 12px;background:rgba(124,92,255,.1);border-radius:10px;font-size:11px;color:#a98cff;text-align:center;">
+                    🌐 دامنه: ${order.site_domain}
+                </div>
+            ` : ''}
             ${order.status === 'delivered' ? `
                 <div style="margin-top:8px;padding:8px 12px;background:rgba(36,209,126,.1);border-radius:10px;font-size:11px;color:#24d17e;text-align:center;">
                     ✅ سایت با دامنه .ir تحویل داده شد
+                </div>
+            ` : ''}
+            ${order.status === 'admin_approved' ? `
+                <div style="margin-top:8px;padding:8px 12px;background:rgba(255,193,7,.1);border-radius:10px;font-size:11px;color:#ffc107;text-align:center;">
+                    ⏳ در حال آماده‌سازی سایت شما...
                 </div>
             ` : ''}
         `;
 
         container.appendChild(div);
     });
+}
+
+
+/* =========================
+   SUPPORT MESSAGES - سرور
+========================= */
+
+async function loadSupportMessages(){
+
+    if(!realUser){
+        return;
+    }
+
+    try{
+
+        const {data, error} =
+            await supabaseClient
+            .from(TABLE_MESSAGES)
+            .select("*")
+            .eq("user_id", realUser.id)
+            .order("created_at", {ascending:true});
+
+        if(error){
+            console.error("خطا در دریافت پیام‌ها:", error);
+            return;
+        }
+
+        const messagesContainer =
+            document.getElementById("messages");
+
+        // نگه داشتن پیام خوش‌آمدگویی
+        const welcome =
+            messagesContainer.querySelector(".message.support");
+
+        messagesContainer.innerHTML = "";
+
+        if(welcome){
+            messagesContainer.appendChild(welcome);
+        }else{
+            const welcomeMsg = document.createElement("div");
+            welcomeMsg.className = "message support";
+            welcomeMsg.innerHTML = "سلام 👋<br>به پشتیبانی سایت‌ساز اهورا خوش آمدید. چطور می‌توانیم کمکتان کنیم؟";
+            messagesContainer.appendChild(welcomeMsg);
+        }
+
+        data?.forEach(msg => {
+            const div = document.createElement("div");
+            div.className = "message " + (msg.sender_type === "admin" ? "admin" : "user");
+            div.textContent = msg.message;
+            const meta = document.createElement("span");
+            meta.className = "msg-meta";
+            meta.textContent = new Date(msg.created_at).toLocaleString('fa-IR');
+            div.appendChild(meta);
+            messagesContainer.appendChild(div);
+        });
+
+        messagesContainer.scrollTop =
+            messagesContainer.scrollHeight;
+
+    }catch(error){
+        console.error("خطا در loadSupportMessages:", error);
+    }
+}
+
+
+async function saveSupportMessage(userId, message, senderType = "user"){
+
+    if(!realUser){
+        // ذخیره محلی
+        const messagesContainer = document.getElementById("messages");
+        const div = document.createElement("div");
+        div.className = "message user";
+        div.textContent = message;
+        messagesContainer.appendChild(div);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        return;
+    }
+
+    try{
+
+        const {error} =
+            await supabaseClient
+            .from(TABLE_MESSAGES)
+            .insert({
+                user_id: realUser.id,
+                user_email: realUser.email,
+                message: message,
+                sender_type: senderType,
+                created_at: new Date().toISOString()
+            });
+
+        if(error){
+            console.error("خطا در ذخیره پیام:", error);
+            // ذخیره محلی به عنوان fallback
+            const messagesContainer = document.getElementById("messages");
+            const div = document.createElement("div");
+            div.className = "message " + (senderType === "admin" ? "admin" : "user");
+            div.textContent = message;
+            messagesContainer.appendChild(div);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+    }catch(error){
+        console.error("خطا در saveSupportMessage:", error);
+    }
+}
+
+
+function sendMessage(){
+
+    const input =
+        document.getElementById("chatInput");
+
+    const text =
+        input.value.trim();
+
+    if(!text)return;
+
+    const messages =
+        document.getElementById("messages");
+
+    const userMsg =
+        document.createElement("div");
+
+    userMsg.className="message user";
+
+    userMsg.textContent=text;
+
+    messages.appendChild(userMsg);
+
+    input.value="";
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+    // ذخیره در سرور
+    saveSupportMessage(realUser?.email || "کاربر", text, "user");
+
+    setTimeout(async () => {
+
+        // بررسی خودکار برای پاسخ ادمین از سرور
+        await loadSupportMessages();
+
+        // اگر پاسخی نبود، پاسخ خودکار
+        const lastMessage =
+            messages.querySelector(".message:last-child");
+
+        if(lastMessage && !lastMessage.classList.contains("support") && !lastMessage.classList.contains("admin")){
+
+            const reply =
+                document.createElement("div");
+
+            reply.className="message support";
+
+            reply.textContent =
+                "پیام شما دریافت شد ✓ پشتیبانی به‌زودی پاسخ خواهد داد.";
+
+            messages.appendChild(reply);
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+            // ذخیره پاسخ خودکار در سرور
+            await saveSupportMessage(
+                realUser?.email || "کاربر",
+                "پیام شما دریافت شد ✓ پشتیبانی به‌زودی پاسخ خواهد داد.",
+                "support"
+            );
+        }
+
+    }, 1000);
+
+}
+
+
+/* =========================
+   ADMIN PANEL - برای کاربران ادمین
+========================= */
+
+async function loadAdminOrders(){
+
+    // 🔥 ایمیل‌های ادمین - تنظیم شده با درخواست شما
+    const adminEmails = ["ahooraboz@gmail.com", "aahooraboz@gmail.com"];
+
+    if(realUser && adminEmails.includes(realUser.email)){
+        isAdmin = true;
+    }else{
+        isAdmin = false;
+        return;
+    }
+
+    try{
+
+        const {data, error} =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .select("*")
+            .order("created_at", {ascending:false});
+
+        if(error){
+            console.error("خطا در دریافت سفارش‌های ادمین:", error);
+            return;
+        }
+
+        // نمایش در صفحه سفارش‌ها
+        const container =
+            document.getElementById("ordersList");
+
+        if(!container) return;
+
+        // افزودن پنل ادمین
+        let adminPanel =
+            document.querySelector(".admin-panel");
+
+        if(!adminPanel){
+            adminPanel = document.createElement("div");
+            adminPanel.className = "admin-panel";
+            container.prepend(adminPanel);
+        }
+
+        adminPanel.innerHTML = `
+            <h3>👑 پنل مدیریت سفارش‌ها</h3>
+            <div id="adminOrdersList"></div>
+        `;
+
+        const adminList =
+            document.getElementById("adminOrdersList");
+
+        if(!data || data.length === 0){
+            adminList.innerHTML = `
+                <div style="color:var(--muted);font-size:12px;text-align:center;padding:20px;">
+                    هیچ سفارشی برای مدیریت وجود ندارد.
+                </div>
+            `;
+            return;
+        }
+
+        data.forEach(order => {
+
+            const div =
+                document.createElement("div");
+
+            div.className = "admin-order-item";
+
+            const statusMap = {
+                "pending": "⏳ در انتظار امضا",
+                "signed": "✅ امضا شده - در انتظار واریز",
+                "waiting_admin": "⏳ در انتظار تأیید ادمین",
+                "admin_approved": "✅ تأیید شده",
+                "delivered": "🎉 تحویل داده شد"
+            };
+
+            const statusClass = {
+                "pending": "pending",
+                "signed": "signed",
+                "waiting_admin": "waiting",
+                "admin_approved": "approved",
+                "delivered": "delivered"
+            };
+
+            div.innerHTML = `
+                <div class="order-header">
+                    <span><strong>${order.product_name}</strong></span>
+                    <span>${formatPrice(order.price)} تومان</span>
+                </div>
+                <div class="order-header" style="font-size:11px;color:var(--muted);">
+                    <span>👤 ${order.user_email || "ناشناس"}</span>
+                    <span class="order-status ${statusClass[order.status] || 'pending'}">${statusMap[order.status] || order.status}</span>
+                </div>
+                ${order.status === "waiting_admin" ? `
+                    <div class="admin-actions">
+                        <button class="btn-approve" onclick="adminApprovePayment('${order.contract_id}')">
+                            ✅ تأیید واریز
+                        </button>
+                        <button class="btn-reject" onclick="adminRejectPayment('${order.contract_id}')">
+                            ❌ رد واریز
+                        </button>
+                    </div>
+                ` : ''}
+                ${order.status === "admin_approved" ? `
+                    <div class="admin-actions">
+                        <button class="btn-deliver" onclick="adminDeliverSite('${order.contract_id}')">
+                            📦 تحویل سایت
+                        </button>
+                    </div>
+                ` : ''}
+                ${order.site_domain ? `
+                    <div style="margin-top:8px;font-size:11px;color:#a98cff;background:#0c0f18;padding:8px 12px;border-radius:8px;">
+                        🌐 ${order.site_domain} | 📧 ${order.site_admin_email}
+                    </div>
+                ` : ''}
+                ${order.status === "waiting_admin" ? `
+                    <div style="margin-top:8px;font-size:10px;color:#ffc107;background:rgba(255,193,7,.1);padding:6px 10px;border-radius:6px;">
+                        ⏳ در انتظار تأیید واریز
+                    </div>
+                ` : ''}
+                ${order.status === "admin_approved" ? `
+                    <div style="margin-top:8px;font-size:10px;color:#24d17e;background:rgba(36,209,126,.1);padding:6px 10px;border-radius:6px;">
+                        ✅ واریز تأیید شد - در حال آماده‌سازی
+                    </div>
+                ` : ''}
+                ${order.status === "delivered" ? `
+                    <div style="margin-top:8px;font-size:10px;color:#24d17e;background:rgba(36,209,126,.15);padding:6px 10px;border-radius:6px;">
+                        ✅ سایت تحویل داده شد
+                    </div>
+                ` : ''}
+                <div style="font-size:9px;color:var(--muted);margin-top:6px;">
+                    📅 ${new Date(order.created_at).toLocaleString('fa-IR')}
+                </div>
+            `;
+
+            adminList.appendChild(div);
+        });
+
+    }catch(error){
+        console.error("خطا در loadAdminOrders:", error);
+    }
+}
+
+
+// توابع ادمین
+async function adminApprovePayment(contractId){
+
+    try{
+
+        const {error} =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .update({
+                status: "admin_approved",
+                admin_approved: true,
+                updated_at: new Date().toISOString()
+            })
+            .eq("contract_id", contractId);
+
+        if(error){
+            showToast("خطا در تأیید واریز: " + error.message);
+            return;
+        }
+
+        // به‌روزرسانی محلی
+        const contract =
+            contracts.find(c => String(c.id) === String(contractId));
+
+        if(contract){
+            contract.status = "admin_approved";
+            contract.adminApproved = true;
+            localStorage.setItem("contracts", JSON.stringify(contracts));
+        }
+
+        // ارسال پیام به کاربر
+        const order =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .select("user_id, user_email")
+            .eq("contract_id", contractId)
+            .single();
+
+        if(order.data){
+            await saveSupportMessage(
+                order.data.user_email,
+                "✅ واریز شما توسط ادمین تأیید شد. اطلاعات سایت خود را وارد کنید.",
+                "admin"
+            );
+        }
+
+        showToast("✅ واریز تأیید شد");
+        await loadAdminOrders();
+        await loadOrdersFromServer();
+
+    }catch(error){
+        showToast("خطا: " + error.message);
+    }
+}
+
+
+async function adminRejectPayment(contractId){
+
+    try{
+
+        const {error} =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .update({
+                status: "signed",
+                paid: false,
+                updated_at: new Date().toISOString()
+            })
+            .eq("contract_id", contractId);
+
+        if(error){
+            showToast("خطا در رد واریز: " + error.message);
+            return;
+        }
+
+        const order =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .select("user_id, user_email")
+            .eq("contract_id", contractId)
+            .single();
+
+        if(order.data){
+            await saveSupportMessage(
+                order.data.user_email,
+                "❌ واریز شما تأیید نشد. لطفاً مجدداً بررسی کنید.",
+                "admin"
+            );
+        }
+
+        showToast("❌ واریز رد شد");
+        await loadAdminOrders();
+
+    }catch(error){
+        showToast("خطا: " + error.message);
+    }
+}
+
+
+async function adminDeliverSite(contractId){
+
+    try{
+
+        const {error} =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .update({
+                status: "delivered",
+                delivered: true,
+                updated_at: new Date().toISOString()
+            })
+            .eq("contract_id", contractId);
+
+        if(error){
+            showToast("خطا در تحویل سایت: " + error.message);
+            return;
+        }
+
+        const contract =
+            contracts.find(c => String(c.id) === String(contractId));
+
+        if(contract){
+            contract.status = "delivered";
+            contract.delivered = true;
+            localStorage.setItem("contracts", JSON.stringify(contracts));
+        }
+
+        const order =
+            await supabaseClient
+            .from(TABLE_ORDERS)
+            .select("user_id, user_email, site_domain")
+            .eq("contract_id", contractId)
+            .single();
+
+        if(order.data){
+            await saveSupportMessage(
+                order.data.user_email,
+                `🎉 سایت شما با موفقیت تحویل داده شد. لینک سایت: ${order.data.site_domain || "دامنه شما"}`,
+                "admin"
+            );
+        }
+
+        showToast("🎉 سایت تحویل داده شد");
+        await loadAdminOrders();
+        await loadOrdersFromServer();
+
+    }catch(error){
+        showToast("خطا: " + error.message);
+    }
 }
 
 
@@ -2763,7 +3640,6 @@ function startPurchase(){
         return;
     }
 
-    // جمع کل
     let total = 0;
     let products = [];
     cart.forEach(item => {
@@ -2771,11 +3647,9 @@ function startPurchase(){
         products.push(item.name);
     });
 
-    // باز کردن قرارداد برای اولین محصول
     const firstProduct = cart[0];
     openContract(firstProduct.name, total);
 
-    // پیام به پشتیبانی
     setTimeout(() => {
         const messages = document.getElementById("messages");
         const msg = document.createElement("div");
@@ -3565,6 +4439,8 @@ async function checkSupabaseUser(){
         );
 
         await renderProfile();
+        await loadOrdersFromServer();
+        await loadAdminOrders();
 
     }catch(error){
 
@@ -3592,60 +4468,11 @@ supabaseClient.auth.onAuthStateChange(
             session?.user || null;
 
         await renderProfile();
+        await loadOrdersFromServer();
+        await loadAdminOrders();
 
     }
 );
-
-
-/* =========================
-   SUPPORT CHAT
-========================= */
-
-function sendMessage(){
-
-    const input =
-        document.getElementById("chatInput");
-
-    const text =
-        input.value.trim();
-
-    if(!text)return;
-
-    const messages =
-        document.getElementById("messages");
-
-    const userMsg =
-        document.createElement("div");
-
-    userMsg.className="message user";
-
-    userMsg.textContent=text;
-
-    messages.appendChild(userMsg);
-
-    input.value="";
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-    setTimeout(()=>{
-
-        const reply =
-            document.createElement("div");
-
-        reply.className="message support";
-
-        reply.textContent =
-            "پیام شما دریافت شد ✓ پشتیبانی به‌زودی پاسخ خواهد داد.";
-
-        messages.appendChild(reply);
-
-        messages.scrollTop =
-            messages.scrollHeight;
-
-    },700);
-
-}
 
 
 /* =========================
@@ -3706,14 +4533,16 @@ updateCartCount();
 
 renderCart();
 
-renderOrders();
-
 checkSupabaseUser();
 
 console.log("📌 تنظیمات مورد نیاز در Supabase:");
 console.log("1. ایجاد bucket با نام: national-cards");
-console.log("2. تنظیم RLS Policies برای آپلود");
-console.log("3. ایجاد جدول profiles با ستون‌های مورد نیاز");
+console.log("2. ایجاد جدول orders با فیلدهای:");
+console.log("   - contract_id, user_id, user_email, product_name, price, status, signed_name, signed_national, signed_date, paid, delivered, admin_approved, site_domain, site_admin_email, site_admin_pass, created_at, updated_at");
+console.log("3. ایجاد جدول support_messages با فیلدهای:");
+console.log("   - user_id, user_email, message, sender_type, created_at");
+console.log("4. تنظیم RLS Policies برای دسترسی");
+console.log("5. ایمیل‌های ادمین: ahooraboz@gmail.com و aahooraboz@gmail.com");
 
 </script>
 
