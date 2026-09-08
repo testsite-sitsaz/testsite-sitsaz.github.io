@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت | سایت‌ساز اهورا</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #080a12;
+            --card: #111522;
+            --card2: #171b2a;
+            --text: #fff;
+            --muted: #9298aa;
+            --primary: #7c5cff;
+            --primary2: #9a7cff;
+            --green: #24d17e;
+            --red: #ff4d6d;
+            --border: rgba(255,255,255,.08);
+        }
+        
+        body {
+            font-family: "Vazirmatn", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .admin-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .admin-header {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .admin-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .admin-header .logo-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: linear-gradient(135deg, #7c5cff, #b16cff);
+            box-shadow: 0 8px 25px rgba(124,92,255,.35);
+        }
+        
+        .admin-header .logo-text h1 {
+            font-size: 18px;
+            font-weight: 900;
+        }
+        
+        .admin-header .logo-text span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+        
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card2);
+            padding: 8px 16px 8px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .admin-user .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c5cff, #bd70ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .admin-user .user-email {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .admin-user .logout-btn {
+            background: rgba(255,77,109,.15);
+            color: var(--red);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .admin-user .logout-btn:hover {
+            background: rgba(255,77,109,.25);
+        }
+        
+        /* Stats */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px 18px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        
+        .stat-box:hover {
+            border-color: rgba(124,92,255,.3);
+            transform: translateY(-2px);
+        }
+        
+        .stat-box .stat-number {
+            display: block;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--primary);
+        }
+        
+        .stat-box .stat-number.green { color: var(--green); }
+        .stat-box .stat-number.yellow { color: #ffc107; }
+        .stat-box .stat-number.red { color: var(--red); }
+        
+        .stat-box .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+        
+        /* Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tabs button {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--muted);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .admin-tabs button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 25px rgba(124,92,255,.25);
+        }
+        
+        .admin-tabs button:hover:not(.active) {
+            border-color: rgba(124,92,255,.3);
+            color: white;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .order-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px 18px;
+            transition: 0.3s;
+        }
+        
+        .order-item:hover {
+            border-color: rgba(124,92,255,.2);
+        }
+        
+        .order-item .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .order-item .order-product {
+            font-size: 15px;
+            font-weight: 800;
+        }
+        
+        .order-item .order-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .order-item .order-user {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+        
+        .order-item .order-status {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        
+        .order-status.pending { background: rgba(255,193,7,.15); color: #ffc107; }
+        .order-status.signed { background: rgba(36,209,126,.15); color: #24d17e; }
+        .order-status.waiting { background: rgba(255,193,7,.15); color: #ffc107; }
+        .order-status.approved { background: rgba(36,209,126,.15); color: #24d17e; }
+        .order-status.delivered { background: rgba(36,209,126,.2); color: #24d17e; }
+        .order-status.rejected { background: rgba(255,77,109,.15); color: #ff4d6d; }
+        
+        .order-item .order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--muted);
+        }
+        
+        .order-item .order-site-info {
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: #0c0f18;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #a98cff;
+            border: 1px solid rgba(124,92,255,.1);
+        }
+        
+        .order-item .order-site-info strong {
+            color: white;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .order-actions button {
+            padding: 7px 18px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        
+        .order-actions button:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, #24d17e, #1a9e5b);
+        }
+        .btn-approve:hover { box-shadow: 0 0 25px rgba(36,209,126,.3); }
+        
+        .btn-reject {
+            background: linear-gradient(135deg, #ff4d6d, #cc3a55);
+        }
+        .btn-reject:hover { box-shadow: 0 0 25px rgba(255,77,109,.3); }
+        
+        .btn-deliver {
+            background: linear-gradient(135deg, #ffa500, #cc8400);
+        }
+        .btn-deliver:hover { box-shadow: 0 0 25px rgba(255,165,0,.3); }
+        
+        .btn-chat {
+            background: linear-gradient(135deg, #7c5cff, #5c3ccc);
+        }
+        .btn-chat:hover { box-shadow: 0 0 25px rgba(124,92,255,.3); }
+        
+        /* Messages */
+        .chat-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 16px 18px;
+            overflow-y: auto;
+        }
+        
+        .chat-messages .msg {
+            margin-bottom: 10px;
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        .chat-messages .msg.user {
+            background: linear-gradient(135deg, #7657e8, #8c61ff);
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-messages .msg.admin {
+            background: #1a2a2a;
+            border-right: 3px solid var(--green);
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-messages .msg .msg-meta {
+            display: block;
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            background: #0c0f18;
+        }
+        
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: white;
+            font-family: inherit;
+            font-size: 12px;
+            outline: none;
+        }
+        
+        .chat-input-area input:focus {
+            border-color: var(--primary);
+        }
+        
+        .chat-input-area button {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        
+        .chat-input-area button:hover {
+            box-shadow: 0 0 25px rgba(124,92,255,.3);
+        }
+        
+        /* Select user for chat */
+        .chat-user-select {
+            padding: 10px 16px;
+            background: #0c0f18;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .chat-user-select select {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: white;
+            font-family: inherit;
+            font-size: 12px;
+            outline: none;
+            min-width: 150px;
+        }
+        
+        .chat-user-select select:focus {
+            border-color: var(--primary);
+        }
+        
+        .chat-user-select .chat-user-label {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+        }
+        
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .empty-state h3 {
+            color: white;
+            margin-bottom: 6px;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--card2);
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast.success { border-color: var(--green); color: var(--green); }
+        .toast.error { border-color: var(--red); color: var(--red); }
+        .toast.info { border-color: var(--primary); color: var(--primary); }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            
+            .admin-user {
+                justify-content: center;
+            }
+            
+            .order-item .order-top {
+                flex-direction: column;
+            }
+            
+            .chat-messages .msg {
+                max-width: 95%;
+            }
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+        }
+        
+        .loading .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Login screen */
+        .login-screen {
+            max-width: 400px;
+            margin: 100px auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .login-screen h2 {
+            margin-bottom: 8px;
+        }
+        
+        .login-screen p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        
+        .login-screen input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: white;
+            font-family: inherit;
+            font-size: 13px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        
+        .login-screen input:focus {
+            border-color: var(--primary);
+        }
+        
+        .login-screen button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #7c5cff, #a05cff);
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        
+        .login-screen button:hover {
+            box-shadow: 0 0 30px rgba(124,92,255,.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-container" id="app">
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen" style="display:none;">
+        <div style="font-size:48px;margin-bottom:10px;">👑</div>
+        <h2>پنل مدیریت</h2>
+        <p>برای ورود، ایمیل ادمین خود را وارد کنید</p>
+        <input type="email" id="adminEmail" placeholder="ایمیل ادمین">
+        <input type="password" id="adminPassword" placeholder="رمز عبور">
+        <button onclick="adminLogin()">ورود به پنل مدیریت</button>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);">
+            ایمیل‌های مجاز: ahooraboz@gmail.com , aahooraboz@gmail.com
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" style="display:none;">
+        
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="logo">
+                <div class="logo-icon">✦</div>
+                <div class="logo-text">
+                    <h1>پنل مدیریت</h1>
+                    <span>سایت‌ساز اهورا</span>
+                </div>
+            </div>
+            <div class="admin-user">
+                <div class="avatar">👤</div>
+                <div>
+                    <div style="font-size:13px;font-weight:700;" id="adminName">ادمین</div>
+                    <div class="user-email" id="adminEmailDisplay">---</div>
+                </div>
+                <button class="logout-btn" onclick="adminLogout()">خروج</button>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="admin-stats" id="adminStats">
+            <div class="stat-box">
+                <span class="stat-number" id="statTotal">0</span>
+                <span class="stat-label">کل سفارش‌ها</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number yellow" id="statPending">0</span>
+                <span class="stat-label">در انتظار تأیید</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number green" id="statApproved">0</span>
+                <span class="stat-label">تأیید شده</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number green" id="statDelivered">0</span>
+                <span class="stat-label">تحویل شده</span>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="admin-tabs">
+            <button class="active" data-tab="orders" onclick="switchTab('orders')">📦 سفارش‌ها</button>
+            <button data-tab="chat" onclick="switchTab('chat')">💬 پشتیبانی</button>
+            <button data-tab="users" onclick="switchTab('users')">👥 کاربران</button>
+        </div>
+        
+        <!-- Tab: Orders -->
+        <div class="tab-content active" id="tabOrders">
+            <div class="orders-list" id="ordersList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>در حال بارگذاری سفارش‌ها...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab: Chat -->
+        <div class="tab-content" id="tabChat">
+            <div class="chat-container">
+                <div class="chat-user-select">
+                    <span class="chat-user-label">👤 کاربر:</span>
+                    <select id="chatUserSelect" onchange="loadChatMessages()">
+                        <option value="">همه کاربران</option>
+                    </select>
+                    <button class="btn-chat" onclick="refreshChat()" style="padding:6px 16px;border-radius:10px;border:none;color:white;font-weight:700;cursor:pointer;font-family:inherit;font-size:11px;">
+                        🔄 بروزرسانی
+                    </button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="empty-state">
+                        <span class="icon">💬</span>
+                        <h3>پیامی برای نمایش وجود ندارد</h3>
+                        <p>با انتخاب کاربر، پیام‌ها را مشاهده کنید</p>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input id="chatInput" placeholder="پیام خود را بنویسید..." onkeydown="if(event.key==='Enter')sendAdminMessage()">
+                    <button onclick="sendAdminMessage()">ارسال</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab: Users -->
+        <div class="tab-content" id="tabUsers">
+            <div class="orders-list" id="usersList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>در حال بارگذاری کاربران...</span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   SUPABASE CONFIG
+========================================================= */
+const SUPABASE_URL = "https://ztgvivrydvvflnfkcdyw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0Z3ZpdnJ5ZHZ2ZmxuZmtjZHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3ODUxNzYsImV4cCI6MjEwNDM2MTE3Nn0.1tuA4W7_A_pd85ab_dlW-IRiMBoUAnX6lQbJ4WZ8-LQ";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const TABLE_ORDERS = "orders";
+const TABLE_MESSAGES = "support_messages";
+const TABLE_USERS = "profiles";
+
+// Admin emails
+const ADMIN_EMAILS = ["ahooraboz@gmail.com", "aahooraboz@gmail.com"];
+
+let currentUser = null;
+let ordersData = [];
+let usersData = [];
+let messagesData = [];
+let currentChatUser = null;
+
+/* =========================================================
+   TOAST
+========================================================= */
+let toastTimer;
+
+function showToast(message, type = "info") {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.className = "toast " + type;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 4000);
+}
+
+/* =========================================================
+   FORMAT
+========================================================= */
+function formatPrice(number) {
+    return new Intl.NumberFormat("fa-IR").format(number);
+}
+
+function formatDate(dateStr) {
+    try {
+        return new Date(dateStr).toLocaleString("fa-IR");
+    } catch {
+        return dateStr || "---";
+    }
+}
+
+/* =========================================================
+   AUTH
+========================================================= */
+async function adminLogin() {
+    const email = document.getElementById("adminEmail").value.trim().toLowerCase();
+    const password = document.getElementById("adminPassword").value.trim();
+    
+    if (!email || !password) {
+        showToast("لطفاً ایمیل و رمز عبور را وارد کنید", "error");
+        return;
+    }
+    
+    if (!ADMIN_EMAILS.includes(email)) {
+        showToast("این ایمیل دسترسی ادمین ندارد", "error");
+        return;
+    }
+    
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+        
+        if (error) {
+            showToast("خطا در ورود: " + error.message, "error");
+            return;
+        }
+        
+        currentUser = data.user;
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        document.getElementById("adminName").textContent = data.user.email;
+        document.getElementById("adminEmailDisplay").textContent = data.user.email;
+        
+        showToast("✅ ورود موفق", "success");
+        
+        // بارگذاری داده‌ها
+        await loadAllData();
+        startAutoRefresh();
+        
+    } catch (error) {
+        showToast("خطا: " + error.message, "error");
+    }
+}
+
+function adminLogout() {
+    supabase.auth.signOut();
+    currentUser = null;
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("loginScreen").style.display = "block";
+    document.getElementById("adminEmail").value = "";
+    document.getElementById("adminPassword").value = "";
+    showToast("خروج از حساب", "info");
+}
+
+async function checkAuth() {
+    try {
+        const { data } = await supabase.auth.getSession();
+        if (data?.session?.user && ADMIN_EMAILS.includes(data.session.user.email)) {
+            currentUser = data.session.user;
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("adminPanel").style.display = "block";
+            document.getElementById("adminName").textContent = data.session.user.email;
+            document.getElementById("adminEmailDisplay").textContent = data.session.user.email;
+            await loadAllData();
+            startAutoRefresh();
+        } else {
+            document.getElementById("loginScreen").style.display = "block";
+            document.getElementById("adminPanel").style.display = "none";
+        }
+    } catch (error) {
+        console.error("خطا در checkAuth:", error);
+        document.getElementById("loginScreen").style.display = "block";
+        document.getElementById("adminPanel").style.display = "none";
+    }
+}
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
+async function loadAllData() {
+    await loadOrders();
+    await loadUsers();
+    await loadChatUsers();
+}
+
+async function loadOrders() {
+    try {
+        const { data, error } = await supabase
+            .from(TABLE_ORDERS)
+            .select("*")
+            .order("created_at", { ascending: false });
+        
+        if (error) throw error;
+        
+        ordersData = data || [];
+        updateStats();
+        renderOrders();
+        
+    } catch (error) {
+        console.error("خطا در loadOrders:", error);
+        showToast("خطا در بارگذاری سفارش‌ها", "error");
+    }
+}
+
+async function loadUsers() {
+    try {
+        const { data, error } = await supabase
+            .from(TABLE_USERS)
+            .select("*")
+            .order("created_at", { ascending: false });
+        
+        if (error) throw error;
+        
+        usersData = data || [];
+        renderUsers();
+        
+    } catch (error) {
+        console.error("خطا در loadUsers:", error);
+    }
+}
+
+async function loadChatUsers() {
+    try {
+        const { data, error } = await supabase
+            .from(TABLE_MESSAGES)
+            .select("user_email")
+            .order("created_at", { ascending: false });
+        
+        if (error) throw error;
+        
+        const uniqueUsers = [...new Set(data?.map(m => m.user_email).filter(Boolean) || [])];
+        const select = document.getElementById("chatUserSelect");
+        const currentValue = select.value;
+        
+        select.innerHTML = '<option value="">همه کاربران</option>';
+        uniqueUsers.forEach(email => {
+            const option = document.createElement("option");
+            option.value = email;
+            option.textContent = email;
+            select.appendChild(option);
+        });
+        
+        if (currentValue && uniqueUsers.includes(currentValue)) {
+            select.value = currentValue;
+        }
+        
+        await loadChatMessages();
+        
+    } catch (error) {
+        console.error("خطا در loadChatUsers:", error);
+    }
+}
+
+async function loadChatMessages() {
+    const select = document.getElementById("chatUserSelect");
+    const userEmail = select.value;
+    currentChatUser = userEmail || null;
+    
+    try {
+        let query = supabase
+            .from(TABLE_MESSAGES)
+            .select("*")
+            .order("created_at", { ascending: true });
+        
+        if (userEmail) {
+            query = query.eq("user_email", userEmail);
+        }
+        
+        const { data, error } = await query;
+        
+        if (error) throw error;
+        
+        messagesData = data || [];
+        renderChatMessages();
+        
+    } catch (error) {
+        console.error("خطا در loadChatMessages:", error);
+        showToast("خطا در بارگذاری پیام‌ها", "error");
+    }
+}
+
+/* =========================================================
+   RENDER FUNCTIONS
+========================================================= */
+function updateStats() {
+    const total = ordersData.length;
+    const pending = ordersData.filter(o => o.status === "waiting_admin").length;
+    const approved = ordersData.filter(o => o.status === "admin_approved").length;
+    const delivered = ordersData.filter(o => o.status === "delivered").length;
+    
+    document.getElementById("statTotal").textContent = total;
+    document.getElementById("statPending").textContent = pending;
+    document.getElementById("statApproved").textContent = approved;
+    document.getElementById("statDelivered").textContent = delivered;
+}
+
+function renderOrders() {
+    const container = document.getElementById("ordersList");
+    
+    if (!ordersData || ordersData.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="icon">📦</span>
+                <h3>هیچ سفارشی وجود ندارد</h3>
+                <p>سفارش‌ها در اینجا نمایش داده می‌شوند</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const statusMap = {
+        "pending": { label: "⏳ در انتظار امضا", class: "pending" },
+        "signed": { label: "✅ امضا شده", class: "signed" },
+        "waiting_admin": { label: "⏳ در انتظار تأیید", class: "waiting" },
+        "admin_approved": { label: "✅ تأیید شده", class: "approved" },
+        "delivered": { label: "🎉 تحویل شده", class: "delivered" },
+        "rejected": { label: "❌ رد شده", class: "rejected" }
+    };
+    
+    let html = "";
+    
+    ordersData.forEach(order => {
+        const status = statusMap[order.status] || statusMap.pending;
+        
+        // Actions
+        let actionsHtml = "";
+        if (order.status === "waiting_admin") {
+            actionsHtml = `
+                <div class="order-actions">
+                    <button class="btn-approve" onclick="approvePayment('${order.contract_id}')">✅ تأیید واریز</button>
+                    <button class="btn-reject" onclick="rejectPayment('${order.contract_id}')">❌ رد واریز</button>
+                    <button class="btn-chat" onclick="openChatForUser('${order.user_email}')">💬 پیام</button>
+                </div>
+            `;
+        } else if (order.status === "admin_approved") {
+            actionsHtml = `
+                <div class="order-actions">
+                    <button class="btn-deliver" onclick="deliverSite('${order.contract_id}')">📦 تحویل سایت</button>
+                    <button class="btn-chat" onclick="openChatForUser('${order.user_email}')">💬 پیام</button>
+                </div>
+            `;
+        } else if (order.status === "delivered") {
+            actionsHtml = `
+                <div class="order-actions">
+                    <button class="btn-chat" onclick="openChatForUser('${order.user_email}')">💬 پیام</button>
+                </div>
+            `;
+        } else {
+            actionsHtml = `
+                <div class="order-actions">
+                    <button class="btn-chat" onclick="openChatForUser('${order.user_email}')">💬 پیام</button>
+                </div>
+            `;
+        }
+        
+        // Site info
+        let siteHtml = "";
+        if (order.site_domain) {
+            siteHtml = `
+                <div class="order-site-info">
+                    🌐 دامنه: <strong>${order.site_domain}</strong> &nbsp;|&nbsp;
+                    📧 ایمیل: <strong>${order.site_admin_email || "---"}</strong>
+                </div>
+            `;
+        }
+        
+        html += `
+            <div class="order-item" id="order-${order.contract_id}">
+                <div class="order-top">
+                    <div>
+                        <div class="order-product">${order.product_name || "محصول"}</div>
+                        <div class="order-user">👤 ${order.user_email || "کاربر ناشناس"}</div>
+                        <span class="order-status ${status.class}">${status.label}</span>
+                    </div>
+                    <div style="text-align:left;">
+                        <div class="order-price">${formatPrice(order.price)} تومان</div>
+                        <div style="font-size:10px;color:var(--muted);margin-top:3px;">
+                            ID: ${String(order.contract_id).slice(0, 8)}
+                        </div>
+                    </div>
+                </div>
+                
+                ${siteHtml}
+                ${actionsHtml}
+                
+                <div class="order-meta">
+                    <span>📅 ${formatDate(order.created_at)}</span>
+                    ${order.signed_name ? `<span>✍️ ${order.signed_name}</span>` : ""}
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function renderUsers() {
+    const container = document.getElementById("usersList");
+    
+    if (!usersData || usersData.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="icon">👥</span>
+                <h3>هیچ کاربری ثبت نشده</h3>
+                <p>کاربران در اینجا نمایش داده می‌شوند</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = "";
+    
+    usersData.forEach(user => {
+        html += `
+            <div class="order-item">
+                <div class="order-top">
+                    <div>
+                        <div class="order-product">${user.full_name || "کاربر"}</div>
+                        <div class="order-user">📧 ${user.email || "---"}</div>
+                    </div>
+                    <div style="text-align:left;">
+                        <div style="font-size:12px;color:var(--muted);">
+                            🆔 ${user.national_id || "---"}
+                        </div>
+                    </div>
+                </div>
+                <div class="order-meta">
+                    <span>📅 ${formatDate(user.created_at)}</span>
+                    ${user.birth_date ? `<span>🎂 ${user.birth_date}</span>` : ""}
+                    <button class="btn-chat" onclick="openChatForUser('${user.email}')" 
+                            style="padding:4px 12px;border-radius:8px;border:none;color:white;font-weight:700;cursor:pointer;font-family:inherit;font-size:10px;background:linear-gradient(135deg,#7c5cff,#5c3ccc);">
+                        💬 پیام
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function renderChatMessages() {
+    const container = document.getElementById("chatMessages");
+    
+    if (!messagesData || messagesData.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="icon">💬</span>
+                <h3>پیامی وجود ندارد</h3>
+                <p>پیام‌های کاربران در اینجا نمایش داده می‌شود</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = "";
+    
+    messagesData.forEach(msg => {
+        const isAdmin = msg.sender_type === "admin";
+        html += `
+            <div class="msg ${isAdmin ? 'admin' : 'user'}">
+                ${msg.message}
+                <span class="msg-meta">${isAdmin ? "👑 ادمین" : "👤 کاربر"} • ${formatDate(msg.created_at)}</span>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
+}
+
+function refreshChat() {
+    loadChatMessages();
+    showToast("🔄 پیام‌ها بروزرسانی شد", "info");
+}
+
+/* =========================================================
+   ADMIN ACTIONS
+========================================================= */
+async function approvePayment(contractId) {
+    if (!confirm("آیا از تأیید واریز این سفارش مطمئن هستید؟")) return;
+    
+    try {
+        const { error } = await supabase
+            .from(TABLE_ORDERS)
+            .update({
+                status: "admin_approved",
+                admin_approved: true,
+                updated_at: new Date().toISOString()
+            })
+            .eq("contract_id", contractId);
+        
+        if (error) throw error;
+        
+        // Get user email
+        const { data: order } = await supabase
+            .from(TABLE_ORDERS)
+            .select("user_email")
+            .eq("contract_id", contractId)
+            .single();
+        
+        if (order?.user_email) {
+            await supabase
+                .from(TABLE_MESSAGES)
+                .insert({
+                    user_email: order.user_email,
+                    message: "✅ واریز شما توسط ادمین تأیید شد. لطفاً اطلاعات سایت خود را وارد کنید.",
+                    sender_type: "admin",
+                    created_at: new Date().toISOString()
+                });
+        }
+        
+        showToast("✅ واریز تأیید شد", "success");
+        await loadOrders();
+        
+    } catch (error) {
+        showToast("❌ خطا: " + error.message, "error");
+    }
+}
+
+async function rejectPayment(contractId) {
+    if (!confirm("آیا از رد واریز این سفارش مطمئن هستید؟")) return;
+    
+    try {
+        const { error } = await supabase
+            .from(TABLE_ORDERS)
+            .update({
+                status: "rejected",
+                paid: false,
+                updated_at: new Date().toISOString()
+            })
+            .eq("contract_id", contractId);
+        
+        if (error) throw error;
+        
+        const { data: order } = await supabase
+            .from(TABLE_ORDERS)
+            .select("user_email")
+            .eq("contract_id", contractId)
+            .single();
+        
+        if (order?.user_email) {
+            await supabase
+                .from(TABLE_MESSAGES)
+                .insert({
+                    user_email: order.user_email,
+                    message: "❌ واریز شما تأیید نشد. لطفاً با پشتیبانی تماس بگیرید.",
+                    sender_type: "admin",
+                    created_at: new Date().toISOString()
+                });
+        }
+        
+        showToast("❌ واریز رد شد", "error");
+        await loadOrders();
+        
+    } catch (error) {
+        showToast("❌ خطا: " + error.message, "error");
+    }
+}
+
+async function deliverSite(contractId) {
+    if (!confirm("آیا از تحویل سایت این سفارش مطمئن هستید؟")) return;
+    
+    try {
+        const { error } = await supabase
+            .from(TABLE_ORDERS)
+            .update({
+                status: "delivered",
+                delivered: true,
+                updated_at: new Date().toISOString()
+            })
+            .eq("contract_id", contractId);
+        
+        if (error) throw error;
+        
+        const { data: order } = await supabase
+            .from(TABLE_ORDERS)
+            .select("user_email, site_domain")
+            .eq("contract_id", contractId)
+            .single();
+        
+        if (order?.user_email) {
+            await supabase
+                .from(TABLE_MESSAGES)
+                .insert({
+                    user_email: order.user_email,
+                    message: `🎉 سایت شما با موفقیت تحویل داده شد. آدرس سایت: ${order.site_domain || "دامنه شما"}`,
+                    sender_type: "admin",
+                    created_at: new Date().toISOString()
+                });
+        }
+        
+        showToast("🎉 سایت تحویل داده شد", "success");
+        await loadOrders();
+        
+    } catch (error) {
+        showToast("❌ خطا: " + error.message, "error");
+    }
+}
+
+function openChatForUser(email) {
+    if (!email) return;
+    document.querySelector('[data-tab="chat"]').click();
+    const select = document.getElementById("chatUserSelect");
+    select.value = email;
+    loadChatMessages();
+    showToast(`💬 چت با کاربر ${email}`, "info");
+}
+
+/* =========================================================
+   SEND ADMIN MESSAGE
+========================================================= */
+async function sendAdminMessage() {
+    const input = document.getElementById("chatInput");
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    const select = document.getElementById("chatUserSelect");
+    const userEmail = select.value;
+    
+    if (!userEmail) {
+        showToast("لطفاً یک کاربر را انتخاب کنید", "error");
+        return;
+    }
+    
+    try {
+        const { error } = await supabase
+            .from(TABLE_MESSAGES)
+            .insert({
+                user_email: userEmail,
+                message: message,
+                sender_type: "admin",
+                created_at: new Date().toISOString()
+            });
+        
+        if (error) throw error;
+        
+        input.value = "";
+        showToast("✅ پیام ارسال شد", "success");
+        await loadChatMessages();
+        
+    } catch (error) {
+        showToast("❌ خطا در ارسال: " + error.message, "error");
+    }
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+function switchTab(tabId) {
+    document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".admin-tabs button").forEach(el => el.classList.remove("active"));
+    
+    document.getElementById("tab" + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add("active");
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
+    
+    if (tabId === "chat") {
+        loadChatMessages();
+    }
+    if (tabId === "users") {
+        loadUsers();
+    }
+}
+
+/* =========================================================
+   AUTO REFRESH
+========================================================= */
+let refreshInterval;
+
+function startAutoRefresh() {
+    if (refreshInterval) clearInterval(refreshInterval);
+    refreshInterval = setInterval(() => {
+        if (currentUser) {
+            loadOrders();
+            loadChatUsers();
+        }
+    }, 30000);
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+console.log("👑 پنل مدیریت راه‌اندازی شد");
+checkAuth();
+
+</script>
+
+</body>
+</html>
