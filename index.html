@@ -474,6 +474,8 @@ button{
 .messages{
     flex:1;
     padding:20px;
+    max-height:400px;
+    overflow-y:auto;
 }
 
 .message{
@@ -816,6 +818,195 @@ button{
 .toast.show{
     opacity:1;
     transform:translate(-50%,0);
+}
+
+/* CONTRACT MODAL */
+.contract-modal .modal-content{
+    max-width:700px;
+    padding:30px 25px;
+}
+
+.contract-text{
+    background:#0c0f18;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:20px;
+    font-size:12px;
+    line-height:2.5;
+    max-height:400px;
+    overflow-y:auto;
+    color:#cdd0dd;
+    margin-bottom:18px;
+}
+
+.contract-text strong{
+    color:#fff;
+}
+
+.contract-text .highlight{
+    color:#a98cff;
+}
+
+.signature-area{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin:15px 0;
+    padding:15px;
+    background:#0c0f18;
+    border-radius:14px;
+    border:1px solid var(--border);
+}
+
+.signature-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.signature-row label{
+    font-size:11px;
+    color:var(--muted);
+    min-width:100px;
+}
+
+.signature-row input{
+    flex:1;
+    background:#090c14;
+    border:1px solid var(--border);
+    color:white;
+    outline:0;
+    padding:10px 12px;
+    border-radius:10px;
+    font-family:inherit;
+    font-size:11px;
+    min-width:150px;
+}
+
+.signature-row .copy-btn{
+    padding:8px 14px;
+    border-radius:10px;
+    background:#1c2030;
+    color:#a98cff;
+    font-size:11px;
+    font-weight:700;
+    border:1px solid rgba(124,92,255,.2);
+}
+
+.payment-card-box{
+    background:linear-gradient(135deg,#1a1d30,#0f1220);
+    border:1px solid rgba(124,92,255,.2);
+    border-radius:12px;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.payment-card-box .card-number{
+    font-size:16px;
+    font-weight:700;
+    color:#fff;
+    letter-spacing:2px;
+    direction:ltr;
+    font-family:monospace;
+}
+
+.payment-card-box .card-owner{
+    color:#a98cff;
+    font-size:12px;
+}
+
+.contract-actions{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+    flex-wrap:wrap;
+}
+
+.contract-actions button{
+    flex:1;
+    min-width:120px;
+    padding:12px;
+    border-radius:12px;
+    font-weight:800;
+    font-size:12px;
+}
+
+.btn-confirm{
+    background:linear-gradient(135deg,#24d17e,#1a9e5b);
+    color:white;
+}
+
+.btn-confirm.done{
+    background:linear-gradient(135deg,#ffa500,#cc8400);
+}
+
+.btn-confirm.paid{
+    background:linear-gradient(135deg,#7c5cff,#5c3ccc);
+}
+
+.btn-confirm:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+.btn-secondary{
+    background:#1c2030;
+    color:white;
+}
+
+.contract-status{
+    text-align:center;
+    padding:12px;
+    border-radius:12px;
+    margin:8px 0;
+    font-size:12px;
+    font-weight:700;
+}
+
+.contract-status.pending{
+    background:rgba(255,193,7,.15);
+    color:#ffc107;
+}
+
+.contract-status.signed{
+    background:rgba(36,209,126,.15);
+    color:#24d17e;
+}
+
+.contract-status.paid{
+    background:rgba(124,92,255,.15);
+    color:#a98cff;
+}
+
+.contract-status.delivered{
+    background:rgba(36,209,126,.25);
+    color:#24d17e;
+}
+
+.delivery-notice{
+    background:linear-gradient(135deg,#1a2a1a,#0f1a0f);
+    border:1px solid rgba(36,209,126,.2);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:12px 0;
+    text-align:center;
+}
+
+.delivery-notice .big-icon{
+    font-size:28px;
+    display:block;
+    margin-bottom:5px;
+}
+
+.delivery-notice .date{
+    color:#24d17e;
+    font-weight:900;
+    font-size:14px;
 }
 
 /* DESKTOP */
@@ -1451,7 +1642,7 @@ button{
         </div>
 
         <button class="buy-btn" onclick="startPurchase()">
-            ادامه خرید و ارتباط با پشتیبانی
+            ادامه خرید و مشاهده قرارداد
         </button>
 
     </div>
@@ -1475,13 +1666,17 @@ button{
 
     </div>
 
-    <div class="empty">
+    <div id="ordersList">
 
-        <div class="empty-icon">📦</div>
+        <div class="empty" id="ordersEmpty">
 
-        <h3>هنوز سفارشی ثبت نشده</h3>
+            <div class="empty-icon">📦</div>
 
-        <p>بعد از خرید، سفارش‌های شما در این بخش نمایش داده می‌شوند.</p>
+            <h3>هنوز سفارشی ثبت نشده</h3>
+
+            <p>بعد از خرید، سفارش‌های شما در این بخش نمایش داده می‌شوند.</p>
+
+        </div>
 
     </div>
 
@@ -1832,6 +2027,89 @@ button{
 </div>
 
 
+<!-- CONTRACT MODAL -->
+
+<div class="modal contract-modal" id="contractModal">
+
+    <div class="modal-content">
+
+        <div class="modal-title">
+
+            <h2>📄 قرارداد خرید</h2>
+
+            <button class="close" onclick="closeContract()">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="contractContent">
+
+            <div class="contract-text" id="contractText">
+                <!-- توسط JS پر می‌شود -->
+            </div>
+
+            <div class="contract-status" id="contractStatus">
+                ⏳ در انتظار امضا
+            </div>
+
+            <div class="signature-area">
+
+                <div class="signature-row">
+                    <label>نام امضاکننده:</label>
+                    <input id="signatureName" placeholder="نام و نام خانوادگی">
+                </div>
+
+                <div class="signature-row">
+                    <label>کد ملی:</label>
+                    <input id="signatureNational" placeholder="کد ملی" maxlength="10" inputmode="numeric">
+                </div>
+
+                <div class="signature-row">
+                    <label>تاریخ:</label>
+                    <input id="signatureDate" type="text" placeholder="۱۴۰۳/۰۵/۲۰">
+                </div>
+
+            </div>
+
+            <div class="payment-card-box">
+                <span class="card-owner">🏦 جعفر ملکی</span>
+                <span class="card-number" id="cardNumberDisplay">6219861921158506</span>
+                <button class="copy-btn" onclick="copyCardNumber()">📋 کپی</button>
+            </div>
+
+            <div class="delivery-notice" id="deliveryNotice" style="display:none;">
+                <span class="big-icon">✅</span>
+                <span>پس از تأیید واریز، تا <span class="date">۳ روز</span> با دامنه <span class="date">.ir</span> تحویل شما داده می‌شود.</span>
+            </div>
+
+            <div class="contract-actions">
+
+                <button class="btn-secondary" onclick="closeContract()">
+                    بستن
+                </button>
+
+                <button class="btn-confirm" id="contractSignBtn" onclick="signContract()">
+                    ✍️ امضا و تأیید
+                </button>
+
+                <button class="btn-confirm paid" id="contractPaidBtn" onclick="markPaid()" style="display:none;">
+                    ✅ واریز شد
+                </button>
+
+                <button class="btn-confirm done" id="contractDoneBtn" onclick="markDelivered()" style="display:none;">
+                    📦 تحویل شد
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <div class="toast" id="toast"></div>
 
 
@@ -1864,6 +2142,12 @@ let cart =
 let realUser = null;
 
 let currentRegisterEmail = "";
+
+// قراردادها
+let contracts =
+    JSON.parse(localStorage.getItem("contracts") || "[]");
+
+let currentContractIndex = -1;
 
 
 /* =========================
@@ -1905,6 +2189,10 @@ function openPage(page){
 
     if(page==="profile"){
         renderProfile();
+    }
+
+    if(page==="orders"){
+        renderOrders();
     }
 }
 
@@ -2057,85 +2345,458 @@ function removeCart(id){
 
 
 /* =========================
+   CONTRACT SYSTEM
+========================= */
+
+function getContractText(productName, price){
+
+    const today = new Date().toLocaleDateString('fa-IR');
+
+    return `
+        <strong>قرارداد طراحی و توسعه وب‌سایت</strong><br><br>
+
+        این قرارداد بین <strong>سایت‌ساز اهورا</strong> (کارفرما) و امضاکننده زیر (کارفرما/کاربر) منعقد می‌گردد.<br><br>
+
+        <strong>موضوع قرارداد:</strong><br>
+        طراحی و راه‌اندازی <span class="highlight">"${productName}"</span> با مشخصات توافق‌شده.<br><br>
+
+        <strong>مبلغ قرارداد:</strong><br>
+        <span class="highlight">${formatPrice(price)} تومان</span><br><br>
+
+        <strong>شرایط پرداخت:</strong><br>
+        مبلغ فوق به حساب زیر واریز می‌گردد.<br><br>
+
+        <strong>مدت تحویل:</strong><br>
+        پس از تأیید واریز، حداکثر <span class="highlight">۳ روز کاری</span> با دامنه <span class="highlight">.ir</span> تحویل داده می‌شود.<br><br>
+
+        <strong>تاریخ تنظیم:</strong><br>
+        ${today}<br><br>
+
+        <strong>امضا و تأیید:</strong><br>
+        امضای ذیل به منزله قبول کلیه شرایط فوق می‌باشد.
+    `;
+}
+
+
+function openContract(productName, price){
+
+    const modal =
+        document.getElementById("contractModal");
+
+    modal.classList.add("show");
+
+    // ساخت قرارداد جدید
+    const contract = {
+        id: Date.now() + Math.random(),
+        productName: productName,
+        price: price,
+        createdAt: new Date().toISOString(),
+        signed: false,
+        signedName: "",
+        signedNational: "",
+        signedDate: "",
+        paid: false,
+        delivered: false,
+        status: "pending" // pending | signed | paid | delivered
+    };
+
+    contracts.push(contract);
+    localStorage.setItem("contracts", JSON.stringify(contracts));
+    currentContractIndex = contracts.length - 1;
+
+    renderContract(contract);
+}
+
+
+function renderContract(contract){
+
+    const textEl =
+        document.getElementById("contractText");
+
+    textEl.innerHTML =
+        getContractText(
+            contract.productName,
+            contract.price
+        );
+
+    const statusEl =
+        document.getElementById("contractStatus");
+
+    const signBtn =
+        document.getElementById("contractSignBtn");
+
+    const paidBtn =
+        document.getElementById("contractPaidBtn");
+
+    const doneBtn =
+        document.getElementById("contractDoneBtn");
+
+    const deliveryNotice =
+        document.getElementById("deliveryNotice");
+
+    const nameInput =
+        document.getElementById("signatureName");
+
+    const nationalInput =
+        document.getElementById("signatureNational");
+
+    const dateInput =
+        document.getElementById("signatureDate");
+
+    // پر کردن اطلاعات قبلی
+    if(contract.signed){
+        nameInput.value = contract.signedName || "";
+        nationalInput.value = contract.signedNational || "";
+        dateInput.value = contract.signedDate || "";
+    }
+
+    // به‌روزرسانی وضعیت
+    let statusText = "";
+    let statusClass = "";
+
+    switch(contract.status){
+        case "pending":
+            statusText = "⏳ در انتظار امضا";
+            statusClass = "pending";
+            signBtn.style.display = "block";
+            signBtn.disabled = false;
+            signBtn.textContent = "✍️ امضا و تأیید";
+            paidBtn.style.display = "none";
+            doneBtn.style.display = "none";
+            deliveryNotice.style.display = "none";
+            nameInput.disabled = false;
+            nationalInput.disabled = false;
+            dateInput.disabled = false;
+            break;
+
+        case "signed":
+            statusText = "✅ امضا شده - در انتظار واریز";
+            statusClass = "signed";
+            signBtn.style.display = "none";
+            paidBtn.style.display = "block";
+            paidBtn.disabled = false;
+            paidBtn.textContent = "💰 واریز شد";
+            doneBtn.style.display = "none";
+            deliveryNotice.style.display = "none";
+            nameInput.disabled = true;
+            nationalInput.disabled = true;
+            dateInput.disabled = true;
+            break;
+
+        case "paid":
+            statusText = "💰 واریز تأیید شد - در حال آماده‌سازی";
+            statusClass = "paid";
+            signBtn.style.display = "none";
+            paidBtn.style.display = "none";
+            doneBtn.style.display = "block";
+            doneBtn.disabled = false;
+            doneBtn.textContent = "📦 تحویل شد";
+            deliveryNotice.style.display = "block";
+            nameInput.disabled = true;
+            nationalInput.disabled = true;
+            dateInput.disabled = true;
+            break;
+
+        case "delivered":
+            statusText = "🎉 تحویل داده شد";
+            statusClass = "delivered";
+            signBtn.style.display = "none";
+            paidBtn.style.display = "none";
+            doneBtn.style.display = "none";
+            deliveryNotice.style.display = "block";
+            nameInput.disabled = true;
+            nationalInput.disabled = true;
+            dateInput.disabled = true;
+            break;
+    }
+
+    statusEl.textContent = statusText;
+    statusEl.className = "contract-status " + statusClass;
+
+    // نمایش شماره کارت
+    document.getElementById("cardNumberDisplay").textContent = "6219861921158506";
+
+    // ذخیره در localStorage
+    localStorage.setItem("contracts", JSON.stringify(contracts));
+}
+
+
+function signContract(){
+
+    const contract = contracts[currentContractIndex];
+    if(!contract) return;
+
+    const name =
+        document.getElementById("signatureName").value.trim();
+
+    const national =
+        document.getElementById("signatureNational").value.trim();
+
+    const date =
+        document.getElementById("signatureDate").value.trim();
+
+    if(!name){
+        showToast("لطفاً نام خود را وارد کنید");
+        return;
+    }
+
+    if(!national || national.length !== 10){
+        showToast("لطفاً کد ملی ۱۰ رقمی را وارد کنید");
+        return;
+    }
+
+    if(!date){
+        showToast("لطفاً تاریخ را وارد کنید");
+        return;
+    }
+
+    contract.signed = true;
+    contract.signedName = name;
+    contract.signedNational = national;
+    contract.signedDate = date;
+    contract.status = "signed";
+
+    renderContract(contract);
+
+    // ارسال پیام به پشتیبانی
+    const messages = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "message user";
+    msg.textContent = `قرارداد محصول "${contract.productName}" را امضا کردم.`;
+    messages.appendChild(msg);
+
+    setTimeout(() => {
+        const support = document.createElement("div");
+        support.className = "message support";
+        support.textContent = "✅ قرارداد شما ثبت شد. لطفاً مبلغ را به شماره کارت زیر واریز کنید و گزینه 'واریز شد' را بزنید.";
+        messages.appendChild(support);
+        messages.scrollTop = messages.scrollHeight;
+    }, 500);
+
+    showToast("✅ قرارداد امضا شد");
+}
+
+
+function markPaid(){
+
+    const contract = contracts[currentContractIndex];
+    if(!contract) return;
+
+    if(contract.status !== "signed"){
+        showToast("لطفاً ابتدا قرارداد را امضا کنید");
+        return;
+    }
+
+    contract.paid = true;
+    contract.status = "paid";
+
+    renderContract(contract);
+
+    // پیام به پشتیبانی
+    const messages = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "message user";
+    msg.textContent = `💰 واریز مبلغ ${formatPrice(contract.price)} تومان انجام شد.`;
+    messages.appendChild(msg);
+
+    setTimeout(() => {
+        const support = document.createElement("div");
+        support.className = "message support";
+        support.textContent = "✅ واریز شما تأیید شد. پروژه شما در دست ساخت است و حداکثر ۳ روز کاری با دامنه .ir تحویل داده می‌شود.";
+        messages.appendChild(support);
+        messages.scrollTop = messages.scrollHeight;
+    }, 500);
+
+    // ذخیره در سفارش‌ها
+    saveOrder(contract);
+
+    showToast("✅ واریز تأیید شد");
+}
+
+
+function markDelivered(){
+
+    const contract = contracts[currentContractIndex];
+    if(!contract) return;
+
+    if(contract.status !== "paid"){
+        showToast("لطفاً ابتدا واریز را تأیید کنید");
+        return;
+    }
+
+    contract.delivered = true;
+    contract.status = "delivered";
+
+    renderContract(contract);
+
+    showToast("🎉 سایت شما تحویل داده شد!");
+}
+
+
+function closeContract(){
+
+    document.getElementById("contractModal")
+        .classList.remove("show");
+}
+
+
+function copyCardNumber(){
+
+    const text =
+        document.getElementById("cardNumberDisplay")
+        .textContent;
+
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            showToast("📋 شماره کارت کپی شد");
+        })
+        .catch(() => {
+            // Fallback
+            const input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            showToast("📋 شماره کارت کپی شد");
+        });
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+let orders =
+    JSON.parse(localStorage.getItem("orders") || "[]");
+
+
+function saveOrder(contract){
+
+    const order = {
+        id: contract.id,
+        productName: contract.productName,
+        price: contract.price,
+        date: contract.signedDate || new Date().toLocaleDateString('fa-IR'),
+        status: contract.status,
+        delivered: contract.delivered
+    };
+
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+
+function renderOrders(){
+
+    const container =
+        document.getElementById("ordersList");
+
+    const empty =
+        document.getElementById("ordersEmpty");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    if(orders.length === 0){
+        container.innerHTML = `
+            <div class="empty" id="ordersEmpty">
+                <div class="empty-icon">📦</div>
+                <h3>هنوز سفارشی ثبت نشده</h3>
+                <p>بعد از خرید، سفارش‌های شما در این بخش نمایش داده می‌شوند.</p>
+            </div>
+        `;
+        return;
+    }
+
+    orders.forEach((order, index) => {
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.style.flexDirection = "column";
+        div.style.alignItems = "stretch";
+        div.style.padding = "15px";
+
+        const statusMap = {
+            "pending": "⏳ در انتظار امضا",
+            "signed": "✅ امضا شده",
+            "paid": "💰 واریز شده",
+            "delivered": "🎉 تحویل داده شده"
+        };
+
+        div.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <h3 style="font-size:13px;">${order.productName}</h3>
+                <span style="color:#a98cff;font-weight:700;">${formatPrice(order.price)} تومان</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:5px;">
+                <span>📅 ${order.date}</span>
+                <span style="color:${order.status === 'delivered' ? '#24d17e' : '#ffc107'};">${statusMap[order.status] || order.status}</span>
+            </div>
+            ${order.status === 'delivered' ? `
+                <div style="margin-top:8px;padding:8px 12px;background:rgba(36,209,126,.1);border-radius:10px;font-size:11px;color:#24d17e;text-align:center;">
+                    ✅ سایت با دامنه .ir تحویل داده شد
+                </div>
+            ` : ''}
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+
+/* =========================
    PURCHASE
 ========================= */
 
 function startPurchase(){
 
     if(cart.length===0){
-
         showToast("سبد خرید خالی است");
-
         return;
     }
-
-
-    /*
-       فقط وضعیت احراز هویت واقعی Supabase
-       بررسی می‌شود.
-    */
 
     if(!realUser){
-
         showToast("برای خرید ابتدا ثبت‌نام کنید");
-
-        setTimeout(()=>{
-
-            openRegister();
-
-        },500);
-
+        setTimeout(() => openRegister(), 500);
         return;
     }
 
+    // جمع کل
+    let total = 0;
+    let products = [];
+    cart.forEach(item => {
+        total += item.price;
+        products.push(item.name);
+    });
 
-    openPage("support");
+    // باز کردن قرارداد برای اولین محصول
+    const firstProduct = cart[0];
+    openContract(firstProduct.name, total);
 
-
-    setTimeout(()=>{
-
-        const messages =
-            document.getElementById("messages");
-
-        const msg =
-            document.createElement("div");
-
-        msg.className="message user";
-
-        msg.textContent =
-            "سلام، می‌خواهم سفارش خود را ثبت کنم.";
-
+    // پیام به پشتیبانی
+    setTimeout(() => {
+        const messages = document.getElementById("messages");
+        const msg = document.createElement("div");
+        msg.className = "message user";
+        msg.textContent = `سلام، می‌خواهم برای "${firstProduct.name}" قرارداد ثبت کنم.`;
         messages.appendChild(msg);
 
-
-        setTimeout(()=>{
-
-            const support =
-                document.createElement("div");
-
-            support.className =
-                "message support";
-
-            support.textContent =
-                "سلام 👋 سفارش شما دریافت شد. پشتیبانی به‌زودی برای تکمیل سفارش با شما هماهنگ می‌کند.";
-
+        setTimeout(() => {
+            const support = document.createElement("div");
+            support.className = "message support";
+            support.textContent = "👋 قرارداد برای شما آماده شده است. لطفاً آن را مطالعه و امضا کنید.";
             messages.appendChild(support);
-
-            messages.scrollTop =
-                messages.scrollHeight;
-
-        },700);
-
-    },300);
+            messages.scrollTop = messages.scrollHeight;
+        }, 500);
+    }, 300);
 }
 
 
 /* =========================================================
    REGISTER
 ========================================================= */
-
-
-/* تبدیل اعداد فارسی و عربی به انگلیسی */
 
 function toEnglishDigits(value){
 
@@ -2148,8 +2809,6 @@ function toEnglishDigits(value){
         );
 }
 
-
-/* نمایش مرحله ثبت‌نام */
 
 function showRegisterStep(step){
 
@@ -2167,7 +2826,6 @@ function showRegisterStep(step){
     if(target){
         target.classList.add("active");
     }
-
 
     document
         .querySelectorAll(".step-dot")
@@ -2190,19 +2848,11 @@ function showRegisterStep(step){
 }
 
 
-/* باز کردن پنجره ثبت‌نام */
-
 async function openRegister(){
 
     document
         .getElementById("registerModal")
         .classList.add("show");
-
-
-    /*
-       اگر کاربر قبلاً وارد شده،
-       ایمیل او را نمایش می‌دهیم.
-    */
 
     if(realUser){
 
@@ -2245,12 +2895,9 @@ async function openRegister(){
 
     }
 
-
     showRegisterStep(1);
 }
 
-
-/* بستن پنجره */
 
 function closeRegister(){
 
@@ -2259,11 +2906,6 @@ function closeRegister(){
         .classList.remove("show");
 }
 
-
-/* =========================================================
-   STEP 1
-   SEND OTP
-========================================================= */
 
 async function sendRegisterOTP(){
 
@@ -2274,14 +2916,12 @@ async function sendRegisterOTP(){
         .trim()
         .toLowerCase();
 
-
     if(!email || !email.includes("@")){
 
         showToast("ایمیل معتبر وارد کنید");
 
         return;
     }
-
 
     const button =
         document.querySelector(
@@ -2296,7 +2936,6 @@ async function sendRegisterOTP(){
     button.textContent =
         "در حال ارسال...";
 
-
     try{
 
         const {error} =
@@ -2310,7 +2949,6 @@ async function sendRegisterOTP(){
 
             });
 
-
         if(error){
 
             console.error("خطای ارسال کد:", error);
@@ -2323,17 +2961,13 @@ async function sendRegisterOTP(){
             return;
         }
 
-
-        currentRegisterEmail =
-            email;
-
+        currentRegisterEmail = email;
 
         showRegisterStep(2);
 
         showToast(
             "کد تأیید به ایمیل شما ارسال شد ✓"
         );
-
 
     }catch(error){
 
@@ -2353,11 +2987,6 @@ async function sendRegisterOTP(){
 }
 
 
-/* =========================================================
-   STEP 2
-   VERIFY OTP
-========================================================= */
-
 async function verifyRegisterOTP(){
 
     const email =
@@ -2368,13 +2997,11 @@ async function verifyRegisterOTP(){
         .trim()
         .toLowerCase();
 
-
     const token =
         document
         .getElementById("regOTP")
         .value
         .trim();
-
 
     if(!email){
 
@@ -2382,7 +3009,6 @@ async function verifyRegisterOTP(){
 
         return;
     }
-
 
     if(!/^\d{8}$/.test(
         toEnglishDigits(token)
@@ -2394,7 +3020,6 @@ async function verifyRegisterOTP(){
 
         return;
     }
-
 
     const button =
         document.querySelector(
@@ -2408,7 +3033,6 @@ async function verifyRegisterOTP(){
 
     button.textContent =
         "در حال بررسی...";
-
 
     try{
 
@@ -2424,7 +3048,6 @@ async function verifyRegisterOTP(){
 
             });
 
-
         if(error){
 
             console.error("خطای تأیید کد:", error);
@@ -2436,7 +3059,6 @@ async function verifyRegisterOTP(){
             return;
         }
 
-
         if(!data || !data.user){
 
             showToast(
@@ -2446,17 +3068,14 @@ async function verifyRegisterOTP(){
             return;
         }
 
-
         realUser =
             data.user;
-
 
         showRegisterStep(3);
 
         showToast(
             "ایمیل با موفقیت تأیید شد ✓"
         );
-
 
     }catch(error){
 
@@ -2476,11 +3095,6 @@ async function verifyRegisterOTP(){
 }
 
 
-/* =========================================================
-   STEP 3
-   COMPLETE PROFILE (نسخه کامل با خطاگیری)
-========================================================= */
-
 async function completeRealRegistration(){
 
     if(!realUser){
@@ -2494,13 +3108,11 @@ async function completeRealRegistration(){
         return;
     }
 
-
     const name =
         document
         .getElementById("regName")
         .value
         .trim();
-
 
     let national =
         document
@@ -2508,25 +3120,19 @@ async function completeRealRegistration(){
         .value
         .trim();
 
-
     const birth =
         document
         .getElementById("regBirth")
         .value
         .trim();
 
-
     const card =
         document
         .getElementById("nationalCard")
         .files[0];
 
-
     national =
         toEnglishDigits(national);
-
-
-    /* ===== اعتبارسنجی ===== */
 
     if(!name){
 
@@ -2537,7 +3143,6 @@ async function completeRealRegistration(){
         return;
     }
 
-
     if(!/^\d{10}$/.test(national)){
 
         showToast(
@@ -2546,7 +3151,6 @@ async function completeRealRegistration(){
 
         return;
     }
-
 
     if(!birth){
 
@@ -2557,16 +3161,9 @@ async function completeRealRegistration(){
         return;
     }
 
-
     let cardPath = null;
 
-
     try{
-
-        /*
-           اول پروفایل قدیمی را بررسی می‌کنیم
-           تا ببینیم قبلاً کارت آپلود شده یا نه
-        */
 
         const {data:oldProfile, error:oldError} =
             await supabaseClient
@@ -2583,17 +3180,11 @@ async function completeRealRegistration(){
             );
         }
 
-
         if(oldProfile && oldProfile.national_card_path){
 
             cardPath =
                 oldProfile.national_card_path;
         }
-
-
-        /*
-           اگر کارت جدید انتخاب شده باشد
-        */
 
         if(card){
 
@@ -2606,7 +3197,6 @@ async function completeRealRegistration(){
                 return;
             }
 
-
             if(card.size > 5 * 1024 * 1024){
 
                 showToast(
@@ -2616,14 +3206,11 @@ async function completeRealRegistration(){
                 return;
             }
 
-
-            // گرفتن پسوند فایل
             const extension =
                 card.name
                 .split(".")
                 .pop()
                 .toLowerCase();
-
 
             const validExtensions =
                 ["jpg","jpeg","png","webp"];
@@ -2637,26 +3224,12 @@ async function completeRealRegistration(){
                 return;
             }
 
-
-            // مسیر صحیح: user-id/national-card.extension
             const fileName =
                 "national-card." + extension;
 
             cardPath =
                 realUser.id + "/" + fileName;
 
-
-            console.log(
-                "شروع آپلود کارت ملی...",
-                {
-                    path: cardPath,
-                    size: card.size,
-                    type: card.type
-                }
-            );
-
-
-            // **آپلود فایل**
             const {error:uploadError, data:uploadData} =
                 await supabaseClient
                 .storage
@@ -2671,7 +3244,6 @@ async function completeRealRegistration(){
                     }
                 );
 
-
             if(uploadError){
 
                 console.error(
@@ -2683,7 +3255,6 @@ async function completeRealRegistration(){
                     }
                 );
 
-                // نمایش خطای دقیق‌تر به کاربر
                 if(uploadError.message
                     .includes("bucket not found")){
 
@@ -2708,7 +3279,6 @@ async function completeRealRegistration(){
                         "⚠️ فایل تکراری است. در حال بروزرسانی..."
                     );
 
-                    // تلاش برای آپلود با force
                     const {error:retryError} =
                         await supabaseClient
                         .storage
@@ -2743,31 +3313,12 @@ async function completeRealRegistration(){
                 return;
             }
 
-
             console.log(
                 "✅ آپلود موفق:",
                 uploadData
             );
 
         }
-
-
-        /*
-           ذخیره اطلاعات در جدول profiles
-        */
-
-        console.log(
-            "ذخیره اطلاعات پروفایل...",
-            {
-                id: realUser.id,
-                email: realUser.email,
-                full_name: name,
-                national_id: national,
-                birth_date: birth,
-                card_path: cardPath
-            }
-        );
-
 
         const {error:profileError, data:profileData} =
             await supabaseClient
@@ -2793,7 +3344,6 @@ async function completeRealRegistration(){
                 onConflict:"id"
             });
 
-
         if(profileError){
 
             console.error(
@@ -2809,12 +3359,10 @@ async function completeRealRegistration(){
             return;
         }
 
-
         console.log(
             "✅ پروفایل ذخیره شد:",
             profileData
         );
-
 
         closeRegister();
 
@@ -2823,7 +3371,6 @@ async function completeRealRegistration(){
         showToast(
             "✅ ثبت‌نام با موفقیت کامل شد ✓"
         );
-
 
     }catch(error){
 
@@ -2852,10 +3399,6 @@ async function completeRealRegistration(){
 
 async function renderProfile(){
 
-    /*
-       اگر کاربر لاگین نشده باشد
-    */
-
     if(!realUser){
 
         document.getElementById("profileName")
@@ -2883,11 +3426,6 @@ async function renderProfile(){
         return;
     }
 
-
-    /*
-       اطلاعات کاربر را از profiles می‌گیریم
-    */
-
     try{
 
         const {data,error} =
@@ -2896,7 +3434,6 @@ async function renderProfile(){
             .select("*")
             .eq("id",realUser.id)
             .maybeSingle();
-
 
         if(error){
 
@@ -2907,34 +3444,27 @@ async function renderProfile(){
 
         }
 
-
         document.getElementById("profileName")
             .textContent =
             data?.full_name ||
             "کاربر ثبت‌نام‌شده";
 
-
         document.getElementById("profileEmail")
             .textContent =
             realUser.email || "---";
-
 
         document.getElementById("infoEmail")
             .textContent =
             realUser.email || "---";
 
-
         document.getElementById("infoNational")
             .textContent =
             data?.national_id || "---";
-
 
         document.getElementById("infoBirth")
             .textContent =
             data?.birth_date || "---";
 
-
-        // نمایش کارت ملی
         if(data?.national_card_path){
 
             try{
@@ -2983,7 +3513,6 @@ async function renderProfile(){
 
         }
 
-
         document.getElementById("accountStatus")
             .textContent =
             data?.full_name
@@ -3013,7 +3542,6 @@ async function checkSupabaseUser(){
         const {data,error} =
             await supabaseClient.auth.getSession();
 
-
         if(error){
 
             console.error(
@@ -3028,10 +3556,8 @@ async function checkSupabaseUser(){
             return;
         }
 
-
         realUser =
             data?.session?.user || null;
-
 
         console.log(
             "وضعیت کاربر:",
@@ -3052,14 +3578,7 @@ async function checkSupabaseUser(){
         renderProfile();
 
     }
-
 }
-
-
-/*
-   اگر وضعیت ورود کاربر تغییر کند،
-   پروفایل هم به‌روزرسانی می‌شود.
-*/
 
 supabaseClient.auth.onAuthStateChange(
     async (event,session)=>{
@@ -3108,7 +3627,6 @@ function sendMessage(){
 
     messages.scrollTop =
         messages.scrollHeight;
-
 
     setTimeout(()=>{
 
@@ -3188,9 +3706,10 @@ updateCartCount();
 
 renderCart();
 
+renderOrders();
+
 checkSupabaseUser();
 
-// نمایش راهنما در کنسول
 console.log("📌 تنظیمات مورد نیاز در Supabase:");
 console.log("1. ایجاد bucket با نام: national-cards");
 console.log("2. تنظیم RLS Policies برای آپلود");
