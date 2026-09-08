@@ -1578,6 +1578,11 @@ button{
             </div>
 
             <div class="info-row">
+                <span>کارت ملی</span>
+                <strong id="infoCard">---</strong>
+            </div>
+
+            <div class="info-row">
                 <span>وضعیت حساب</span>
                 <strong id="accountStatus">مهمان</strong>
             </div>
@@ -2308,7 +2313,7 @@ async function sendRegisterOTP(){
 
         if(error){
 
-            console.error(error);
+            console.error("خطای ارسال کد:", error);
 
             showToast(
                 error.message ||
@@ -2332,7 +2337,7 @@ async function sendRegisterOTP(){
 
     }catch(error){
 
-        console.error(error);
+        console.error("خطای غیرمنتظره:", error);
 
         showToast(
             "خطا در اتصال به سرور"
@@ -2422,7 +2427,7 @@ async function verifyRegisterOTP(){
 
         if(error){
 
-            console.error(error);
+            console.error("خطای تأیید کد:", error);
 
             showToast(
                 "کد تأیید اشتباه یا منقضی شده است"
@@ -2455,7 +2460,7 @@ async function verifyRegisterOTP(){
 
     }catch(error){
 
-        console.error(error);
+        console.error("خطای غیرمنتظره:", error);
 
         showToast(
             "خطا در تأیید کد"
@@ -2473,7 +2478,7 @@ async function verifyRegisterOTP(){
 
 /* =========================================================
    STEP 3
-   COMPLETE PROFILE
+   COMPLETE PROFILE (نسخه کامل با خطاگیری)
 ========================================================= */
 
 async function completeRealRegistration(){
@@ -2521,6 +2526,8 @@ async function completeRealRegistration(){
         toEnglishDigits(national);
 
 
+    /* ===== اعتبارسنجی ===== */
+
     if(!name){
 
         showToast(
@@ -2551,41 +2558,41 @@ async function completeRealRegistration(){
     }
 
 
-    /*
-       در تکمیل اطلاعات، اگر کارت جدید
-       انتخاب نشده باشد و قبلاً فایل داشته باشد،
-       نیازی به آپلود دوباره نیست.
-    */
-
     let cardPath = null;
 
 
     try{
 
         /*
-           ابتدا پروفایل فعلی را می‌خوانیم
-           تا اگر کاربر قبلاً کارت آپلود کرده،
-           مجبور به آپلود دوباره نباشد.
+           اول پروفایل قدیمی را بررسی می‌کنیم
+           تا ببینیم قبلاً کارت آپلود شده یا نه
         */
 
-        const {data:oldProfile} =
+        const {data:oldProfile, error:oldError} =
             await supabaseClient
             .from("profiles")
             .select("national_card_path")
             .eq("id",realUser.id)
             .maybeSingle();
 
+        if(oldError){
 
-        if(oldProfile){
+            console.warn(
+                "خطا در خواندن پروفایل قدیمی:",
+                oldError
+            );
+        }
+
+
+        if(oldProfile && oldProfile.national_card_path){
 
             cardPath =
-                oldProfile.national_card_path || null;
+                oldProfile.national_card_path;
         }
 
 
         /*
-           اگر کارت ملی جدید انتخاب شده باشد
-           آن را در Storage آپلود می‌کنیم.
+           اگر کارت جدید انتخاب شده باشد
         */
 
         if(card){
@@ -2610,28 +2617,47 @@ async function completeRealRegistration(){
             }
 
 
+            // گرفتن پسوند فایل
             const extension =
                 card.name
                 .split(".")
                 .pop()
-                .toLowerCase()
-                .replace(/[^a-z0-9]/g,"");
+                .toLowerCase();
 
 
-            const safeExtension =
-                ["jpg","jpeg","png","webp"]
-                .includes(extension)
-                    ? extension
-                    : "jpg";
+            const validExtensions =
+                ["jpg","jpeg","png","webp"];
 
+            if(!validExtensions.includes(extension)){
+
+                showToast(
+                    "فرمت فایل باید jpg، png یا webp باشد"
+                );
+
+                return;
+            }
+
+
+            // مسیر صحیح: user-id/national-card.extension
+            const fileName =
+                "national-card." + extension;
 
             cardPath =
-                realUser.id +
-                "/national-card." +
-                safeExtension;
+                realUser.id + "/" + fileName;
 
 
-            const {error:uploadError} =
+            console.log(
+                "شروع آپلود کارت ملی...",
+                {
+                    path: cardPath,
+                    size: card.size,
+                    type: card.type
+                }
+            );
+
+
+            // **آپلود فایل**
+            const {error:uploadError, data:uploadData} =
                 await supabaseClient
                 .storage
                 .from("national-cards")
@@ -2639,32 +2665,111 @@ async function completeRealRegistration(){
                     cardPath,
                     card,
                     {
-                        cacheControl:"3600",
-                        upsert:true,
-                        contentType:card.type
+                        cacheControl: "3600",
+                        upsert: true,
+                        contentType: card.type
                     }
                 );
 
 
             if(uploadError){
 
-                console.error(uploadError);
-
-                showToast(
-                    "آپلود کارت ملی انجام نشد"
+                console.error(
+                    "❌ خطای آپلود کامل:",
+                    {
+                        message: uploadError.message,
+                        status: uploadError.status,
+                        name: uploadError.name
+                    }
                 );
+
+                // نمایش خطای دقیق‌تر به کاربر
+                if(uploadError.message
+                    .includes("bucket not found")){
+
+                    showToast(
+                        "⚠️ خطای تنظیمات سرور (مخزن national-cards وجود ندارد)"
+                    );
+
+                }else if(uploadError.message
+                    .includes("permission")
+                    ||
+                    uploadError.message
+                    .includes("unauthorized")){
+
+                    showToast(
+                        "⚠️ دسترسی آپلود ندارید. با پشتیبانی تماس بگیرید."
+                    );
+
+                }else if(uploadError.message
+                    .includes("duplicate")){
+
+                    showToast(
+                        "⚠️ فایل تکراری است. در حال بروزرسانی..."
+                    );
+
+                    // تلاش برای آپلود با force
+                    const {error:retryError} =
+                        await supabaseClient
+                        .storage
+                        .from("national-cards")
+                        .upload(
+                            cardPath,
+                            card,
+                            {
+                                cacheControl: "3600",
+                                upsert: true,
+                                contentType: card.type
+                            }
+                        );
+
+                    if(retryError){
+
+                        showToast(
+                            "❌ آپلود مجدد نیز شکست خورد"
+                        );
+
+                        return;
+                    }
+
+                }else{
+
+                    showToast(
+                        "❌ آپلود کارت ملی انجام نشد"
+                    );
+
+                }
 
                 return;
             }
+
+
+            console.log(
+                "✅ آپلود موفق:",
+                uploadData
+            );
 
         }
 
 
         /*
-           ذخیره اطلاعات در profiles
+           ذخیره اطلاعات در جدول profiles
         */
 
-        const {error:profileError} =
+        console.log(
+            "ذخیره اطلاعات پروفایل...",
+            {
+                id: realUser.id,
+                email: realUser.email,
+                full_name: name,
+                national_id: national,
+                birth_date: birth,
+                card_path: cardPath
+            }
+        );
+
+
+        const {error:profileError, data:profileData} =
             await supabaseClient
             .from("profiles")
             .upsert({
@@ -2680,7 +2785,9 @@ async function completeRealRegistration(){
 
                 birth_date:birth,
 
-                national_card_path:cardPath
+                national_card_path:cardPath,
+
+                updated_at: new Date().toISOString()
 
             },{
                 onConflict:"id"
@@ -2689,14 +2796,24 @@ async function completeRealRegistration(){
 
         if(profileError){
 
-            console.error(profileError);
+            console.error(
+                "❌ خطا در ذخیره پروفایل:",
+                profileError
+            );
 
             showToast(
-                "ذخیره اطلاعات انجام نشد"
+                "ذخیره اطلاعات انجام نشد: " +
+                profileError.message
             );
 
             return;
         }
+
+
+        console.log(
+            "✅ پروفایل ذخیره شد:",
+            profileData
+        );
 
 
         closeRegister();
@@ -2704,16 +2821,24 @@ async function completeRealRegistration(){
         await renderProfile();
 
         showToast(
-            "ثبت‌نام با موفقیت کامل شد ✓"
+            "✅ ثبت‌نام با موفقیت کامل شد ✓"
         );
 
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "❌ خطای غیرمنتظره:",
+            {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+            }
+        );
 
         showToast(
-            "خطایی هنگام ثبت اطلاعات رخ داد"
+            "خطایی هنگام ثبت اطلاعات رخ داد: " +
+            error.message
         );
 
     }
@@ -2749,6 +2874,9 @@ async function renderProfile(){
         document.getElementById("infoBirth")
             .textContent="---";
 
+        document.getElementById("infoCard")
+            .textContent="---";
+
         document.getElementById("accountStatus")
             .textContent="مهمان";
 
@@ -2772,7 +2900,10 @@ async function renderProfile(){
 
         if(error){
 
-            console.error(error);
+            console.error(
+                "خطا در خواندن پروفایل:",
+                error
+            );
 
         }
 
@@ -2803,6 +2934,56 @@ async function renderProfile(){
             data?.birth_date || "---";
 
 
+        // نمایش کارت ملی
+        if(data?.national_card_path){
+
+            try{
+
+                const {data:publicUrlData} =
+                    supabaseClient
+                    .storage
+                    .from("national-cards")
+                    .getPublicUrl(
+                        data.national_card_path
+                    );
+
+                if(publicUrlData?.publicUrl){
+
+                    document.getElementById("infoCard")
+                        .innerHTML =
+                        `<a href="${publicUrlData.publicUrl}" 
+                            target="_blank" 
+                            style="color:#7c5cff;text-decoration:none;">
+                            📄 مشاهده کارت
+                        </a>`;
+
+                }else{
+
+                    document.getElementById("infoCard")
+                        .textContent = "آپلود شده";
+
+                }
+
+            }catch(e){
+
+                console.error(
+                    "خطا در ساخت لینک کارت:",
+                    e
+                );
+
+                document.getElementById("infoCard")
+                    .textContent = "آپلود شده";
+
+            }
+
+        }else{
+
+            document.getElementById("infoCard")
+                .textContent = "آپلود نشده";
+
+        }
+
+
         document.getElementById("accountStatus")
             .textContent =
             data?.full_name
@@ -2811,7 +2992,10 @@ async function renderProfile(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "خطای کلی در renderProfile:",
+            error
+        );
 
     }
 
@@ -2832,7 +3016,10 @@ async function checkSupabaseUser(){
 
         if(error){
 
-            console.error(error);
+            console.error(
+                "خطا در دریافت session:",
+                error
+            );
 
             realUser=null;
 
@@ -2846,11 +3033,19 @@ async function checkSupabaseUser(){
             data?.session?.user || null;
 
 
+        console.log(
+            "وضعیت کاربر:",
+            realUser ? "وارد شده" : "مهمان"
+        );
+
         await renderProfile();
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "خطای غیرمنتظره در checkSupabaseUser:",
+            error
+        );
 
         realUser=null;
 
@@ -2868,6 +3063,11 @@ async function checkSupabaseUser(){
 
 supabaseClient.auth.onAuthStateChange(
     async (event,session)=>{
+
+        console.log(
+            "تغییر وضعیت احراز هویت:",
+            event
+        );
 
         realUser =
             session?.user || null;
@@ -2973,7 +3173,7 @@ function showToast(text){
 
             toast.classList.remove("show");
 
-        },2200);
+        },3500);
 
 }
 
@@ -2982,11 +3182,19 @@ function showToast(text){
    INIT
 ========================================================= */
 
+console.log("🚀 اپلیکیشن راه‌اندازی شد");
+
 updateCartCount();
 
 renderCart();
 
 checkSupabaseUser();
+
+// نمایش راهنما در کنسول
+console.log("📌 تنظیمات مورد نیاز در Supabase:");
+console.log("1. ایجاد bucket با نام: national-cards");
+console.log("2. تنظیم RLS Policies برای آپلود");
+console.log("3. ایجاد جدول profiles با ستون‌های مورد نیاز");
 
 </script>
 
