@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>پنل مدیریت | سایت‌ساز اهورا</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -354,6 +354,7 @@
             flex: 1;
             padding: 16px 18px;
             overflow-y: auto;
+            background: #0a0d16;
         }
         
         .chat-messages .msg {
@@ -363,6 +364,7 @@
             border-radius: 14px;
             font-size: 13px;
             line-height: 1.8;
+            word-break: break-word;
         }
         
         .chat-messages .msg.user {
@@ -424,7 +426,7 @@
             box-shadow: 0 0 25px rgba(124,92,255,.3);
         }
         
-        /* Select user for chat */
+        /* Chat user select */
         .chat-user-select {
             padding: 10px 16px;
             background: #0c0f18;
@@ -490,6 +492,8 @@
             pointer-events: none;
             transition: 0.3s;
             z-index: 1000;
+            max-width: 90%;
+            text-align: center;
         }
         
         .toast.show {
@@ -500,6 +504,168 @@
         .toast.success { border-color: var(--green); color: var(--green); }
         .toast.error { border-color: var(--red); color: var(--red); }
         .toast.info { border-color: var(--primary); color: var(--primary); }
+        
+        /* Login screen - OTP */
+        .login-screen {
+            max-width: 440px;
+            margin: 40px auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .login-screen .login-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+        }
+        
+        .login-screen h2 {
+            margin-bottom: 6px;
+            font-size: 22px;
+        }
+        
+        .login-screen .subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        
+        .login-screen .step {
+            display: none;
+        }
+        
+        .login-screen .step.active {
+            display: block;
+        }
+        
+        .login-screen input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+            text-align: center;
+            direction: ltr;
+        }
+        
+        .login-screen input:focus {
+            border-color: var(--primary);
+        }
+        
+        .login-screen input::placeholder {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        
+        .login-screen .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .login-screen .otp-inputs input {
+            width: 50px;
+            height: 55px;
+            font-size: 22px;
+            text-align: center;
+            padding: 0;
+            font-weight: 700;
+        }
+        
+        .login-screen button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #7c5cff, #a05cff);
+            color: white;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+            margin-top: 5px;
+        }
+        
+        .login-screen button:hover {
+            box-shadow: 0 0 30px rgba(124,92,255,.3);
+        }
+        
+        .login-screen button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .login-screen .btn-secondary {
+            background: var(--card2);
+            color: white;
+            border: 1px solid var(--border);
+        }
+        
+        .login-screen .btn-secondary:hover {
+            box-shadow: none;
+            border-color: rgba(255,255,255,.2);
+        }
+        
+        .login-screen .login-error {
+            color: var(--red);
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .login-screen .login-success {
+            color: var(--green);
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .login-screen .timer-text {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .login-screen .timer-text span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .login-screen .admin-hint {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(124,92,255,.08);
+            border-radius: 10px;
+            font-size: 11px;
+            color: var(--muted);
+            border: 1px solid rgba(124,92,255,.1);
+        }
+        
+        .login-screen .admin-hint strong {
+            color: var(--primary);
+        }
+        
+        .login-screen .back-link {
+            color: var(--muted);
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 12px;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        
+        .login-screen .back-link:hover {
+            color: white;
+        }
         
         /* Responsive */
         @media (max-width: 600px) {
@@ -524,105 +690,71 @@
             .chat-messages .msg {
                 max-width: 95%;
             }
-        }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 30px;
-            color: var(--muted);
-        }
-        
-        .loading .spinner {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 10px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Login screen */
-        .login-screen {
-            max-width: 400px;
-            margin: 100px auto;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .login-screen h2 {
-            margin-bottom: 8px;
-        }
-        
-        .login-screen p {
-            color: var(--muted);
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-        
-        .login-screen input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: white;
-            font-family: inherit;
-            font-size: 13px;
-            margin-bottom: 12px;
-            outline: none;
-        }
-        
-        .login-screen input:focus {
-            border-color: var(--primary);
-        }
-        
-        .login-screen button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(135deg, #7c5cff, #a05cff);
-            color: white;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: 0.2s;
-        }
-        
-        .login-screen button:hover {
-            box-shadow: 0 0 30px rgba(124,92,255,.3);
+            
+            .login-screen {
+                margin: 20px 10px;
+                padding: 25px 18px;
+            }
+            
+            .login-screen .otp-inputs input {
+                width: 40px;
+                height: 48px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="admin-container" id="app">
+<!-- صفحه اصلی -->
+<div id="mainContainer" class="admin-container">
 
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-screen" style="display:none;">
-        <div style="font-size:48px;margin-bottom:10px;">👑</div>
+    <!-- صفحه خطا -->
+    <div id="errorScreen" style="display:none;" class="login-screen" style="border-color:var(--red);">
+        <div style="font-size:56px;margin-bottom:10px;">🚫</div>
+        <h2 style="color:var(--red);">خطا در اتصال</h2>
+        <p style="color:var(--muted);margin:10px 0 20px;" id="errorMessage">مشکلی در اتصال به سرور وجود دارد.</p>
+        <button onclick="location.reload()">🔄 تلاش مجدد</button>
+    </div>
+
+    <!-- صفحه ورود OTP -->
+    <div id="loginScreen" style="display:block;" class="login-screen">
+        <div class="login-icon">👑</div>
         <h2>پنل مدیریت</h2>
-        <p>برای ورود، ایمیل ادمین خود را وارد کنید</p>
-        <input type="email" id="adminEmail" placeholder="ایمیل ادمین">
-        <input type="password" id="adminPassword" placeholder="رمز عبور">
-        <button onclick="adminLogin()">ورود به پنل مدیریت</button>
-        <div style="margin-top:12px;font-size:11px;color:var(--muted);">
-            ایمیل‌های مجاز: ahooraboz@gmail.com , aahooraboz@gmail.com
+        <p class="subtitle">ورود با کد یکبارمصرف (OTP)</p>
+        
+        <!-- مرحله 1: دریافت ایمیل -->
+        <div class="step active" id="stepEmail">
+            <input type="email" id="adminEmail" placeholder="ایمیل ادمین" autocomplete="email" dir="ltr">
+            <button onclick="sendOTP()" id="sendOtpBtn">📩 ارسال کد تأیید</button>
+            <div class="login-error" id="loginError"></div>
+            <div class="admin-hint">
+                🔑 ایمیل‌های مجاز: <strong>ahooraboz@gmail.com</strong> و <strong>aahooraboz@gmail.com</strong>
+            </div>
+        </div>
+        
+        <!-- مرحله 2: وارد کردن کد OTP -->
+        <div class="step" id="stepOtp">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:8px;">
+                کد ۶ رقمی ارسال شده به <strong id="otpEmailDisplay">---</strong> را وارد کنید
+            </p>
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-digit" data-index="0" oninput="otpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" data-index="1" oninput="otpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" data-index="2" oninput="otpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" data-index="3" oninput="otpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" data-index="4" oninput="otpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" data-index="5" oninput="otpInput(this)">
+            </div>
+            <button onclick="verifyOTP()" id="verifyOtpBtn">✅ تأیید کد</button>
+            <div class="login-error" id="otpError"></div>
+            <div class="timer-text" id="timerText">⏳ کد تا <span id="timerCount">120</span> ثانیه معتبر است</div>
+            <div class="back-link" onclick="goBackToEmail()">← بازگشت به مرحله ایمیل</div>
+            <div class="back-link" onclick="resendOTP()" id="resendLink" style="color:var(--primary);">🔄 ارسال مجدد کد</div>
         </div>
     </div>
 
-    <!-- Admin Panel -->
+    <!-- پنل ادمین -->
     <div id="adminPanel" style="display:none;">
         
         <!-- Header -->
@@ -725,25 +857,42 @@
 
 <script>
 /* =========================================================
-   SUPABASE CONFIG
+   SAFE SUPABASE INIT
 ========================================================= */
 const SUPABASE_URL = "https://ztgvivrydvvflnfkcdyw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0Z3ZpdnJ5ZHZ2ZmxuZmtjZHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3ODUxNzYsImV4cCI6MjEwNDM2MTE3Nn0.1tuA4W7_A_pd85ab_dlW-IRiMBoUAnX6lQbJ4WZ8-LQ";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+const ADMIN_EMAILS = ["ahooraboz@gmail.com", "aahooraboz@gmail.com"];
 const TABLE_ORDERS = "orders";
 const TABLE_MESSAGES = "support_messages";
 const TABLE_USERS = "profiles";
 
-// Admin emails
-const ADMIN_EMAILS = ["ahooraboz@gmail.com", "aahooraboz@gmail.com"];
-
+let supabase = null;
 let currentUser = null;
 let ordersData = [];
 let usersData = [];
 let messagesData = [];
-let currentChatUser = null;
+let refreshInterval = null;
+let otpTimer = null;
+let otpCountdown = 120;
+let currentOTPEmail = "";
+
+// تلاش برای اتصال به Supabase
+try {
+    if (!window.supabase) {
+        throw new Error("کتابخانه Supabase بارگذاری نشده است");
+    }
+    
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("✅ Supabase متصل شد");
+} catch (error) {
+    console.error("❌ Supabase Error:", error);
+    document.getElementById("errorScreen").style.display = "block";
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("errorMessage").textContent = 
+        "خطا در بارگذاری Supabase: " + error.message;
+}
 
 /* =========================================================
    TOAST
@@ -775,99 +924,327 @@ function formatDate(dateStr) {
 }
 
 /* =========================================================
-   AUTH
+   OTP LOGIN
 ========================================================= */
-async function adminLogin() {
-    const email = document.getElementById("adminEmail").value.trim().toLowerCase();
-    const password = document.getElementById("adminPassword").value.trim();
+function showStep(step) {
+    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+    document.getElementById(step).classList.add('active');
+}
+
+function goBackToEmail() {
+    showStep('stepEmail');
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('otpError').style.display = 'none';
+    clearOTPTimer();
+}
+
+function otpInput(input) {
+    // فقط عدد
+    input.value = input.value.replace(/\D/g, '');
     
-    if (!email || !password) {
-        showToast("لطفاً ایمیل و رمز عبور را وارد کنید", "error");
+    // حرکت به جلو
+    if (input.value.length === 1) {
+        const next = input.parentElement.querySelector(`.otp-digit[data-index="${parseInt(input.dataset.index) + 1}"]`);
+        if (next) next.focus();
+    }
+}
+
+async function sendOTP() {
+    if (!supabase) {
+        showToast("❌ اتصال به سرور برقرار نیست", "error");
+        return;
+    }
+    
+    const email = document.getElementById("adminEmail").value.trim().toLowerCase();
+    const errorEl = document.getElementById("loginError");
+    const btn = document.getElementById("sendOtpBtn");
+    
+    errorEl.style.display = "none";
+    
+    if (!email || !email.includes("@")) {
+        errorEl.textContent = "❌ لطفاً یک ایمیل معتبر وارد کنید";
+        errorEl.style.display = "block";
         return;
     }
     
     if (!ADMIN_EMAILS.includes(email)) {
-        showToast("این ایمیل دسترسی ادمین ندارد", "error");
+        errorEl.textContent = "❌ این ایمیل دسترسی ادمین ندارد";
+        errorEl.style.display = "block";
         return;
     }
     
+    btn.disabled = true;
+    btn.textContent = "⏳ در حال ارسال...";
+    
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        // ارسال OTP با Supabase
+        const { error } = await supabase.auth.signInWithOtp({
             email: email,
-            password: password
+            options: {
+                shouldCreateUser: false
+            }
         });
         
         if (error) {
-            showToast("خطا در ورود: " + error.message, "error");
+            errorEl.textContent = "❌ " + (error.message || "خطا در ارسال کد");
+            errorEl.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "📩 ارسال کد تأیید";
+            return;
+        }
+        
+        currentOTPEmail = email;
+        document.getElementById("otpEmailDisplay").textContent = email;
+        
+        // پاک کردن OTP inputs
+        document.querySelectorAll('.otp-digit').forEach(inp => inp.value = '');
+        document.getElementById('otpError').style.display = 'none';
+        
+        showStep('stepOtp');
+        startOTPTimer();
+        showToast("✅ کد تأیید به ایمیل شما ارسال شد", "success");
+        
+        // فوکوس روی اولین input
+        document.querySelector('.otp-digit').focus();
+        
+    } catch (error) {
+        errorEl.textContent = "❌ " + (error.message || "خطای غیرمنتظره");
+        errorEl.style.display = "block";
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "📩 ارسال کد تأیید";
+    }
+}
+
+async function verifyOTP() {
+    if (!supabase) {
+        showToast("❌ اتصال به سرور برقرار نیست", "error");
+        return;
+    }
+    
+    // جمع‌آوری کد OTP
+    let otp = '';
+    document.querySelectorAll('.otp-digit').forEach(inp => {
+        otp += inp.value.trim();
+    });
+    
+    const errorEl = document.getElementById("otpError");
+    const btn = document.getElementById("verifyOtpBtn");
+    
+    errorEl.style.display = "none";
+    
+    if (otp.length !== 6) {
+        errorEl.textContent = "❌ لطفاً کد ۶ رقمی را کامل وارد کنید";
+        errorEl.style.display = "block";
+        return;
+    }
+    
+    if (!currentOTPEmail) {
+        errorEl.textContent = "❌ ایمیل مشخص نیست، دوباره تلاش کنید";
+        errorEl.style.display = "block";
+        return;
+    }
+    
+    btn.disabled = true;
+    btn.textContent = "⏳ در حال تأیید...";
+    
+    try {
+        const { data, error } = await supabase.auth.verifyOtp({
+            email: currentOTPEmail,
+            token: otp,
+            type: "email"
+        });
+        
+        if (error) {
+            errorEl.textContent = "❌ " + (error.message || "کد اشتباه است");
+            errorEl.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "✅ تأیید کد";
+            return;
+        }
+        
+        if (!data || !data.user) {
+            errorEl.textContent = "❌ تأیید انجام نشد، دوباره تلاش کنید";
+            errorEl.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "✅ تأیید کد";
             return;
         }
         
         currentUser = data.user;
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("adminPanel").style.display = "block";
-        document.getElementById("adminName").textContent = data.user.email;
-        document.getElementById("adminEmailDisplay").textContent = data.user.email;
-        
+        clearOTPTimer();
+        showAdminPanel(data.user);
         showToast("✅ ورود موفق", "success");
         
-        // بارگذاری داده‌ها
         await loadAllData();
         startAutoRefresh();
         
     } catch (error) {
-        showToast("خطا: " + error.message, "error");
+        errorEl.textContent = "❌ " + (error.message || "خطای غیرمنتظره");
+        errorEl.style.display = "block";
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "✅ تأیید کد";
     }
 }
 
+async function resendOTP() {
+    if (!currentOTPEmail) {
+        showToast("❌ ابتدا ایمیل را وارد کنید", "error");
+        goBackToEmail();
+        return;
+    }
+    
+    const btn = document.getElementById("sendOtpBtn");
+    const errorEl = document.getElementById("loginError");
+    
+    try {
+        const { error } = await supabase.auth.signInWithOtp({
+            email: currentOTPEmail,
+            options: {
+                shouldCreateUser: false
+            }
+        });
+        
+        if (error) {
+            showToast("❌ " + error.message, "error");
+            return;
+        }
+        
+        // ریست تایمر
+        clearOTPTimer();
+        startOTPTimer();
+        showToast("✅ کد مجدداً ارسال شد", "success");
+        
+    } catch (error) {
+        showToast("❌ " + error.message, "error");
+    }
+}
+
+function startOTPTimer() {
+    otpCountdown = 120;
+    document.getElementById("timerCount").textContent = otpCountdown;
+    document.getElementById("resendLink").style.display = "none";
+    
+    clearInterval(otpTimer);
+    otpTimer = setInterval(() => {
+        otpCountdown--;
+        document.getElementById("timerCount").textContent = otpCountdown;
+        
+        if (otpCountdown <= 0) {
+            clearInterval(otpTimer);
+            document.getElementById("resendLink").style.display = "block";
+            document.getElementById("timerText").innerHTML = '⏳ کد منقضی شد. <span style="color:var(--red);">برای دریافت مجدد کلیک کنید</span>';
+        }
+    }, 1000);
+}
+
+function clearOTPTimer() {
+    if (otpTimer) {
+        clearInterval(otpTimer);
+        otpTimer = null;
+    }
+    document.getElementById("timerText").innerHTML = '⏳ کد تا <span id="timerCount">120</span> ثانیه معتبر است';
+    document.getElementById("resendLink").style.display = "none";
+}
+
+function showAdminPanel(user) {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    document.getElementById("errorScreen").style.display = "none";
+    document.getElementById("adminName").textContent = user.email;
+    document.getElementById("adminEmailDisplay").textContent = user.email;
+}
+
 function adminLogout() {
-    supabase.auth.signOut();
+    if (supabase) {
+        supabase.auth.signOut();
+    }
     currentUser = null;
     document.getElementById("adminPanel").style.display = "none";
     document.getElementById("loginScreen").style.display = "block";
     document.getElementById("adminEmail").value = "";
-    document.getElementById("adminPassword").value = "";
+    showStep('stepEmail');
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('otpError').style.display = 'none';
+    clearOTPTimer();
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+        refreshInterval = null;
+    }
     showToast("خروج از حساب", "info");
 }
 
 async function checkAuth() {
+    if (!supabase) {
+        document.getElementById("errorScreen").style.display = "block";
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("adminPanel").style.display = "none";
+        return;
+    }
+    
     try {
-        const { data } = await supabase.auth.getSession();
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+            console.warn("Session Error:", error);
+            showLoginScreen();
+            return;
+        }
+        
         if (data?.session?.user && ADMIN_EMAILS.includes(data.session.user.email)) {
             currentUser = data.session.user;
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("adminPanel").style.display = "block";
-            document.getElementById("adminName").textContent = data.session.user.email;
-            document.getElementById("adminEmailDisplay").textContent = data.session.user.email;
+            showAdminPanel(data.session.user);
             await loadAllData();
             startAutoRefresh();
         } else {
-            document.getElementById("loginScreen").style.display = "block";
-            document.getElementById("adminPanel").style.display = "none";
+            showLoginScreen();
         }
     } catch (error) {
-        console.error("خطا در checkAuth:", error);
-        document.getElementById("loginScreen").style.display = "block";
-        document.getElementById("adminPanel").style.display = "none";
+        console.error("Auth Error:", error);
+        showLoginScreen();
+        if (error.message) {
+            showToast("خطا: " + error.message, "error");
+        }
     }
+}
+
+function showLoginScreen() {
+    document.getElementById("loginScreen").style.display = "block";
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("errorScreen").style.display = "none";
+    showStep('stepEmail');
 }
 
 /* =========================================================
    LOAD DATA
 ========================================================= */
 async function loadAllData() {
-    await loadOrders();
-    await loadUsers();
-    await loadChatUsers();
+    if (!supabase || !currentUser) return;
+    await Promise.all([
+        loadOrders(),
+        loadUsers(),
+        loadChatUsers()
+    ]);
 }
 
 async function loadOrders() {
+    if (!supabase) return;
     try {
         const { data, error } = await supabase
             .from(TABLE_ORDERS)
             .select("*")
             .order("created_at", { ascending: false });
         
-        if (error) throw error;
+        if (error) {
+            if (error.code === "PGRST301") {
+                showToast("⚠️ خطای RLS: دسترسی به جدول سفارش‌ها وجود ندارد", "error");
+            } else {
+                showToast("خطا در بارگذاری سفارش‌ها: " + error.message, "error");
+            }
+            console.error("Orders Error:", error);
+            return;
+        }
         
         ordersData = data || [];
         updateStats();
@@ -880,13 +1257,17 @@ async function loadOrders() {
 }
 
 async function loadUsers() {
+    if (!supabase) return;
     try {
         const { data, error } = await supabase
             .from(TABLE_USERS)
             .select("*")
             .order("created_at", { ascending: false });
         
-        if (error) throw error;
+        if (error) {
+            console.error("Users Error:", error);
+            return;
+        }
         
         usersData = data || [];
         renderUsers();
@@ -897,13 +1278,17 @@ async function loadUsers() {
 }
 
 async function loadChatUsers() {
+    if (!supabase) return;
     try {
         const { data, error } = await supabase
             .from(TABLE_MESSAGES)
             .select("user_email")
             .order("created_at", { ascending: false });
         
-        if (error) throw error;
+        if (error) {
+            console.error("Chat Users Error:", error);
+            return;
+        }
         
         const uniqueUsers = [...new Set(data?.map(m => m.user_email).filter(Boolean) || [])];
         const select = document.getElementById("chatUserSelect");
@@ -929,9 +1314,9 @@ async function loadChatUsers() {
 }
 
 async function loadChatMessages() {
+    if (!supabase) return;
     const select = document.getElementById("chatUserSelect");
     const userEmail = select.value;
-    currentChatUser = userEmail || null;
     
     try {
         let query = supabase
@@ -945,14 +1330,16 @@ async function loadChatMessages() {
         
         const { data, error } = await query;
         
-        if (error) throw error;
+        if (error) {
+            console.error("Chat Messages Error:", error);
+            return;
+        }
         
         messagesData = data || [];
         renderChatMessages();
         
     } catch (error) {
         console.error("خطا در loadChatMessages:", error);
-        showToast("خطا در بارگذاری پیام‌ها", "error");
     }
 }
 
@@ -999,7 +1386,6 @@ function renderOrders() {
     ordersData.forEach(order => {
         const status = statusMap[order.status] || statusMap.pending;
         
-        // Actions
         let actionsHtml = "";
         if (order.status === "waiting_admin") {
             actionsHtml = `
@@ -1016,12 +1402,6 @@ function renderOrders() {
                     <button class="btn-chat" onclick="openChatForUser('${order.user_email}')">💬 پیام</button>
                 </div>
             `;
-        } else if (order.status === "delivered") {
-            actionsHtml = `
-                <div class="order-actions">
-                    <button class="btn-chat" onclick="openChatForUser('${order.user_email}')">💬 پیام</button>
-                </div>
-            `;
         } else {
             actionsHtml = `
                 <div class="order-actions">
@@ -1030,7 +1410,6 @@ function renderOrders() {
             `;
         }
         
-        // Site info
         let siteHtml = "";
         if (order.site_domain) {
             siteHtml = `
@@ -1155,6 +1534,7 @@ function refreshChat() {
    ADMIN ACTIONS
 ========================================================= */
 async function approvePayment(contractId) {
+    if (!supabase) return;
     if (!confirm("آیا از تأیید واریز این سفارش مطمئن هستید؟")) return;
     
     try {
@@ -1169,7 +1549,6 @@ async function approvePayment(contractId) {
         
         if (error) throw error;
         
-        // Get user email
         const { data: order } = await supabase
             .from(TABLE_ORDERS)
             .select("user_email")
@@ -1196,6 +1575,7 @@ async function approvePayment(contractId) {
 }
 
 async function rejectPayment(contractId) {
+    if (!supabase) return;
     if (!confirm("آیا از رد واریز این سفارش مطمئن هستید؟")) return;
     
     try {
@@ -1236,6 +1616,7 @@ async function rejectPayment(contractId) {
 }
 
 async function deliverSite(contractId) {
+    if (!supabase) return;
     if (!confirm("آیا از تحویل سایت این سفارش مطمئن هستید؟")) return;
     
     try {
@@ -1288,6 +1669,11 @@ function openChatForUser(email) {
    SEND ADMIN MESSAGE
 ========================================================= */
 async function sendAdminMessage() {
+    if (!supabase) {
+        showToast("❌ اتصال به سرور برقرار نیست", "error");
+        return;
+    }
+    
     const input = document.getElementById("chatInput");
     const message = input.value.trim();
     
@@ -1329,8 +1715,17 @@ function switchTab(tabId) {
     document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
     document.querySelectorAll(".admin-tabs button").forEach(el => el.classList.remove("active"));
     
-    document.getElementById("tab" + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add("active");
-    document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
+    const tabMap = {
+        "orders": "tabOrders",
+        "chat": "tabChat",
+        "users": "tabUsers"
+    };
+    
+    const target = document.getElementById(tabMap[tabId]);
+    if (target) target.classList.add("active");
+    
+    const btn = document.querySelector(`[data-tab="${tabId}"]`);
+    if (btn) btn.classList.add("active");
     
     if (tabId === "chat") {
         loadChatMessages();
@@ -1343,12 +1738,10 @@ function switchTab(tabId) {
 /* =========================================================
    AUTO REFRESH
 ========================================================= */
-let refreshInterval;
-
 function startAutoRefresh() {
     if (refreshInterval) clearInterval(refreshInterval);
     refreshInterval = setInterval(() => {
-        if (currentUser) {
+        if (currentUser && document.getElementById("adminPanel").style.display !== "none") {
             loadOrders();
             loadChatUsers();
         }
@@ -1359,7 +1752,43 @@ function startAutoRefresh() {
    INIT
 ========================================================= */
 console.log("👑 پنل مدیریت راه‌اندازی شد");
-checkAuth();
+
+// نمایش صفحه ورود
+document.getElementById("loginScreen").style.display = "block";
+document.getElementById("adminPanel").style.display = "none";
+document.getElementById("errorScreen").style.display = "none";
+showStep('stepEmail');
+
+// اگر Supabase متصل است، وضعیت را بررسی می‌کنیم
+if (supabase) {
+    setTimeout(() => {
+        checkAuth().catch(error => {
+            console.error("Auth Error:", error);
+            showLoginScreen();
+            showToast("خطا در اتصال به Supabase: " + (error.message || ""), "error");
+        });
+    }, 200);
+} else {
+    document.getElementById("errorScreen").style.display = "block";
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("errorMessage").textContent = 
+        "❌ کتابخانه Supabase بارگذاری نشد. لطفاً اتصال اینترنت خود را بررسی کنید.";
+}
+
+// امکان paste در OTP inputs
+document.querySelectorAll('.otp-digit').forEach((inp, index, arr) => {
+    inp.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        const digits = paste.replace(/\D/g, '').slice(0, 6);
+        digits.split('').forEach((digit, i) => {
+            if (arr[i]) arr[i].value = digit;
+        });
+        const nextIndex = Math.min(digits.length, 5);
+        if (arr[nextIndex]) arr[nextIndex].focus();
+    });
+});
 
 </script>
 
